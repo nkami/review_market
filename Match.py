@@ -9,6 +9,7 @@ from prices_mechanisms import *
 from instance_generator import *
 from evaluation import *
 
+import os
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
