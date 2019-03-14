@@ -1,0 +1,12 @@
+<Data processing>
+PreferenceFile: bids_m52_n24.txt
+UnallocatedPapersPrices: 1
+PrivatePricesGenerators: SimplePrivatePricesGenerator
+
+<Simulation> 
+Algorithms: FractionalAllocation
+MarketMechanisms: FixedMechanism
+ReviewRequirements: 2
+
+<Behavior> 
+Behaviors: SincereIntegralBehavior
