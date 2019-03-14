@@ -88,7 +88,7 @@ def write_results_to_output(instance, algorithm_results, parameters):
     columns = ['Bidder', 'Paper', 'Private Cost', 'Step 1 Allocation', 'Step 2 Allocation', 'Step 3 Allocation',
                'Social Cost', 'Total Social Cost', 'Total Unallocated Papers', 'Preference File', 'Market Mechanism',
                'Behavior', 'Algorithm', 'Private Price Generator']
-    total_social_cost = calculate_social_cost(instance, algorithm_results['third_step_allocation'])
+    total_social_cost = calculate_social_cost(instance, algorithm_results, int(parameters['UnallocatedPapersPrices']))
     total_unallocated_papers = sum(algorithm_results['unallocated_papers'])  # should take into account the -1 bidder
     data = []
     output_mechanism = '{0}'.format(parameters['MarketMechanisms']).split('.')[1].replace("'>", '')
