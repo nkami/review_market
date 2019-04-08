@@ -61,8 +61,8 @@ class BestIntegralSincereUnderbidResponse(BidderBehaviors):
 
 
 class BestIntegralSincereResponse(BidderBehaviors):
-    # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. The reviewer will submit a sincere bid
-    # that will yield the minimal cost value according to the private prices of the reviewer after allocation.
+    """  In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. The reviewer will submit a sincere bid
+    that will yield the minimal cost value according to the private prices of the reviewer after allocation."""
     def apply_reviewer_behavior(self, problem_instance, current_bidding_profile, reviewer_index, threshold, prices,
                                 algorithm):
         best_response = (np.zeros(problem_instance.total_papers), np.inf)
