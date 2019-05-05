@@ -1,15 +1,15 @@
 # Market Based Assignments for Peer Review
 A simulation environment used for testing reviewers behavior in different bidding systems. The system is partitioned into three different parts:
 
-1. [Cost Matrix and Quota Matrix Generation](#Cost_Matrix_and_Quota_Matrix_Generation)
-2. [Paper Bidding Simulation](#Paper_Bidding_Simulation)
-3. [Allocation and Final Evaluations](#Allocation_and_Final_Evaluations)
+1. [Cost Matrix and Quota Matrix Generation](#cost-matrix-and-quota-matrix-generation)
+2. [Paper Bidding Simulation](#paper-bidding-simulation)
+3. [Allocation and Final Evaluations](#allocation-and-final-evaluations)
 
 ## Cost Matrix and Quota Matrix Generation
 In this part a json file with the following format is given as input:
 ```json
 {
-    "papers_requirements": "fill",
+	"papers_requirements": "fill",
 	"private_prices_generator": "fill",
 	"unallocated_papers_price": "fill",
 	"instance_generator": "fill",
@@ -18,10 +18,12 @@ In this part a json file with the following format is given as input:
 }
 ```
 **papers requirements:** an integer that specifies the amount of reviews each paper requires.
+
 **private prices generator:** specifies the method of generating the private prices (utilities) of each paper for every reviewer. Currently the possible private prices generators are:
 - SimplePrivatePricesGenerator - Assign a random private cost to each paper, while satisfying the condition that every paper with preference rank i > j will have lower cost than every paper with preference rank j (i.e. papers that are more desirable according to preference will have a lower cost).
 
 **unallocated papers price:** a float that specifies the cost of an unallocated paper.
+
 **instance generator:** specifies the method of obtaining a preference profile of the reviewers. Currently the possible instance generators are:
 - PreflibInstanceGenerator - the preference profile is obtained from a PrefLib file. (additional params: "PreflibFile": file path)
 
@@ -42,7 +44,7 @@ The output will be a json file created in a new (or old if it already exists) di
     "total_bids_until_closure": "fill",
     "matching_algorithm": "fill",
     "market_mechanism": "fill",
-	"ignore_quota_constraints": "derived from the input json file",
+    "ignore_quota_constraints": "derived from the input json file",
     "additional_params": "fill",
     "total_reviewers": "derived from the input json file",
     "total_papers": "derived from the input json file",
@@ -74,7 +76,7 @@ It's output would be the following json file:
     "total_bids_until_closure": "fill",
     "matching_algorithm": "fill",
     "market_mechanism": "fill",
-	"ignore_quota_constraints": false,
+    "ignore_quota_constraints": false,
     "additional_params": "fill",
     "total_reviewers": 3,
     "total_papers": 3,
@@ -134,7 +136,7 @@ The Paper Bidding Simulation part simulates the bidding process on the papers. T
     "total_bids_until_closure": "fill",
     "matching_algorithm": "fill",
     "market_mechanism": "fill",
-	"ignore_quota_constraints": "derived from the input json file",
+    "ignore_quota_constraints": "derived from the input json file",
     "additional_params": "fill",
     "total_reviewers": "derived from the input json file",
     "total_papers": "derived from the input json file",
@@ -176,7 +178,7 @@ The output will be 2 files with matching time stampts. The first one is a json f
     "total_bids_until_closure": "derived from the input json file",
     "matching_algorithm": "derived from the input json file",
     "market_mechanism": "derived from the input json file",
-	"ignore_quota_constraints": "derived from the input json file",
+    "ignore_quota_constraints": "derived from the input json file",
     "additional_params": "derived from the input json file",
     "total_reviewers": "derived from the input json file",
     "total_papers": "derived from the input json file",
@@ -188,7 +190,8 @@ The output will be 2 files with matching time stampts. The first one is a json f
 }
 ```
 This file will be used as input for the third part. The second output file is a csv file created in a new (or old if it already exists) directory: 'output'. The file name will be 'simulation_{time_stamp}.csv', and it's format:
-![Alt text](./images/output_simulation_example.png?raw=true "Title")
+
+![alt text](https://github.com/nkami/review_market/blob/master/images/output_simulation_example.PNG)
 
 **#step:** the bid number (i.e #step 0 will be the first bid).
 
@@ -222,7 +225,7 @@ For a valid input json file:
     "total_bids_until_closure": 30,
     "matching_algorithm": "FractionalAllocation",
     "market_mechanism": "PriceMechanism",
-	"ignore_quota_constraints": false,
+    "ignore_quota_constraints": false,
     "additional_params": {},
     "total_reviewers": 3,
     "total_papers": 3,
@@ -283,7 +286,7 @@ In this part the final allocation takes place, and various metrics are being mea
     "total_bids_until_closure": "derived from the input json file",
     "matching_algorithm": "derived from the input json file",
     "market_mechanism": "derived from the input json file",
-	"ignore_quota_constraints": "derived from the input json file",
+    "ignore_quota_constraints": "derived from the input json file",
     "additional_params": "derived from the input json file",
     "total_reviewers": "derived from the input json file",
     "total_papers": "derived from the input json file",
@@ -301,7 +304,8 @@ In this part the final allocation takes place, and various metrics are being mea
 python Match.py $input_json_file_path
 ```
  The output file is a csv file created in a new (or old if it already exists) directory: 'output'. The file name will be 'final_allocation_{time_stamp}.csv', and it's format:
-![Alt text](./images/output_allocation_example.png?raw=true "Title")
+ 
+![alt text](https://github.com/nkami/review_market/blob/master/images/output_allocation_example.PNG)
 
 **reviewer:** the reviewer id of the reviewer who made the bid. An id of -1 represents a dummy reviewer that gets all the unallocated papers after the allocation.
 
