@@ -1,0 +1,56 @@
+{
+    "reviewers_behavior": "fill",
+    "forced_permutations": "fill",
+    "number_of_bids_until_prices_update": "fill",
+    "total_bids_until_closure": "fill",
+    "matching_algorithm": "fill",
+    "market_mechanism": "fill",
+    "ignore_quota_constraints": true,
+    "additional_params": "fill",
+    "total_reviewers": 3,
+    "total_papers": 3,
+    "papers_requirements": [
+        2,
+        2,
+        2
+    ],
+    "unallocated_papers_price": [
+        1,
+        1,
+        1
+    ],
+    "cost_matrix": [
+        [
+            0.4338485316919034,
+            2.2448516408103707,
+            2.1727813938351668
+        ],
+        [
+            2.328403179337048,
+            0.8063816164886508,
+            0.43583532600437747
+        ],
+        [
+            2.7718930829067596,
+            0.46120676081948153,
+            0.8203572787790768
+        ]
+    ],
+    "quota_matrix": [
+        [
+            Infinity,
+            Infinity,
+            Infinity
+        ],
+        [
+            Infinity,
+            Infinity,
+            Infinity
+        ],
+        [
+            Infinity,
+            Infinity,
+            Infinity
+        ]
+    ]
+}

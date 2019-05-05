@@ -1,0 +1,56 @@
+{
+   "reviewers_behavior": "BestIntegralSincereResponse",
+    "forced_permutations": 1,
+    "number_of_bids_until_prices_update": 12,
+    "total_bids_until_closure": 30,
+    "matching_algorithm": "FractionalAllocation",
+    "market_mechanism": "PriceMechanism",
+	"ignore_quota_constraints": true,
+    "additional_params": {},
+    "total_reviewers": 3,
+    "total_papers": 3,
+    "papers_requirements": [
+        2,
+        2,
+        2
+    ],
+    "unallocated_papers_price": [
+        1,
+        1,
+        1
+    ],
+    "cost_matrix": [
+        [
+            0.7111732103325189,
+            2.0148807115940395,
+            2.507993945422804
+        ],
+        [
+            2.9531884448053125,
+            0.26270896249783293,
+            0.877477707530254
+        ],
+        [
+            2.844859605708247,
+            0.05505731802142089,
+            0.8946476639099774
+        ]
+    ],
+    "quota_matrix": [
+        [
+            Infinity,
+            Infinity,
+            Infinity
+        ],
+        [
+            Infinity,
+            Infinity,
+            Infinity
+        ],
+        [
+            Infinity,
+            Infinity,
+            Infinity
+        ]
+    ]
+}
