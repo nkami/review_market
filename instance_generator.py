@@ -1,4 +1,9 @@
 import random
+import json
+import argparse
+import numpy as np
+import pathlib
+import datetime
 
 
 class Instance:
@@ -23,6 +28,9 @@ class Instance:
 
 
 class PrivatePricesGenerator:
+    def __init__(self, params):
+        pass
+
     # In every Instance, bidders assign private prices to each paper according to the preferences acquired from the
     # problem instance (e.g from a Preflib file or some other method)
     def generate_private_prices(self, preferences):
@@ -36,22 +44,22 @@ class SimplePrivatePricesGenerator(PrivatePricesGenerator):
     def generate_private_prices(self, preferences):
         private_prices = []
         for reviewer in range(0, len(preferences)):
-            reviewer_prices = []
+            reviewer_prices = {}
             for rank, reviewer_preferences in enumerate(preferences[reviewer]):
                 if -1 in reviewer_preferences:  # preference is empty
                     continue
                 for paper in reviewer_preferences:
-                    reviewer_prices.append((paper, random.uniform(rank, rank + 1)))
+                    reviewer_prices[str(paper)] = random.uniform(rank, rank + 1)
             private_prices.append(reviewer_prices)
         return private_prices
 
 
 class InstanceGenerator:
-    def __init__(self, papers_requirements, private_prices_generator, unallocated_papers_price):
+    def __init__(self, params):
         self.number_of_papers = None
-        self.private_prices_generator = private_prices_generator()
-        self.papers_review_requirement = papers_requirements
-        self.unallocated_papers_price = unallocated_papers_price
+        self.private_prices_generator = possible_private_price_generators[params['private_prices_generator']](params)
+        self.papers_review_requirement = params['papers_requirements']
+        self.unallocated_papers_price = params['unallocated_papers_price']
 
     # Returns a preferences profile and a COI list, a preferences profile is a list of lists of tuples. each list is a
     # reviewer profile, that contains tuples of papers indices. The tuples in each profile are sorted in a descending
@@ -73,9 +81,9 @@ class InstanceGenerator:
 
 
 class PreflibInstanceGenerator(InstanceGenerator):
-    def __init__(self, input_file_path, papers_requirements, private_prices_generator, unallocated_papers_price):
-        super().__init__(papers_requirements, private_prices_generator, unallocated_papers_price)
-        self.file = open(input_file_path)
+    def __init__(self, params):
+        super().__init__(params)
+        self.file = open(params['additional_params']['PreflibFile'])
 
     # Returns a preferences profile and a COI list from a Preflib file.
     def create_pref_and_coi(self):
@@ -101,3 +109,49 @@ class PreflibInstanceGenerator(InstanceGenerator):
                 instance_pref_and_coi.append((reviewer_profile, reviewer_coi))
         return instance_pref_and_coi
 
+
+possible_instance_generators = {'PreflibInstanceGenerator': PreflibInstanceGenerator}
+possible_private_price_generators = {'SimplePrivatePricesGenerator': SimplePrivatePricesGenerator}
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("InputFile", help="a path to the input file")
+    args = parser.parse_args()
+    with open(args.InputFile) as file:
+        params = json.loads(file.read())
+    instance_generator = possible_instance_generators[params['instance_generator']](params)
+    instance = instance_generator.generate_instance()
+    quota_matrix = np.ones((instance.total_reviewers, instance.total_papers))
+    for reviewer in range(0, instance.total_reviewers):
+        for paper in range(0, instance.total_papers):
+            if params['ignore_quota_constraints'] == True:
+                quota_matrix[reviewer][paper] = np.inf
+            elif paper in instance.coi[reviewer]:
+                quota_matrix[reviewer][paper] = 0
+    cost_matrix = np.zeros((instance.total_reviewers, instance.total_papers))
+    for reviewer in range(0, instance.total_reviewers):
+        for paper in range(0, instance.total_papers):
+            if str(paper) in instance.private_prices[reviewer].keys():  # a coi paper will not have a price
+                cost_matrix[reviewer][paper] = instance.private_prices[reviewer][str(paper)]
+    output = {'reviewers_behavior': 'fill',
+              'forced_permutations': 'fill',
+              'number_of_bids_until_prices_update': 'fill',
+              'total_bids_until_closure': 'fill',
+              'matching_algorithm': 'fill',
+              'market_mechanism': 'fill',
+              'ignore_quota_constraints': params['ignore_quota_constraints'],
+              'additional_params': 'fill',
+              'total_reviewers': instance.total_reviewers,
+              'total_papers': instance.total_papers,
+              'papers_requirements': instance.papers_review_requirement,
+              'unallocated_papers_price': instance.unallocated_papers_price,
+              'cost_matrix': cost_matrix.tolist(),
+              'quota_matrix': quota_matrix.tolist()}
+    try:
+        pathlib.Path('.\\output').mkdir()
+    except FileExistsError:
+        pass
+    path = '.\\output\\cost_matrix_{0}.json'.format(datetime.datetime.now().isoformat()[:-7].replace(':', '-'))
+    with open(path, 'w') as output_file:
+        json.dump(output, output_file, indent=4)

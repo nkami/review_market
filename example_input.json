@@ -1,0 +1,8 @@
+{
+	"papers_requirements": 2,
+	"private_prices_generator": "SimplePrivatePricesGenerator",
+	"unallocated_papers_price": 1,
+	"instance_generator": "PreflibInstanceGenerator",
+	"ignore_quota_constraints": true,
+	"additional_params": {"PreflibFile": ".//data//Preflib//example_quota.txt"}
+}
