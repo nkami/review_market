@@ -1,0 +1,13 @@
+Bidder,Paper,Private Cost,Step 1 Allocation,Step 2 Allocation,Step 3 Allocation,Social Cost,Total Social Cost,Total Unallocated Papers,Preference File,Market Mechanism,Behavior,Algorithm,Private Price Generator
+-1,0,1,-1,-1,1.0,1.0,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+-1,1,1,-1,-1,0.0,0.0,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+-1,2,1,-1,-1,0.0,0.0,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+0,0,0.6317011197644342,1.0,1.0,1.0,0.6317011197644342,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+0,1,2.4135472619636835,0.0,0.0,0.0,0.0,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+0,2,2.75126810333414,0.0,0.0,0.0,0.0,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+1,0,2.789836363473592,0.0,0.0,0.0,0.0,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+1,1,0.3703292512523274,1.0,1.0,1.0,0.3703292512523274,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+1,2,0.21767885712796098,1.0,1.0,1.0,0.21767885712796098,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+2,0,2.9531976441162966,0.0,0.0,0.0,0.0,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+2,1,0.37784267616947687,1.0,1.0,1.0,0.37784267616947687,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator
+2,2,0.09292278725288083,1.0,1.0,1.0,0.09292278725288083,2.69047469156708,1.0,example_quota.txt,FixedMechanism,BestTwoPreferenceBehavior,FractionalAllocation,SimplePrivatePricesGenerator

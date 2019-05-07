@@ -6,7 +6,7 @@ PrivatePricesGenerators: SimplePrivatePricesGenerator
 <Simulation> 
 Algorithms: FractionalAllocation
 MarketMechanisms: FixedMechanism
-ReviewRequirements: 3
+ReviewRequirements: 2
 
 
 <Behavior> 
