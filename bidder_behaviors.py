@@ -57,7 +57,7 @@ class BestIntegralSincereUnderbidResponse(BidderBehaviors):
                 break
             current_bid[paper] = 1
             current_bidding_profile[reviewer_index] = current_bid[0]
-            algorithm = possible_algorithms[params['matching_algorithm']]()
+            algorithm = possible_algorithms[params['matching_algorithm']](params)
             final_allocation = algorithm.match(current_bidding_profile, params)['third_step_allocation']
             private_prices = c_q_vec_to_pairs(params, reviewer_index)
             cost = [pair[1] * final_allocation[reviewer_index][pair[0]] for pair in private_prices]
@@ -80,7 +80,7 @@ class BestIntegralSincereResponse(BidderBehaviors):
         for paper in [pair[0] for pair in sorted_papers_by_private_price]:
             current_bid[paper] = 1
             current_bidding_profile[reviewer_index] = current_bid[0]
-            algorithm = possible_algorithms[params['matching_algorithm']]()
+            algorithm = possible_algorithms[params['matching_algorithm']](params)
             final_allocation = algorithm.match(current_bidding_profile, params)['third_step_allocation']
             private_prices = c_q_vec_to_pairs(params, reviewer_index)
             cost = [pair[1] * final_allocation[reviewer_index][pair[0]] for pair in private_prices]

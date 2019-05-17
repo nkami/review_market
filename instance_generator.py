@@ -95,6 +95,8 @@ class PreflibInstanceGenerator(InstanceGenerator):
                 reviewer_profile = []
                 reviewer_no_coi = []
                 modified_line = ""
+                if line[-1:] != ',':
+                    line = line + ','
                 for i in range(0, len(line)):
                     if i > 2 and i < (len(line) - 3):
                         modified_line += line[i]
@@ -106,7 +108,9 @@ class PreflibInstanceGenerator(InstanceGenerator):
                     reviewer_no_coi = reviewer_no_coi + rank_papers
                     reviewer_profile.append(ranked_preference)
                 reviewer_coi = [paper for paper in range(0, self.number_of_papers) if paper not in reviewer_no_coi]
-                instance_pref_and_coi.append((reviewer_profile, reviewer_coi))
+                number_of_identical_preferences = int(line[0])
+                for _ in range(0, number_of_identical_preferences):
+                    instance_pref_and_coi.append((reviewer_profile, reviewer_coi))
         return instance_pref_and_coi
 
 

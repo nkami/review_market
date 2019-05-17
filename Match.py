@@ -55,6 +55,6 @@ if __name__ == '__main__':
     with open(args.InputFile) as file:
         params = json.loads(file.read())
     params['matching_input'] = args.InputFile
-    algorithm = possible_algorithms[params['matching_algorithm']]()
+    algorithm = possible_algorithms[params['matching_algorithm']](params)
     algorithm_results = algorithm.match(params['final_bidding_profile'], params)
     write_final_results_to_csv(params, algorithm_results)
