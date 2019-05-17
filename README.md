@@ -5,6 +5,19 @@ A simulation environment used for testing reviewers behavior in different biddin
 2. [Paper Bidding Simulation](#paper-bidding-simulation)
 3. [Allocation and Final Evaluations](#allocation-and-final-evaluations)
 
+## Prerequisites
+```
+python 3.6
+numpy 1.14.2
+pandas 0.23.4
+pathlib 2.32
+pickle 4.0
+gurobi 7+
+```
+It may be able to run with lower versions.
+
+A free academic license and instructions on how to install gurobi are available here: http://www.gurobi.com/
+
 ## Cost Matrix and Quota Matrix Generation
 In this part a json file with the following format is given as input:
 ```json
