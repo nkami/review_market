@@ -31,7 +31,7 @@ In this part a json file with the following format is given as input:
 
 **additional params:** a dictionary that consists all the additional parameters required for the previous chosen arguments. For example, for and instance generator of type 'PreflibInstanceGenerator', the key "PreflibFile" with a file path as it's value should be added.
 
-#### command line -
+### command line -
 ```sh
 python instance_generator.py $input_json_file_path
 ```
@@ -55,7 +55,7 @@ The output will be a json file created in a new (or old if it already exists) di
 }
 ```
 This file will be used as an input for the second part.
-#### example -
+### example -
 For a valid input json file:
 ```json
 {
@@ -158,14 +158,21 @@ The Paper Bidding Simulation part simulates the bidding process on the papers. T
 **total bids until closure:** an integer that specifies the amount of bids until the auction closes (excluding the forced permuations argument).
 
 **matching algorithm:** the chosen algorithm that will allocate the papers to the bidders at the end of the auction. In this part the allocation does not take place, but some reviewers behaviors require the algorithm (for anticipating their best bid). Currently the possible algorithms are:
-- FractionalAllocation - full description can be found in the paper.
+- FractionalAllocation - full description can be found in the "Market Based Assignments for Peer Review" paper.
+- SumOWA-u - run with the Max Utilitarian Objective.
+- SumOWA-e - run with the Egalitarian Objective.
+- SumOWA-r - run with the Rank Maximal Objective.
+- SumOWA-l - run with SUM-OAW with Linear OWA Objective.
+- SumOWA-n - run with Max Nash Product Objective.
+
+More information about the SumOWA algorithms can be found [here](https://arxiv.org/abs/1705.06840).
 
 **market mechanism:** the chosen market mechanism which controls the required threshold and how the papers prices update. Currently the possible market mechanisms are:
 - PriceMechanism - sets the starting price of all the papers to 1 and the threshold to: *sum(papers_requirements) / total_reviewers*. Each paper price is updated in the following way: *min{1, r_i / d_i}* where r_i and d_i are the amount of reviews required and demand of paper i respectively.
 
 **additional params:** a dictionary that consists all the additional parameters required for the previous chosen arguments.
 
-#### command line -
+### command line -
 ```sh
 python prices_mechanisms.py $input_json_file_path
 ```
@@ -215,7 +222,7 @@ This file will be used as input for the third part. The second output file is a 
 
 **matching output json file:** the name of the first output json file.
 
-#### example -
+### example -
 For a valid input json file:
 ```json
 {
@@ -299,7 +306,7 @@ In this part the final allocation takes place, and various metrics are being mea
 ```
 **final bidding profile:** the final bids on all the papers after the auction closed.
 
-#### command line -
+### command line -
 ```sh
 python Match.py $input_json_file_path
 ```
