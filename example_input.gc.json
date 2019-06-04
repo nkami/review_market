@@ -1,0 +1,8 @@
+{
+	"papers_requirements": 3,
+	"private_prices_generator": "SimplePrivatePricesGenerator",
+	"unallocated_papers_price": 1,
+	"instance_generator": "PreflibInstanceGenerator",
+	"ignore_quota_constraints": false,
+	"additional_params": {"PreflibFile": ".//data//Preflib//bids_m10_n8.txt"}
+}
