@@ -34,8 +34,7 @@ class SincereIntegralBehavior(BidderBehaviors):
 
 # class BestTwoPreferenceBehavior(BidderBehaviors):
 #     # Each reviewer will bid 1 on all the papers that are in one of their best two preferences rank.
-#     def apply_reviewer_behavior(self, problem_instance, current_bidding_profile, reviewer_index, threshold, prices,
-#                                 algorithm):
+#     def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
 #         for paper in range(0, problem_instance.total_papers):
 #             if (paper in problem_instance.preferences_profile[reviewer_index][0]
 #                     or paper in problem_instance.preferences_profile[reviewer_index][1]):
@@ -56,7 +55,7 @@ class BestIntegralSincereUnderbidResponse(BidderBehaviors):
             if (contribution + prices[paper]) >= threshold:
                 break
             current_bid[paper] = 1
-            current_bidding_profile[reviewer_index] = current_bid[0]
+            current_bidding_profile[reviewer_index] = current_bid
             algorithm = possible_algorithms[params['matching_algorithm']](params)
             final_allocation = algorithm.match(current_bidding_profile, params)['third_step_allocation']
             private_prices = c_q_vec_to_pairs(params, reviewer_index)
@@ -79,7 +78,7 @@ class BestIntegralSincereResponse(BidderBehaviors):
         sorted_papers_by_private_price = sorted(private_prices, key=lambda tup: tup[1])
         for paper in [pair[0] for pair in sorted_papers_by_private_price]:
             current_bid[paper] = 1
-            current_bidding_profile[reviewer_index] = current_bid[0]
+            current_bidding_profile[reviewer_index] = current_bid
             algorithm = possible_algorithms[params['matching_algorithm']](params)
             final_allocation = algorithm.match(current_bidding_profile, params)['third_step_allocation']
             private_prices = c_q_vec_to_pairs(params, reviewer_index)

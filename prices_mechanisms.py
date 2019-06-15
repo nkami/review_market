@@ -66,13 +66,14 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
     for step, bidder in enumerate(bidding_order):
         mec.current_bidding_profile = reviewer_behavior.apply_reviewer_behavior(params, mec.current_bidding_profile,
                                                                                 bidder, mec.threshold, mec.prices)
+        total_private_cost = sum([params['cost_matrix'][bidder][paper] * mec.current_bidding_profile[bidder][paper] *
+                                  mec.prices[paper] for paper in range(0, params['total_papers'])])
         for paper in range(0, params['total_papers']):
             market_bids_data.append([step, bidder, mec.number_of_updates, paper,
                                      params['cost_matrix'][bidder][paper], mec.prices[paper],
                                      mec.current_bidding_profile[bidder][paper],
                                      np.sum(mec.current_bidding_profile, axis=1)[bidder],
-                                     np.dot(mec.prices, mec.current_bidding_profile[bidder]),
-                                     np.dot(params['cost_matrix'][bidder], mec.current_bidding_profile[bidder]),
+                                     np.dot(mec.prices, mec.current_bidding_profile[bidder]), total_private_cost,
                                      'simulation_{0}'.format(time_stamp)])
         if step >= params['total_reviewers'] * params['forced_permutations']:
             num_of_steps -= 1

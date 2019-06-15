@@ -2,13 +2,30 @@
     "reviewers_behavior": "BestIntegralSincereResponse",
     "forced_permutations": 1,
     "number_of_bids_until_prices_update": 12,
-    "total_bids_until_closure": 10,
+    "total_bids_until_closure": 30,
     "matching_algorithm": "SumOWA-u",
     "market_mechanism": "PriceMechanism",
-	"ignore_quota_constraints": true,
+    "ignore_quota_constraints": true,
     "additional_params": {},
     "total_reviewers": 3,
     "total_papers": 3,
+    "final_bidding_profile": [
+        [
+            1.0,
+            0.0,
+            0.0
+        ],
+        [
+            0.0,
+            1.0,
+            0.0
+        ],
+        [
+            0.0,
+            0.0,
+            1.0
+        ]
+    ],
     "papers_requirements": [
         2,
         2,

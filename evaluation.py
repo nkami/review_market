@@ -27,7 +27,7 @@ def calculate_total_social_cost(params, algorithm_results):
 
 def calculate_individual_contribution(params, algorithm_results):
     individual_contribution = []
-    for reviewer in range(-1, params['total_reviewers']):
+    for reviewer in range(0, params['total_reviewers']):
         individual_contribution.append(sum([params['cost_matrix'][reviewer][paper] *
                                             algorithm_results['third_step_allocation'][reviewer][paper] for paper in
                                             range(0, params['total_papers'])]))
@@ -36,7 +36,7 @@ def calculate_individual_contribution(params, algorithm_results):
 
 def calculate_total_paper_cost(params, algorithm_results):
     total_paper_cost = []
-    for paper in range(-1, params['total_papers']):
+    for paper in range(0, params['total_papers']):
         total_paper_cost.append(sum([params['cost_matrix'][reviewer][paper] *
                                      algorithm_results['third_step_allocation'][reviewer][paper] for reviewer in
                                      range(0, params['total_reviewers'])]))
