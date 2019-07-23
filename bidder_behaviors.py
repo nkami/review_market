@@ -23,14 +23,35 @@ class SincereIntegralBehavior(BidderBehaviors):
     # integral bid with the lowest underbidding.
     def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
         contribution = 0
-        private_prices = c_q_vec_to_pairs(params, reviewer_index)
-        sorted_papers_by_private_price = sorted(private_prices, key=lambda tup: tup[1])
-        for paper in [pair[0] for pair in sorted_papers_by_private_price]:
+        private_costs = c_q_vec_to_pairs(params, reviewer_index)
+        sorted_papers_by_private_cost = sorted(private_costs, key=lambda tup: tup[1])
+        for paper in [pair[0] for pair in sorted_papers_by_private_cost]:
+            current_bidding_profile[reviewer_index][paper] = 0
             if (contribution + prices[paper]) <= threshold:
                 current_bidding_profile[reviewer_index][paper] = 1
                 contribution += prices[paper]
+            else:
+                break
         return current_bidding_profile
 
+class SincereIntegralBehaviorWithMinPrice(BidderBehaviors):
+    # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
+    # integral bid with the lowest underbidding.
+    def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
+        contribution = 0
+        min_price = params['min_price']
+        private_costs = c_q_vec_to_pairs(params, reviewer_index)
+        sorted_papers_by_private_cost = sorted(private_costs, key=lambda tup: tup[1])
+        for paper in [pair[0] for pair in sorted_papers_by_private_cost]:
+            # only adds papers whose price is above min_price, but does not remove them otherwise
+            if contribution + prices[paper] > threshold:
+                break
+            if (prices[paper] >= min_price or current_bidding_profile[reviewer_index][paper] == 1) :
+                current_bidding_profile[reviewer_index][paper] = 1
+                contribution += prices[paper]
+            else:
+                current_bidding_profile[reviewer_index][paper] = 0
+        return current_bidding_profile
 
 # class BestTwoPreferenceBehavior(BidderBehaviors):
 #     # Each reviewer will bid 1 on all the papers that are in one of their best two preferences rank.

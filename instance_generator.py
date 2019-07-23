@@ -4,15 +4,17 @@ import argparse
 import numpy as np
 import pathlib
 import datetime
+import re
 
-
+rank_cost_lower_bounds = [0,1,2,8,15]
+rank_cost_upper_bounds = [1,2,8,15,20]
 class Instance:
     # A problem instance which consists of a preferences profile, total amount of papers, total amount of reviewers and
     # papers review requirements. Papers review requirements is a list that assigns each paper the amount of times it
     # should be reviewed. (the default is to set all the papers requirement to the same constant: r)
-    def __init__(self, instance_coi, instance_private_prices, number_of_papers, number_of_reviewers,
-                 papers_requirements, unallocated_papers_price, instance_preferences):
-        self.private_prices = instance_private_prices
+    def __init__(self, instance_coi, instance_private_costs, number_of_papers, number_of_reviewers,
+                 papers_requirements, unallocated_papers_cost, instance_preferences):
+        self.private_costs = instance_private_costs
         self.total_papers = number_of_papers
         self.total_reviewers = number_of_reviewers
         self.coi = instance_coi
@@ -21,10 +23,10 @@ class Instance:
             self.papers_review_requirement = [papers_requirements for x in range(0, number_of_papers)]
         else:
             self.papers_review_requirement = papers_requirements
-        if isinstance(unallocated_papers_price, int):
-            self.unallocated_papers_price = [unallocated_papers_price for x in range(0, number_of_papers)]
+        if isinstance(unallocated_papers_cost, int):
+            self.unallocated_papers_cost = [unallocated_papers_cost for x in range(0, number_of_papers)]
         else:
-            self.unallocated_papers_price = unallocated_papers_price
+            self.unallocated_papers_cost = unallocated_papers_cost
 
 
 class PrivatePricesGenerator:
@@ -33,7 +35,7 @@ class PrivatePricesGenerator:
 
     # In every Instance, bidders assign private prices to each paper according to the preferences acquired from the
     # problem instance (e.g from a Preflib file or some other method)
-    def generate_private_prices(self, preferences):
+    def generate_private_costs(self, preferences):
         print('Method not implemented')
 
 
@@ -41,17 +43,17 @@ class SimplePrivatePricesGenerator(PrivatePricesGenerator):
     # Assign a random private cost to each paper, while satisfying the condition that every paper with preference
     # rank i > j will have lower cost than every paper with preference rank j (i.e. papers that are more desirable
     # according to preference will have a lower cost)
-    def generate_private_prices(self, preferences):
-        private_prices = []
+    def generate_private_costs(self, preferences):
+        private_costs = []
         for reviewer in range(0, len(preferences)):
-            reviewer_prices = {}
+            reviewer_costs = {}
             for rank, reviewer_preferences in enumerate(preferences[reviewer]):
                 if -1 in reviewer_preferences:  # preference is empty
                     continue
                 for paper in reviewer_preferences:
-                    reviewer_prices[str(paper)] = random.uniform(rank, rank + 1)
-            private_prices.append(reviewer_prices)
-        return private_prices
+                    reviewer_costs[str(paper)] = random.uniform(rank_cost_lower_bounds[rank],rank_cost_upper_bounds[rank])
+            private_costs.append(reviewer_costs)
+        return private_costs
 
 
 class InstanceGenerator:
@@ -73,7 +75,7 @@ class InstanceGenerator:
         instance_pref_and_coi = self.create_pref_and_coi()
         instance_preferences = [pair[0] for pair in instance_pref_and_coi]
         instance_coi = [pair[1] for pair in instance_pref_and_coi]
-        private_prices = self.private_prices_generator.generate_private_prices(instance_preferences)
+        private_prices = self.private_prices_generator.generate_private_costs(instance_preferences)
         number_of_reviewers = len(instance_preferences)
         number_of_papers = self.number_of_papers
         return Instance(instance_coi, private_prices, number_of_papers, number_of_reviewers,
@@ -91,16 +93,20 @@ class PreflibInstanceGenerator(InstanceGenerator):
         starting_line = int(self.file.readline())
         self.number_of_papers = starting_line
         for line_number, line in enumerate(self.file.readlines()):
+            line = re.sub('[\n]', '', line)
+            line = re.sub('},{',';', line)
+            line = re.sub(',{', ';', line)
+            line = re.sub('},', '', line)
             if line_number > starting_line:
                 reviewer_profile = []
                 reviewer_no_coi = []
-                modified_line = ""
-                if line[-1:] != ',':
-                    line = line + ','
-                for i in range(0, len(line)):
-                    if i > 2 and i < (len(line) - 3):
-                        modified_line += line[i]
-                for string_ranked_preference in modified_line.split('},{'):
+                #modified_line = ""
+                # if line[-1:] != ',':
+                #     line = line + ','
+                # for i in range(0, len(line)):
+                #     if i > 2 and i < (len(line) - 2):
+                #         modified_line += line[i]
+                for string_ranked_preference in line.split(';')[1:]:
                     if string_ranked_preference == '':  # in case a preference rank is empty assign dummy paper -1
                         string_ranked_preference = '-1'
                     ranked_preference = tuple(map(int, string_ranked_preference.split(',')))
@@ -136,8 +142,8 @@ if __name__ == '__main__':
     cost_matrix = np.zeros((instance.total_reviewers, instance.total_papers))
     for reviewer in range(0, instance.total_reviewers):
         for paper in range(0, instance.total_papers):
-            if str(paper) in instance.private_prices[reviewer].keys():  # a coi paper will not have a price
-                cost_matrix[reviewer][paper] = instance.private_prices[reviewer][str(paper)]
+            if str(paper) in instance.private_costs[reviewer].keys():  # a coi paper will not have a price
+                cost_matrix[reviewer][paper] = instance.private_costs[reviewer][str(paper)]
     output = {'reviewers_behavior': 'fill',
               'forced_permutations': 'fill',
               'number_of_bids_until_prices_update': 'fill',
@@ -148,8 +154,11 @@ if __name__ == '__main__':
               'additional_params': 'fill',
               'total_reviewers': instance.total_reviewers,
               'total_papers': instance.total_papers,
+              'min_price': 0,
+              'bidding_requirement': 'fill',            #  the bidding requirement is used for the midding mechanism, whereas the papers_requirement is used by the allocation algorithm.
+                                                        # they do NOT have to agree in the general case
               'papers_requirements': instance.papers_review_requirement,
-              'unallocated_papers_price': instance.unallocated_papers_price,
+              'unallocated_papers_price': instance.unallocated_papers_cost,
               'cost_matrix': cost_matrix.tolist(),
               'quota_matrix': quota_matrix.tolist()}
     try:
