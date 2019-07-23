@@ -155,8 +155,9 @@ if __name__ == '__main__':
               'total_reviewers': instance.total_reviewers,
               'total_papers': instance.total_papers,
               'min_price': 0,
-              'bidding_requirement': 'fill',            #  the bidding requirement is used for the midding mechanism, whereas the papers_requirement is used by the allocation algorithm.
+              'bidding_requirement': 'fill',            #  the bidding requirement is used for the bidding mechanism, whereas the papers_requirement is used by the allocation algorithm.
                                                         # they do NOT have to agree in the general case
+              'output_detail_level' : 'all_updates',    # 'all_updates' / 'first_and_last'
               'papers_requirements': instance.papers_review_requirement,
               'unallocated_papers_price': instance.unallocated_papers_cost,
               'cost_matrix': cost_matrix.tolist(),
