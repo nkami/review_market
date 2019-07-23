@@ -124,7 +124,18 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
         mec.current_bidding_profile = reviewer_behavior.apply_reviewer_behavior(params, mec.current_bidding_profile,
                                                                                 current_bidder, mec.threshold, mec.get_prices_for_same_bid(current_bidder,1))
         bidders_who_changed_bid_since_last_update.append(current_bidder)
+                                                                             
+        total_private_cost = sum([params['cost_matrix'][bidder][paper] * mec.current_bidding_profile[bidder][paper] *
+                                  mec.prices[paper] for paper in range(0, params['total_papers'])])
+        for paper in range(0, params['total_papers']):
+            market_bids_data.append([step, bidder, mec.number_of_updates, paper,
+                                     params['cost_matrix'][bidder][paper], mec.prices[paper],
+                                     mec.current_bidding_profile[bidder][paper],
+                                     np.sum(mec.current_bidding_profile, axis=1)[bidder],
+                                     np.dot(mec.prices, mec.current_bidding_profile[bidder]), total_private_cost,
+                                     'simulation_{0}'.format(time_stamp)])
         # TODO: the logic of this part is not very clear
+
         if step >= params['total_reviewers'] * params['forced_permutations']:
             num_of_steps -= 1
             if num_of_steps == 0:
