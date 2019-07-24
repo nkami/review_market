@@ -43,14 +43,71 @@ class SincereIntegralBehaviorWithMinPrice(BidderBehaviors):
         private_costs = c_q_vec_to_pairs(params, reviewer_index)
         sorted_papers_by_private_cost = sorted(private_costs, key=lambda tup: tup[1])
         for paper in [pair[0] for pair in sorted_papers_by_private_cost]:
-            # only adds papers whose price is above min_price, but does not remove them otherwise
-            if contribution + prices[paper] > threshold:
-                break
             if (prices[paper] >= min_price or current_bidding_profile[reviewer_index][paper] == 1) :
                 current_bidding_profile[reviewer_index][paper] = 1
                 contribution += prices[paper]
             else:
                 current_bidding_profile[reviewer_index][paper] = 0
+            # only adds papers whose price is above min_price, but does not remove them otherwise
+            if contribution >= threshold:
+                break
+        return current_bidding_profile
+
+class IntegralBehaviorCombineCostAndPrice(BidderBehaviors):
+    # Orders papers according to (cost - price*weight) in increasing order.
+    # Bids until contribution exceeds the threshold.
+    # Only adds bids
+    def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
+        contribution = 0
+        if "cost_threshold" in params:
+            cost_threshold = params['cost_threshold']
+        else:
+            cost_threshold = 100
+        if "cost_threshold2" in params:
+            cost_threshold2 = params['cost_threshold2']
+        else:
+            cost_threshold2 = 0
+        if "price_weight" in params:
+            price_weight = params['price_weight']
+        else:
+            price_weight = 0
+        private_costs = params['cost_matrix'][reviewer_index]
+        paper_COI = np.array(params['quota_matrix'][reviewer_index])==0
+        priority = np.subtract(private_costs , np.multiply(price_weight, prices))
+        sorted_papers_id = np.argsort(priority)
+        for paper_id in sorted_papers_id:
+            if paper_COI[paper_id] == False:
+                if private_costs[paper_id] <= cost_threshold2:
+                    current_bidding_profile[reviewer_index][paper_id] = 2
+                    contribution += prices[paper_id]
+                elif private_costs[paper_id] <= cost_threshold:
+                    current_bidding_profile[reviewer_index][paper_id] = 1
+                    contribution += prices[paper_id]
+
+            if contribution >= threshold:
+                break
+        return current_bidding_profile
+
+class FixedBehaviorCostThreshold(BidderBehaviors):
+    # bids on all papers with cost below a given threshold
+    def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
+        if "cost_threshold" in params:
+            cost_threshold = params['cost_threshold']
+        else:
+            cost_threshold = 100
+        if "cost_threshold2" in params:
+            cost_threshold2 = params['cost_threshold2']
+        else:
+            cost_threshold2 = 0
+        private_costs = params['cost_matrix'][reviewer_index]
+        paper_COI = np.array(params['quota_matrix'][reviewer_index])==0
+        m = len(private_costs)
+        for paper_id in range(m):
+            if paper_COI[paper_id] == False:
+                if private_costs[paper_id] <= cost_threshold2:
+                    current_bidding_profile[reviewer_index][paper_id] = 2
+                elif private_costs[paper_id] <= cost_threshold:
+                    current_bidding_profile[reviewer_index][paper_id] = 1
         return current_bidding_profile
 
 # class BestTwoPreferenceBehavior(BidderBehaviors):

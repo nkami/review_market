@@ -27,6 +27,7 @@ class FractionalAllocation(MatchingAlgorithm):
     def match(self, bidding_profile, params):
         total_reviewers = params['total_reviewers']
         total_papers = params['total_papers']
+        quota_matrix = params['quota_matrix']
         # step I
         prices = []
         for paper_index in range(0, total_papers):
@@ -39,9 +40,8 @@ class FractionalAllocation(MatchingAlgorithm):
         fractional_allocation_profile = np.zeros((total_reviewers, total_papers))
         for reviewer_index in range(0, total_reviewers):
             for paper_index in range(0, total_papers):
-                fractional_allocation_profile[reviewer_index][paper_index] = (
-                            bidding_profile[reviewer_index][paper_index] *
-                            prices[paper_index])
+                fractional_allocation_profile[reviewer_index][paper_index] = min(quota_matrix[reviewer_index][paper_index],
+                                                (bidding_profile[reviewer_index][paper_index] *  prices[paper_index]))
         first_step_allocation = copy.deepcopy(fractional_allocation_profile)
         # step II
         overbidders = []
@@ -65,21 +65,30 @@ class FractionalAllocation(MatchingAlgorithm):
             paper_total_underbid = (params['papers_requirements'][paper_index]
                                     - np.sum(fractional_allocation_profile, axis=0)[paper_index])
             papers_total_underbids.append(paper_total_underbid)
-        for reviewer_index in range(0, total_reviewers):
-            for paper_index in range(0, total_papers):
-                if params['quota_matrix'][reviewer_index][paper_index] == 0:
-                    continue
-                else:
-                    underbids_with_coi = copy.deepcopy(underbids)
-                    for reviewer in range(0, total_reviewers):
-                        if params['quota_matrix'][reviewer][paper_index] == 0:
-                            underbids_with_coi[reviewer] = 0
-                    if sum(underbids_with_coi) == 0:
-                        underbids_with_coi[reviewer_index] = 1
-                    fractional_allocation_profile[reviewer_index][paper_index] = \
-                        min(params['quota_matrix'][reviewer_index][paper_index],
-                            fractional_allocation_profile[reviewer_index][paper_index] +
-                            papers_total_underbids[paper_index] * (underbids[reviewer_index] / sum(underbids_with_coi)))
+        U = sum(underbids)
+        if U>0:
+            for reviewer_index in range(0, total_reviewers):
+                for paper_index in range(0, total_papers):
+                    if quota_matrix[reviewer_index][paper_index] == 0:
+                        continue
+                    else:
+                        ## Reshef: I removed this part. All quota constraints are treated the same, whether the quota is 0 or 1 or something else
+                        ##         the quota is ignored when deciding how much to allocate in step III, but any amount over the quota remains unallocated.
+                        # underbids_with_coi = copy.deepcopy(underbids)
+                        # for reviewer in range(0, total_reviewers):
+                        #     if params['quota_matrix'][reviewer][paper_index] == 0:
+                        #         underbids_with_coi[reviewer] = 0
+                        # if sum(underbids_with_coi) == 0:
+                        #     underbids_with_coi[reviewer_index] = 1
+                        # fractional_allocation_profile[reviewer_index][paper_index] = \
+                        #     min(params['quota_matrix'][reviewer_index][paper_index],
+                        #         fractional_allocation_profile[reviewer_index][paper_index] +
+                        #         papers_total_underbids[paper_index] * (underbids[reviewer_index] / sum(underbids_with_coi)))
+
+                        fractional_allocation_profile[reviewer_index][paper_index] = \
+                            min(quota_matrix[reviewer_index][paper_index],
+                                fractional_allocation_profile[reviewer_index][paper_index] +
+                                papers_total_underbids[paper_index] * (underbids[reviewer_index] / U))
         third_step_allocation = copy.deepcopy(fractional_allocation_profile)
         unallocated_papers = np.zeros(total_papers)
         for paper_index in range(0, total_papers):

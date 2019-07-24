@@ -88,7 +88,9 @@ possible_mechanisms = {'PriceMechanism': PriceMechanism}
 possible_behaviors = {'SincereIntegralBehavior': SincereIntegralBehavior,
                       'SincereIntegralBehaviorWithMinPrice': SincereIntegralBehaviorWithMinPrice,
                       'BestIntegralSincereUnderbidResponse': BestIntegralSincereUnderbidResponse,
-                      'BestIntegralSincereResponse': BestIntegralSincereResponse}
+                      'BestIntegralSincereResponse': BestIntegralSincereResponse,
+                      'IntegralBehaviorCombineCostAndPrice': IntegralBehaviorCombineCostAndPrice,
+                      'FixedBehaviorCostThreshold': FixedBehaviorCostThreshold}
 
 # adds to output the current allocation and prices for all bidders and papers
 def current_state_output(step,mec,mec_previous,algorithm_result,bidders_who_bid_since_last_update,cost_matrix,csv_name):
@@ -104,6 +106,7 @@ def current_state_output(step,mec,mec_previous,algorithm_result,bidders_who_bid_
         bids = mec.current_bidding_profile[bidder]
         old_bids = mec_previous.current_bidding_profile[bidder]
         # this is the price seen by the bidder when bidding:
+        # TODO: it is not computed correctly since it just considers the last price update
         seen_prices = mec_previous.get_prices_for_same_bid(bidder, 1)
         for paper in range(0, m):
             last_bids_data.append([step,
@@ -130,10 +133,13 @@ def current_state_output(step,mec,mec_previous,algorithm_result,bidders_who_bid_
 
 def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
     market_bids_data = []
+    forced_permutations = params['forced_permutations']
     num_of_steps = params['number_of_bids_until_prices_update']
     mec = possible_mechanisms[params['market_mechanism']](params)
     reviewer_behavior = possible_behaviors[params['reviewers_behavior']]()
-    output_detail_level = params['output_detail_level']
+    total_bids_until_closure = params['total_bids_until_closure']
+    output_detail_level_permutations = params['output_detail_level_permutations']
+    output_detail_level_iterations = params['output_detail_level_iterations']
     cost_matrix = params['cost_matrix']
     n = mec.total_reviewers
     csv_name = 'simulation_{0}'.format(time_stamp)
@@ -160,8 +166,11 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
                'matching output json file']
     bidders_who_bid_since_last_update = []
     mec_before_update = copy.deepcopy(mec)
+    iterations_output = 0
+    permutations_output = 0
     for step, current_bidder in enumerate(bidding_order):
         update_prices = False
+        output_bids = False
         mec.current_bidding_profile = reviewer_behavior.apply_reviewer_behavior(params, mec.current_bidding_profile,
                                                                                 current_bidder, mec.threshold, mec.get_prices_for_same_bid(current_bidder,1))
         bidders_who_bid_since_last_update.append(current_bidder)
@@ -169,23 +178,31 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
         #total_private_cost = sum([params['cost_matrix'][current_bidder][paper] * mec.current_bidding_profile[current_bidder][paper] *
         #                          mec.prices[paper] for paper in range(0, params['total_papers'])])
         # TODO: the logic of this part is not very clear
-        if step >= n * params['forced_permutations']:
+        if step >= n * forced_permutations:
             num_of_steps -= 1
             if num_of_steps == 0:
                 update_prices = True
+                if (100*(iterations_output/(1+mec.number_of_updates - forced_permutations)) < output_detail_level_iterations):
+                    output_bids = True
+                    iterations_output += 1
                 num_of_steps = params['number_of_bids_until_prices_update']
         elif (step + 1) % n == 0:
             update_prices = True
+            if 100 * (permutations_output/((step+1)/n)) < output_detail_level_permutations:
+                output_bids = True
+                permutations_output += 1
+        # always print the last state
+        if step == len(bidding_order):
+            output_bids = True
         if update_prices:
             mec.update_demand()
-            algorithm = possible_algorithms[params['matching_algorithm']](params)
-            algorithm_result = algorithm.match(mec.current_bidding_profile, params)
-            if (output_detail_level=="all_updates") or (output_detail_level=="first_and_last" and mec.number_of_updates==0):
+            if output_bids:
+                algorithm = possible_algorithms[params['matching_algorithm']](params)
+                algorithm_result = algorithm.match(mec.current_bidding_profile, params)
                 market_bids_data.extend(current_state_output(step, mec, mec_before_update,algorithm_result,bidders_who_bid_since_last_update,cost_matrix,csv_name ))
             bidders_who_bid_since_last_update = []
             mec_before_update = copy.deepcopy(mec)
             mec.number_of_updates += 1
-    market_bids_data.extend(current_state_output(step, mec, mec_before_update, algorithm_result, bidders_who_bid_since_last_update,cost_matrix,csv_name))
 
     market_bids_data = np.array(market_bids_data)
     data_frame = pd.DataFrame(market_bids_data, columns=columns)
@@ -228,11 +245,19 @@ if __name__ == '__main__':
     args = parser.parse_args()
     with open(args.InputFile) as file:
         params = json.loads(file.read())
+    n = params['total_reviewers']
+    steps = params['total_bids_until_closure']
     bidding_order = []
     for i in range(0, params['forced_permutations']):
-        bidding_order += list(range(0, params['total_reviewers']))
-    bidding_order += np.random.randint(0, high=params['total_reviewers'],
-                                       size=params['total_bids_until_closure']).tolist()
+        bidding_order += list(range(0, n))
+    # make sure everyone bids at list once before there are new bids.
+    p = np.random.permutation(n).tolist()
+    if steps<=n:
+        bidding_order.extend(p[0:steps])
+    else:
+        bidding_order.extend(p)
+        bidding_order.extend(np.random.randint(0, high=n,
+                                       size=steps-n))
     time_stamp = datetime.datetime.now().isoformat()[:-7].replace(':', '-')
     final_bidding_profile = run_simulation_and_output_csv_file(params, bidding_order, time_stamp)
     output_json_file(params, final_bidding_profile, time_stamp)
