@@ -3,16 +3,138 @@
   <component name="ChangeListManager">
     <list default="true" id="874230da-78a5-4b81-8350-a45f2fae890a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/Output/cost_matrix_1_2_8.json" beforeDir="false" afterPath="$PROJECT_DIR$/Output/cost_matrix_1_2_8.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-15T10-05-28.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-15T10-09-07.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-15T10-10-02.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-15T10-17-01.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-15T14-40-24.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-11T09-34-37.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-23T10-28-42.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-23T10-28-42.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bidder_behaviors.py" beforeDir="false" afterPath="$PROJECT_DIR$/bidder_behaviors.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/instance_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_2019-06-04T08-54-12.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_2019-06-04T15-08-23.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_2019-07-17T20-09-04.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_m54_n31_test2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_testing.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-04T09-32-47.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-04T16-19-39.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-04T16-21-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-04T16-37-23.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-04-09T14_26_28.764610.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-04-09T14_28_11.114649.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T09-24-54.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T09-27-05.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T09-27-05.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T15-20-42.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T15-41-44.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T15-41-44.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T16-13-08.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T16-13-08.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-11T09-34-37.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T11-04-02.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-03-59.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-03-59.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-06-06.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-06-06.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-06-57.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-06-57.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-22T08-49-46.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-22T08-49-46.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-41-57.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-41-57.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-49-44.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-49-44.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-53-24.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-53-24.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-57-24.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-57-24.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-59-20.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-59-20.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-01-15.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-01-15.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-03-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-03-55.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-05-27.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-05-27.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-10-13.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-10-13.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-13-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-13-51.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-14-41.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-14-41.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-16-37.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-16-37.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-18-31.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-18-31.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-20-39.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-20-39.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-24-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-24-55.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-25-07.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-25-07.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-27-56.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-27-56.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-39-45.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-39-45.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-41-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-41-55.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-44-16.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-44-16.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-45-56.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-45-56.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-58-57.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-58-57.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-01-24.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-01-24.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-06-09.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-06-09.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-07-58.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-07-58.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-12-13.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-12-13.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-13-17.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-13-17.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-20-58.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-20-58.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-22-15.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-22-15.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T18-08-11.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T18-08-11.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T18-59-40.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T18-59-40.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T19-10-58.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T19-10-58.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T20-36-59.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T20-36-59.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T20-53-40.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T20-53-40.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-10-14.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-10-14.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-13-23.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-13-23.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-15-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-15-28.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-18-56.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-18-56.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-25-10.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-25-10.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-40-48.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-40-48.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-45-45.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-45-45.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-48-46.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-48-46.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-50-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-50-49.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-21-19.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-21-19.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-31-37.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-31-37.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-44-13.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-44-13.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-47-04.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-47-04.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-50-01.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-50-01.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-53-13.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-53-13.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-53-23.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-53-23.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_compare.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Output/simulation_compare.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulations_m54_n31_example.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/tmp_input_adjust999.toi" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/matching_algorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/matching_algorithms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prices_mechanisms.py" beforeDir="false" afterPath="$PROJECT_DIR$/prices_mechanisms.py" afterDir="false" />
     </list>
@@ -24,7 +146,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/review_market$matching_algorithms_testing.coverage" NAME="matching_algorithms_testing Coverage Results" MODIFIED="1563285928924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/review_market$instance_generator.coverage" NAME="prices_mechanisms Coverage Results" MODIFIED="1564001602465" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/review_market$instance_generator.coverage" NAME="prices_mechanisms Coverage Results" MODIFIED="1564086498365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/review_market$matching_algorithms.coverage" NAME="matching_algorithms Coverage Results" MODIFIED="1559648845550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
@@ -32,20 +154,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bidder_behaviors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="49">
-              <caret line="55" column="41" selection-start-line="55" selection-start-column="6" selection-end-line="55" selection-end-column="41" />
+            <state relative-caret-position="83">
+              <caret line="60" selection-start-line="60" selection-end-line="60" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Output/cost_matrix_m54_n31_test2.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="12" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -65,8 +178,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Output/cost_matrix_1_2_8.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+            <state relative-caret-position="544">
+              <caret line="32" column="10" lean-forward="true" selection-start-line="32" selection-start-column="10" selection-end-line="32" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -74,8 +187,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/matching_algorithms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="43" column="95" selection-start-line="43" selection-start-column="95" selection-end-line="43" selection-end-column="95" />
+            <state relative-caret-position="215">
+              <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -86,8 +199,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="108" column="90" selection-start-line="108" selection-start-column="90" selection-end-line="108" selection-end-column="90" />
+            <state relative-caret-position="125">
+              <caret line="196" column="39" selection-start-line="196" selection-start-column="39" selection-end-line="196" selection-end-column="39" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -139,9 +252,9 @@
         <option value="$PROJECT_DIR$/Output/cost_matrix_m54_n31_test2.json" />
         <option value="$PROJECT_DIR$/Output/cost_matrix_2019-07-18T16-22-25.json" />
         <option value="$PROJECT_DIR$/instance_generator.py" />
-        <option value="$PROJECT_DIR$/prices_mechanisms.py" />
         <option value="$PROJECT_DIR$/bidder_behaviors.py" />
         <option value="$PROJECT_DIR$/matching_algorithms.py" />
+        <option value="$PROJECT_DIR$/prices_mechanisms.py" />
         <option value="$PROJECT_DIR$/Output/cost_matrix_1_2_8.json" />
       </list>
     </option>
@@ -338,12 +451,12 @@
       <updated>1552156593711</updated>
       <workItem from="1559626792991" duration="2242000" />
       <workItem from="1559629242511" duration="9271000" />
-      <workItem from="1563283273915" duration="87953000" />
+      <workItem from="1563283273915" duration="101541000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99466000" />
+    <option name="totallyTimeSpent" value="113054000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -399,14 +512,14 @@
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/bidder_behaviors.py</url>
-          <line>60</line>
-          <option name="timeStamp" value="34" />
+          <url>file://$PROJECT_DIR$/prices_mechanisms.py</url>
+          <line>257</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/prices_mechanisms.py</url>
-          <line>255</line>
-          <option name="timeStamp" value="35" />
+          <line>197</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -420,47 +533,52 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>p[0:3]</expression-string>
+        <expression-string>len(bidding_order)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>p[0:steps]</expression-string>
+        <expression-string>as_array(bidding_order)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>priority[42]</expression-string>
+        <expression-string>bidding_order.as_array()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>np.array(params['quota_matrix'][reviewer_index])==0</expression-string>
+        <expression-string>bidding_order.asarray()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>np.array(params['quota_matrix'][reviewer_index])</expression-string>
+        <expression-string>asarray(bidding_order)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>np/array(params['quota_matrix'][reviewer_index])</expression-string>
+        <expression-string>array(bidding_order)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>array(params['quota_matrix'][reviewer_index])</expression-string>
+        <expression-string>int(bidding_order)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>params['quota_matrix'][reviewer_index].asarray()</expression-string>
+        <expression-string>bidding_order</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>params['quota_matrix'][reviewer_index].array()</expression-string>
+        <expression-string>bidding_order.length()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>bidding_order.size</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -722,40 +840,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
+    <entry file="file://$PROJECT_DIR$/matching_algorithms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="108" column="90" selection-start-line="108" selection-start-column="90" selection-end-line="108" selection-end-column="90" />
+        <state relative-caret-position="215">
+          <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bidder_behaviors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="49">
-          <caret line="55" column="41" selection-start-line="55" selection-start-column="6" selection-end-line="55" selection-end-column="41" />
+        <state relative-caret-position="83">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/matching_algorithms.py">
+    <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="43" column="95" selection-start-line="43" selection-start-column="95" selection-end-line="43" selection-end-column="95" />
+        <state relative-caret-position="125">
+          <caret line="196" column="39" selection-start-line="196" selection-start-column="39" selection-end-line="196" selection-end-column="39" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Output/cost_matrix_1_2_8.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+        <state relative-caret-position="544">
+          <caret line="32" column="10" lean-forward="true" selection-start-line="32" selection-start-column="10" selection-end-line="32" selection-end-column="10" />
         </state>
       </provider>
     </entry>

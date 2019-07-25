@@ -122,6 +122,7 @@ def current_state_output(step,mec,mec_previous,algorithm_result,bidders_who_bid_
                                      np.dot(seen_prices, bids),
                                      old_bids[paper],
                                      bids[paper],
+                                     int(bids[paper] > 0),
                                      final_allocation[bidder][paper],
                                      final_allocation[bidder][paper] * cost_matrix[bidder][paper],
                                      np.sum(bids),
@@ -157,6 +158,7 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
                'total seen price', # sum of seen_price*bid
                'previous bid',     # bid amount of reviewer_id on paper_id before last update
                'bid',             # bid amount of reviewer_id on paper_id
+               'positive bid',    # "1" if bid>0
                'allocation',      # allocated amount of paper_id to reviewer_id under selected algorithm (currently only supports the Mock algorithm)
                'realized cost',   # allocation*private_cost
                'total bid',       # sum of bids for this reviewer
@@ -192,7 +194,7 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
                 output_bids = True
                 permutations_output += 1
         # always print the last state
-        if step == len(bidding_order):
+        if step == len(bidding_order)-1:
             output_bids = True
         if update_prices:
             mec.update_demand()

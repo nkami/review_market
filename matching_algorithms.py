@@ -31,11 +31,14 @@ class FractionalAllocation(MatchingAlgorithm):
         # step I
         prices = []
         for paper_index in range(0, total_papers):
+            r = params['papers_requirements'][paper_index]
             paper_demand = np.sum(bidding_profile, axis=0)[paper_index]
-            if paper_demand == 0:
+            paper_demand_count = np.sum(bidding_profile>0, axis=0)[paper_index]
+            # note change: if there are few bidders, even if they have high demand then the price is 1 since they should all get 1 unit of the paper
+            if paper_demand_count <= r:
                 paper_price = 1
             else:
-                paper_price = min(1, (params['papers_requirements'][paper_index] / paper_demand))
+                paper_price = min(1, ( r / paper_demand))
             prices.append(paper_price)
         fractional_allocation_profile = np.zeros((total_reviewers, total_papers))
         for reviewer_index in range(0, total_reviewers):
