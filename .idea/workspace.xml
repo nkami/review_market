@@ -2,141 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="874230da-78a5-4b81-8350-a45f2fae890a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Output/cost_matrix_1_2_8.json" beforeDir="false" afterPath="$PROJECT_DIR$/Output/cost_matrix_1_2_8.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_2019-06-04T08-54-12.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_2019-06-04T15-08-23.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_2019-07-17T20-09-04.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_m54_n31_test2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_testing.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-04T09-32-47.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-04T16-19-39.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-04T16-21-28.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/final_allocation_2019-06-04T16-37-23.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-04-09T14_26_28.764610.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-04-09T14_28_11.114649.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T09-24-54.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T09-27-05.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T09-27-05.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T15-20-42.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T15-41-44.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T15-41-44.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T16-13-08.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-04T16-13-08.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-11T09-34-37.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T11-04-02.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-03-59.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-03-59.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-06-06.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-06-06.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-06-57.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-06-15T15-06-57.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-22T08-49-46.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-22T08-49-46.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-41-57.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-41-57.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-49-44.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-49-44.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-53-24.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-53-24.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-57-24.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-57-24.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-59-20.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T11-59-20.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-01-15.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-01-15.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-03-55.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-03-55.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-05-27.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T12-05-27.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-10-13.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-10-13.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-13-51.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-13-51.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-14-41.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-14-41.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-16-37.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-16-37.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-18-31.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-18-31.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-20-39.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T14-20-39.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-24-55.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-24-55.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-25-07.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-25-07.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-27-56.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-27-56.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-39-45.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-39-45.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-41-55.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-41-55.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-44-16.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-44-16.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-45-56.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-45-56.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-58-57.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T15-58-57.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-01-24.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-01-24.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-06-09.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-06-09.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-07-58.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-07-58.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-12-13.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-12-13.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-13-17.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-13-17.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-20-58.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-20-58.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-22-15.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T16-22-15.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T18-08-11.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T18-08-11.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T18-59-40.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T18-59-40.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T19-10-58.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T19-10-58.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T20-36-59.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T20-36-59.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T20-53-40.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T20-53-40.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-10-14.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-10-14.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-13-23.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-13-23.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-15-28.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-15-28.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-18-56.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-18-56.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-25-10.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-25-10.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-40-48.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-40-48.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-45-45.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-45-45.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-48-46.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-48-46.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-50-49.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T21-50-49.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-21-19.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-21-19.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-31-37.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-31-37.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-44-13.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-44-13.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-47-04.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-47-04.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-50-01.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-50-01.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-53-13.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-53-13.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-53-23.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-24T23-53-23.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Output/simulation_compare.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Output/simulation_compare.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulations_m54_n31_example.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/tmp_input_adjust999.toi" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/matching_algorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/matching_algorithms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prices_mechanisms.py" beforeDir="false" afterPath="$PROJECT_DIR$/prices_mechanisms.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -146,7 +14,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/review_market$matching_algorithms_testing.coverage" NAME="matching_algorithms_testing Coverage Results" MODIFIED="1563285928924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/review_market$instance_generator.coverage" NAME="prices_mechanisms Coverage Results" MODIFIED="1564086498365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/review_market$instance_generator.coverage" NAME="prices_mechanisms Coverage Results" MODIFIED="1564306974536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/review_market$matching_algorithms.coverage" NAME="matching_algorithms Coverage Results" MODIFIED="1559648845550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
@@ -154,7 +22,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bidder_behaviors.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="83">
+            <state relative-caret-position="-121">
               <caret line="60" selection-start-line="60" selection-end-line="60" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -166,7 +34,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/instance_generator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="684">
+            <state relative-caret-position="210">
               <caret line="160" column="40" selection-start-line="160" selection-start-column="40" selection-end-line="160" selection-end-column="40" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -178,8 +46,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Output/cost_matrix_1_2_8.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="32" column="10" lean-forward="true" selection-start-line="32" selection-start-column="10" selection-end-line="32" selection-end-column="10" />
+            <state relative-caret-position="221">
+              <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -199,8 +67,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="196" column="39" selection-start-line="196" selection-start-column="39" selection-end-line="196" selection-end-column="39" />
+            <state relative-caret-position="278">
+              <caret line="88" column="58" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="58" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -220,9 +88,9 @@
       <find>bidding_re</find>
       <find>time_s</find>
       <find>deep</find>
-      <find>total_pa</find>
       <find>order</find>
       <find>seen</find>
+      <find>total_pa</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -260,9 +128,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
-    <option name="width" value="1375" />
-    <option name="height" value="788" />
+    <option name="x" value="-14" />
+    <option name="width" value="2750" />
+    <option name="height" value="1576" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -451,12 +319,12 @@
       <updated>1552156593711</updated>
       <workItem from="1559626792991" duration="2242000" />
       <workItem from="1559629242511" duration="9271000" />
-      <workItem from="1563283273915" duration="101541000" />
+      <workItem from="1563283273915" duration="105197000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="113054000" />
+    <option name="totallyTimeSpent" value="116710000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -468,15 +336,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4987775" visible="true" weight="0.2185501" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4987775" visible="true" weight="0.30990174" />
       <window_info id="Structure" order="1" sideWeight="0.5012225" side_tool="true" weight="0.21205357" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32977098" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26868907" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32847682" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39653304" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -491,7 +359,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.119936034" />
+      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.17006803" />
       <window_info anchor="right" id="Database" order="4" />
     </layout>
   </component>
@@ -830,16 +698,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/instance_generator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="160" column="40" selection-start-line="160" selection-start-column="40" selection-end-line="160" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/matching_algorithms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
@@ -850,9 +708,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="88" column="58" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bidder_behaviors.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
+        <state relative-caret-position="-121">
           <caret line="60" selection-start-line="60" selection-end-line="60" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -860,20 +728,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
+    <entry file="file://$PROJECT_DIR$/instance_generator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="196" column="39" selection-start-line="196" selection-start-column="39" selection-end-line="196" selection-end-column="39" />
+        <state relative-caret-position="210">
+          <caret line="160" column="40" selection-start-line="160" selection-start-column="40" selection-end-line="160" selection-end-column="40" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Output/cost_matrix_1_2_8.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="10" lean-forward="true" selection-start-line="32" selection-start-column="10" selection-end-line="32" selection-end-column="10" />
+        <state relative-caret-position="221">
+          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
         </state>
       </provider>
     </entry>
