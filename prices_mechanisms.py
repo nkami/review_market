@@ -85,15 +85,17 @@ class PriceMechanism(Mechanism):
 
 
 possible_mechanisms = {'PriceMechanism': PriceMechanism}
-possible_behaviors = {'SincereIntegralBehavior': SincereIntegralBehavior,
+possible_behaviors = {
                       'SincereIntegralBehaviorWithMinPrice': SincereIntegralBehaviorWithMinPrice,
                       'BestIntegralSincereUnderbidResponse': BestIntegralSincereUnderbidResponse,
                       'BestIntegralSincereResponse': BestIntegralSincereResponse,
-                      'IntegralBehaviorCombineCostAndPrice': IntegralBehaviorCombineCostAndPrice,
-                      'FixedBehaviorCostThreshold': FixedBehaviorCostThreshold}
+                      'IntegralSincereBehavior': IntegralSincereBehavior,
+                      'IntegralGreedyBehavior': IntegralGreedyBehavior,
+                      'UniformBehavior' : UniformBehavior,
+                      }
 
 # adds to output the current allocation and prices for all bidders and papers
-def current_state_output(step,mec,mec_previous,algorithm_result,bidders_who_bid_since_last_update,cost_matrix,csv_name):
+def current_state_output(step,mec,mec_previous,algorithm_result,bidders_who_bid_since_last_update,cost_matrix,all_behavior_names,csv_name):
     n = mec.total_reviewers
     m = mec.total_papers
     current_prices = mec.get_prices()
@@ -112,6 +114,7 @@ def current_state_output(step,mec,mec_previous,algorithm_result,bidders_who_bid_
             last_bids_data.append([step,
                                      mec.number_of_updates,
                                      bidder,
+                                     all_behavior_names[bidder],
                                      (bidder in bidders_who_bid_since_last_update),
                                      paper,
                                      cost_matrix[bidder][paper],
@@ -137,17 +140,30 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
     forced_permutations = params['forced_permutations']
     num_of_steps = params['number_of_bids_until_prices_update']
     mec = possible_mechanisms[params['market_mechanism']](params)
-    reviewer_behavior = possible_behaviors[params['reviewers_behavior']]()
+    n = mec.total_reviewers
+    # set behaviors for all reviewers:
+    all_behavior_names = [params['reviewers_behavior']]*n
+    all_behaviors = [] *n
+    if "fallback_behavior" in params:
+          fallback_probability = params["fallback_probability"]/100
+          rand = np.random.rand(n)
+          for i in range(n):
+              if rand[i] < fallback_probability:
+                  all_behavior_names[i] = params["fallback_behavior"]
+    for i in range(n):
+       all_behaviors.append(possible_behaviors[all_behavior_names[i]]())
+
     total_bids_until_closure = params['total_bids_until_closure']
     output_detail_level_permutations = params['output_detail_level_permutations']
     output_detail_level_iterations = params['output_detail_level_iterations']
     cost_matrix = params['cost_matrix']
-    n = mec.total_reviewers
+
     csv_name = 'simulation_{0}'.format(time_stamp)
     path_csv = '.\\output\\simulation_{0}.csv'.format(time_stamp)
     columns = ['#step',             # number of times that a bidder played so far
                '#updates',          # number of price updates so far (not including current)
                'reviewer id',
+               'reviewer type',      # Name of reviewer behavior
                'bidder selected',     # True if this reviewer was selected to update bid since last price update
                'paper id',
                'private_cost',    # the fixed private cost of paper_id to reviewer_id
@@ -173,7 +189,7 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
     for step, current_bidder in enumerate(bidding_order):
         update_prices = False
         output_bids = False
-        mec.current_bidding_profile = reviewer_behavior.apply_reviewer_behavior(params, mec.current_bidding_profile,
+        mec.current_bidding_profile = all_behaviors[current_bidder].apply_reviewer_behavior(params, mec.current_bidding_profile,
                                                                                 current_bidder, mec.threshold, mec.get_prices_for_same_bid(current_bidder,1))
         bidders_who_bid_since_last_update.append(current_bidder)
 
@@ -201,7 +217,7 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
             if output_bids:
                 algorithm = possible_algorithms[params['matching_algorithm']](params)
                 algorithm_result = algorithm.match(mec.current_bidding_profile, params)
-                market_bids_data.extend(current_state_output(step, mec, mec_before_update,algorithm_result,bidders_who_bid_since_last_update,cost_matrix,csv_name ))
+                market_bids_data.extend(current_state_output(step, mec, mec_before_update,algorithm_result,bidders_who_bid_since_last_update,cost_matrix,all_behavior_names,csv_name ))
             bidders_who_bid_since_last_update = []
             mec_before_update = copy.deepcopy(mec)
             mec.number_of_updates += 1

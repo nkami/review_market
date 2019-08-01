@@ -2,7 +2,9 @@ import numpy as np
 import copy
 from matching_algorithms import *
 
-
+# TODO: there should be a class for "reviewer" rather than "behavior". This class also contains all relevant parameters...
+#  including thresholds and each reviewer may have a different type. the apply_reviwer_behavior() should be....
+#  in this class, and only get current profile and prices as parameters.
 # Transforms a vector (a reviewer) from the cost and quota matrices into a list of tuples:
 # (paper_id, paper_private_cost). A paper that has a COI with the reviewer wont appear in the returned list.
 def c_q_vec_to_pairs(params, reviewer_index):
@@ -18,21 +20,7 @@ class BidderBehaviors:
         print('Method not implemented')
 
 
-class SincereIntegralBehavior(BidderBehaviors):
-    # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
-    # integral bid with the lowest underbidding.
-    def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
-        contribution = 0
-        private_costs = c_q_vec_to_pairs(params, reviewer_index)
-        sorted_papers_by_private_cost = sorted(private_costs, key=lambda tup: tup[1])
-        for paper in [pair[0] for pair in sorted_papers_by_private_cost]:
-            current_bidding_profile[reviewer_index][paper] = 0
-            if (contribution + prices[paper]) <= threshold:
-                current_bidding_profile[reviewer_index][paper] = 1
-                contribution += prices[paper]
-            else:
-                break
-        return current_bidding_profile
+
 
 class SincereIntegralBehaviorWithMinPrice(BidderBehaviors):
     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
@@ -53,7 +41,7 @@ class SincereIntegralBehaviorWithMinPrice(BidderBehaviors):
                 break
         return current_bidding_profile
 
-class IntegralBehaviorCombineCostAndPrice(BidderBehaviors):
+class IntegralGreedyBehavior(BidderBehaviors):
     # Orders papers according to (cost - price*weight) in increasing order.
     # Bids until contribution exceeds the threshold.
     # Only adds bids
@@ -88,27 +76,54 @@ class IntegralBehaviorCombineCostAndPrice(BidderBehaviors):
                 break
         return current_bidding_profile
 
-class FixedBehaviorCostThreshold(BidderBehaviors):
-    # bids on all papers with cost below a given threshold
+class IntegralSincereBehavior(IntegralGreedyBehavior):
+    # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
+    # integral bid until reaching the threshold
     def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
-        if "cost_threshold" in params:
-            cost_threshold = params['cost_threshold']
-        else:
-            cost_threshold = 100
-        if "cost_threshold2" in params:
-            cost_threshold2 = params['cost_threshold2']
-        else:
-            cost_threshold2 = 0
-        private_costs = params['cost_matrix'][reviewer_index]
-        paper_COI = np.array(params['quota_matrix'][reviewer_index])==0
-        m = len(private_costs)
-        for paper_id in range(m):
-            if paper_COI[paper_id] == False:
-                if private_costs[paper_id] <= cost_threshold2:
-                    current_bidding_profile[reviewer_index][paper_id] = 2
-                elif private_costs[paper_id] <= cost_threshold:
-                    current_bidding_profile[reviewer_index][paper_id] = 1
+        # contribution = 0
+        # private_costs = c_q_vec_to_pairs(params, reviewer_index)
+        # sorted_papers_by_private_cost = sorted(private_costs, key=lambda tup: tup[1])
+        # for paper in [pair[0] for pair in sorted_papers_by_private_cost]:
+        #     current_bidding_profile[reviewer_index][paper] = 0
+        #     if (contribution + prices[paper]) <= threshold:
+        #         current_bidding_profile[reviewer_index][paper] = 1
+        #         contribution += prices[paper]
+        #     else:
+        #         break
+        my_params = copy.deepcopy(params)
+        my_params['price_weight'] = 0
+        IntegralGreedyBehavior.apply_reviewer_behavior(self,my_params,current_bidding_profile,reviewer_index,threshold,prices)
         return current_bidding_profile
+
+class UniformBehavior(IntegralSincereBehavior):
+    # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
+    # integral bid until reaching the threshold
+    def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
+        my_prices = [1]*len(prices)
+        IntegralGreedyBehavior.apply_reviewer_behavior(self,params,current_bidding_profile,reviewer_index,threshold,my_prices)
+        return current_bidding_profile
+
+# class FixedBehaviorCostThreshold(BidderBehaviors):
+#     # bids on all papers with cost below a given threshold
+#     def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
+#         if "cost_threshold" in params:
+#             cost_threshold = params['cost_threshold']
+#         else:
+#             cost_threshold = 100
+#         if "cost_threshold2" in params:
+#             cost_threshold2 = params['cost_threshold2']
+#         else:
+#             cost_threshold2 = 0
+#         private_costs = params['cost_matrix'][reviewer_index]
+#         paper_COI = np.array(params['quota_matrix'][reviewer_index])==0
+#         m = len(private_costs)
+#         for paper_id in range(m):
+#             if paper_COI[paper_id] == False:
+#                 if private_costs[paper_id] <= cost_threshold2:
+#                     current_bidding_profile[reviewer_index][paper_id] = 2
+#                 elif private_costs[paper_id] <= cost_threshold:
+#                     current_bidding_profile[reviewer_index][paper_id] = 1
+#         return current_bidding_profile
 
 # class BestTwoPreferenceBehavior(BidderBehaviors):
 #     # Each reviewer will bid 1 on all the papers that are in one of their best two preferences rank.
