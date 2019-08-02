@@ -34,6 +34,7 @@ class SincereIntegralBehavior(BidderBehaviors):
                 break
         return current_bidding_profile
 
+
 class SincereIntegralBehaviorWithMinPrice(BidderBehaviors):
     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
     # integral bid with the lowest underbidding.
@@ -43,7 +44,7 @@ class SincereIntegralBehaviorWithMinPrice(BidderBehaviors):
         private_costs = c_q_vec_to_pairs(params, reviewer_index)
         sorted_papers_by_private_cost = sorted(private_costs, key=lambda tup: tup[1])
         for paper in [pair[0] for pair in sorted_papers_by_private_cost]:
-            if (prices[paper] >= min_price or current_bidding_profile[reviewer_index][paper] == 1) :
+            if (prices[paper] >= min_price or current_bidding_profile[reviewer_index][paper] == 1):
                 current_bidding_profile[reviewer_index][paper] = 1
                 contribution += prices[paper]
             else:
@@ -52,6 +53,7 @@ class SincereIntegralBehaviorWithMinPrice(BidderBehaviors):
             if contribution >= threshold:
                 break
         return current_bidding_profile
+
 
 class IntegralBehaviorCombineCostAndPrice(BidderBehaviors):
     # Orders papers according to (cost - price*weight) in increasing order.
@@ -87,6 +89,7 @@ class IntegralBehaviorCombineCostAndPrice(BidderBehaviors):
             if contribution >= threshold:
                 break
         return current_bidding_profile
+
 
 class FixedBehaviorCostThreshold(BidderBehaviors):
     # bids on all papers with cost below a given threshold
