@@ -83,13 +83,14 @@ class PriceMechanism(Mechanism):
 
 
 possible_mechanisms = {'PriceMechanism': PriceMechanism}
-possible_behaviors = {'SincereIntegralBehavior': SincereIntegralBehavior,
+possible_behaviors = {
                       'SincereIntegralBehaviorWithMinPrice': SincereIntegralBehaviorWithMinPrice,
                       'BestIntegralSincereUnderbidResponse': BestIntegralSincereUnderbidResponse,
                       'BestIntegralSincereResponse': BestIntegralSincereResponse,
-                      'IntegralBehaviorCombineCostAndPrice': IntegralBehaviorCombineCostAndPrice,
-                      'FixedBehaviorCostThreshold': FixedBehaviorCostThreshold}
-
+                      'IntegralSincereBehavior': IntegralSincereBehavior,
+                      'IntegralGreedyBehavior': IntegralGreedyBehavior,
+                      'UniformBehavior' : UniformBehavior,
+                      }
 
 # adds to output the current allocation and prices for all bidders and papers
 def current_state_output(step, mec, mec_previous, bidders_who_bid_since_last_update, input_file_name, params):
