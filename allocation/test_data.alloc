@@ -1,0 +1,24 @@
+# Note the parser is not fantastic and only throws out early comment lines #
+# Fractional Allocation Format
+# Number of Reviewers
+# Number of Papers
+# Minimal Number of Reviewer Per Paper (r)
+# Maximal Number of Reviewer Per Paper (or -1 for unbounded)
+# Minimal Number of Papers Per Reviewer
+# Maximal Number of Papers Per Reviewer (k)
+# Comma Seperated matrix of REVIEWERS X PAPERS where i,j is the cost
+# 	of reviewer i reviewing paper j.
+# Comma Seperated matrix of REVIEWERS X PAPERS where i,j is the number
+# 	of times reviewer i can review paper j.
+3
+6
+2
+3
+3
+4
+5,5,5,5,5,5
+5,5,5,5,5,5
+5,5,5,5,5,5
+1,1,1,1,1,1
+1,1,1,1,1,1
+1,1,1,1,1,1

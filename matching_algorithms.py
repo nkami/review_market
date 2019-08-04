@@ -31,20 +31,19 @@ class FractionalAllocation(MatchingAlgorithm):
         # step I
         prices = []
         for paper_index in range(0, total_papers):
-            r = params['papers_requirements'][paper_index]
             paper_demand = np.sum(bidding_profile, axis=0)[paper_index]
-            paper_demand_count = np.sum(bidding_profile>0, axis=0)[paper_index]
+            paper_demand_count = np.sum(bidding_profile > 0, axis=0)[paper_index]
             # note change: if there are few bidders, even if they have high demand then the price is 1 since they should all get 1 unit of the paper
-            if paper_demand_count <= r:
+            if paper_demand_count <= params['papers_requirements'][paper_index]:
                 paper_price = 1
             else:
-                paper_price = min(1, ( r / paper_demand))
+                paper_price = min(1, ( params['papers_requirements'][paper_index] / paper_demand))
             prices.append(paper_price)
         fractional_allocation_profile = np.zeros((total_reviewers, total_papers))
         for reviewer_index in range(0, total_reviewers):
             for paper_index in range(0, total_papers):
                 fractional_allocation_profile[reviewer_index][paper_index] = min(quota_matrix[reviewer_index][paper_index],
-                                                (bidding_profile[reviewer_index][paper_index] *  prices[paper_index]))
+                                                (bidding_profile[reviewer_index][paper_index] * prices[paper_index]))
         first_step_allocation = copy.deepcopy(fractional_allocation_profile)
         # step II
         overbidders = []
@@ -69,7 +68,7 @@ class FractionalAllocation(MatchingAlgorithm):
                                     - np.sum(fractional_allocation_profile, axis=0)[paper_index])
             papers_total_underbids.append(paper_total_underbid)
         U = sum(underbids)
-        if U>0:
+        if U > 0:
             for reviewer_index in range(0, total_reviewers):
                 for paper_index in range(0, total_papers):
                     if quota_matrix[reviewer_index][paper_index] == 0:
@@ -223,69 +222,5 @@ possible_algorithms = {'FractionalAllocation': FractionalAllocation, 'SumOWA-u':
                        'SumOWA-r': SumOWA, 'SumOWA-l': SumOWA, 'SumOWA-n': SumOWA}
 
 
-
-
-
-# example from pdf:
-# bid_p = [[1, 0, 1, 0, 0, 0],
-#          [1, 1, 1, 1, 0, 0],
-#          [0, 1, 1, 0, 1, 0],
-#          [0, 1, 1, 1, 0, 0],
-#          [1, 1, 1, 0, 0, 0]]
-#
-# p = Instance(None, 6, 5, 2)
-# res = fractional_allocation_algorithm(bid_p, p)
-# print(res[2])
-#
-# import itertools
-# from instance_generator import *
-# algo = FractionalAllocation()
-# bid_p = [[1, 1, 1, 0, 0, 0],
-#          [0, 0, 0, 1, 1, 1],
-#          [0, 0, 0, 0, 0, 0]]
-# private_costs = [0, 0, 1, 1, 2, 2]
-# best_responses = []
-# coi = [[], [], [0, 1]]
-# tmp_instance = Instance(coi, None, 6, 3, 1, None, None)
-# possible_papers = [x for x in range(0, 6) if x not in coi[2]]
-# interesting_bids = [(2,)]
-# interesting_results = []
-# for num_of_bids in range(0, 7):
-#     for paper_bids in itertools.combinations(possible_papers, num_of_bids):
-#         for i in range(0, 6):
-#             if i in paper_bids:
-#                 bid_p[2][i] = 1
-#             else:
-#                 bid_p[2][i] = 0
-#         allocation = algo.match(bid_p, tmp_instance)['third_step_allocation']
-#         cost = allocation[2][2] + allocation[2][3] + 2 * allocation[2][4] + 2 * allocation[2][5]
-#         if len(best_responses) == 0 or best_responses[0][0] == cost:
-#             best_responses.append((cost, paper_bids, allocation))
-#         elif best_responses[0][0] > cost:
-#             best_responses = [(cost, paper_bids, allocation)]
-#         if paper_bids in interesting_bids:
-#             interesting_results.append((cost, paper_bids, allocation))
-#
-# print('best cost:{0}'.format(best_responses[0][0]))
-# print('best bid:{0}'.format(best_responses[0][1]))
-# print('best allocation:{0}'.format(best_responses[0][2]))
-#
-# for bid in interesting_results:
-#     print('cost:{0}'.format(bid[0]))
-#     print('bid:{0}'.format(bid[1]))
-#     print('allocation:{0}'.format(bid[2]))
-
-# from instance_generator import *
-# algo = FractionalAllocation()
-# bid_p = [[1, 0, 0],
-#          [0, 1, 1],
-#          [0, 1, 1]]
-# coi = [[], [], []]
-# tmp_instance = Instance(coi, None, 3, 3, 1, None, None)
-# allocation = algo.match(bid_p, tmp_instance)
-# print(allocation['first_step_allocation'])
-# print(allocation['second_step_allocation'])
-# print(allocation['third_step_allocation'])
-# print(allocation['unallocated_papers'])
 
 

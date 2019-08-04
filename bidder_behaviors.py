@@ -31,7 +31,7 @@ class SincereIntegralBehaviorWithMinPrice(BidderBehaviors):
         private_costs = c_q_vec_to_pairs(params, reviewer_index)
         sorted_papers_by_private_cost = sorted(private_costs, key=lambda tup: tup[1])
         for paper in [pair[0] for pair in sorted_papers_by_private_cost]:
-            if (prices[paper] >= min_price or current_bidding_profile[reviewer_index][paper] == 1) :
+            if (prices[paper] >= min_price or current_bidding_profile[reviewer_index][paper] == 1):
                 current_bidding_profile[reviewer_index][paper] = 1
                 contribution += prices[paper]
             else:

@@ -232,4 +232,14 @@ def read_preflib_file(fname):
 
   return agents, objects, agent_prefs
 
+def read_cost_file(fname):
+  with open(fname, 'r') as input_file:
+    li = input_file.readline().strip()
+    while li.startswith("#"):
+      print(li)
+      li = input_file.readline().strip()
+
+
+  print("There were comments")
+
 

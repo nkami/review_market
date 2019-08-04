@@ -8,6 +8,8 @@ import re
 
 rank_cost_lower_bounds = [0,1,2,8,15]
 rank_cost_upper_bounds = [1,2,8,15,20]
+
+
 class Instance:
     # A problem instance which consists of a preferences profile, total amount of papers, total amount of reviewers and
     # papers review requirements. Papers review requirements is a list that assigns each paper the amount of times it
@@ -51,7 +53,7 @@ class SimplePrivatePricesGenerator(PrivatePricesGenerator):
                 if -1 in reviewer_preferences:  # preference is empty
                     continue
                 for paper in reviewer_preferences:
-                    reviewer_costs[str(paper)] = random.uniform(rank_cost_lower_bounds[rank],rank_cost_upper_bounds[rank])
+                    reviewer_costs[str(paper)] = random.uniform(rank_cost_lower_bounds[rank], rank_cost_upper_bounds[rank])
             private_costs.append(reviewer_costs)
         return private_costs
 
@@ -95,7 +97,7 @@ class PreflibInstanceGenerator(InstanceGenerator):
         self.number_of_papers = starting_line
         for line_number, line in enumerate(self.file.readlines()):
             line = re.sub('[\n]', '', line)
-            line = re.sub('},{',';', line)
+            line = re.sub('},{', ';', line)
             line = re.sub(',{', ';', line)
             line = re.sub('},', '', line)
             if line_number > starting_line:
@@ -156,10 +158,11 @@ if __name__ == '__main__':
               'total_reviewers': instance.total_reviewers,
               'total_papers': instance.total_papers,
               'min_price': 0,
-              'bidding_requirement': 'fill',            #  the bidding requirement is used for the bidding mechanism, whereas the papers_requirement is used by the allocation algorithm.
+              'bidding_requirement': 'fill',            # the bidding requirement is used for the bidding mechanism, whereas the papers_requirement is used by the allocation algorithm.
                                                         # they do NOT have to agree in the general case
-              "output_detail_level_permutations": 100,  # percent of permutation updates that will be printed
-              "output_detail_level_iterations": 20,  # percent of iteration updates that will be printed
+              'output_detail_level_permutations': 100,  # percent of permutation updates that will be printed
+              'output_detail_level_iterations': 20,  # percent of iteration updates that will be printed
+              'samples': 10,  # amount of runs per value of the selected parameter
               'papers_requirements': instance.papers_review_requirement,
               'cost_matrix': cost_matrix.tolist(),
               'quota_matrix': quota_matrix.tolist()}
