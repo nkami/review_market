@@ -4,7 +4,8 @@ import pandas as pd
 import numpy as np
 import pathlib
 import datetime
-from bidder_behaviors import *
+#from bidder_behaviors import *
+from bidder import *
 from matching_algorithms import *
 
 
@@ -19,10 +20,10 @@ class Mechanism:
         self.current_bidding_profile = np.zeros((params['total_reviewers'], params['total_papers']))
         self.demand = []
         self.prices = []
-        self.threshold = None
+     #   self.bid_req = None
         self.current_iteration = None
         self.init_demand()
-        self.init_threshold()
+      #  self.init_threshold()
         self.number_of_updates = 0
 
     def update_demand(self):
@@ -31,8 +32,8 @@ class Mechanism:
     def init_demand(self):
         print('Method not implemented')
 
-    def init_threshold(self):
-        print('Method not implemented')
+    # def init_threshold(self):
+    #     print('Method not implemented')
 
 
 class PriceMechanism(Mechanism):
@@ -47,14 +48,14 @@ class PriceMechanism(Mechanism):
             return 1
         else:
             return min(1, (paper_requirement / paper_demand))
-
-    def init_threshold(self):
+    #
+    def init_bid_req(self):
         if isinstance(self.bidding_requirement, float) or (isinstance(self.bidding_requirement, int) and
                                                            self.bidding_requirement != -1):
-            self.threshold = self.bidding_requirement
+           pass
         else:
-            self.threshold = sum(self.papers_review_requirements)
-            self.threshold = self.threshold / self.total_reviewers
+            BR = sum(self.papers_review_requirements)
+            self.bidding_requirement = BR / self.total_reviewers
 
     def update_demand(self):
         self.init_demand()
@@ -83,13 +84,13 @@ class PriceMechanism(Mechanism):
 
 
 possible_mechanisms = {'PriceMechanism': PriceMechanism}
-possible_behaviors = {
-                      'SincereIntegralBehaviorWithMinPrice': SincereIntegralBehaviorWithMinPrice,
+possible_bidder_types = {
+                      'SincereIntegralBidderWithMinPrice': SincereIntegralBidderWithMinPrice,
                       'BestIntegralSincereUnderbidResponse': BestIntegralSincereUnderbidResponse,
                       'BestIntegralSincereResponse': BestIntegralSincereResponse,
-                      'IntegralSincereBehavior': IntegralSincereBehavior,
-                      'IntegralGreedyBehavior': IntegralGreedyBehavior,
-                      'UniformBehavior' : UniformBehavior,
+                      'IntegralSincereBidder': IntegralSincereBidder,
+                      'IntegralGreedyBidder': IntegralGreedyBidder,
+                      'UniformBidder' : UniformBidder,
                       }
 
 # adds to output the current allocation and prices for all bidders and papers
@@ -106,6 +107,8 @@ def current_state_output(step, mec, mec_previous, bidders_who_bid_since_last_upd
         unallocated_papers[:] = -1
     final_allocation = algorithm_result['third_step_allocation']
     last_bids_data = []
+    all_behavior_names = params["all_behavior_names"]
+    all_bid_reqs = params["all_bid_reqs"]
     for bidder in range(0, mec.total_reviewers + 1):
         if bidder != mec.total_reviewers:
             bids = mec.current_bidding_profile[bidder]
@@ -117,6 +120,8 @@ def current_state_output(step, mec, mec_previous, bidders_who_bid_since_last_upd
                 last_bids_data.append([step,
                                          mec.number_of_updates,
                                          bidder,
+                                         all_behavior_names[bidder],
+                                         all_bid_reqs[bidder],
                                          (bidder in bidders_who_bid_since_last_update),
                                          paper,
                                          params['cost_matrix'][bidder][paper],
@@ -144,6 +149,8 @@ def current_state_output(step, mec, mec_previous, bidders_who_bid_since_last_upd
                                        mec.number_of_updates,
                                        'VB',
                                        'VB',
+                                       'VB',
+                                       'VB',
                                        paper,
                                        params['unallocated_papers_price'][paper],
                                        'VB',
@@ -168,16 +175,36 @@ def current_state_output(step, mec, mec_previous, bidders_who_bid_since_last_upd
 
 def run_simulation_and_output_csv_file(params, bidding_order, time_stamp, input_file_name, current_sample):
     market_bids_data = []
+
     forced_permutations = params['forced_permutations']
     num_of_steps = params['number_of_bids_until_prices_update']
     mec = possible_mechanisms[params['market_mechanism']](params)
-    reviewer_behavior = possible_behaviors[params['reviewers_behavior']]()
+
+    n = mec.total_reviewers
+    all_behavior_names = [params['reviewers_behavior']]*n
+    all_reviewers = []*n
+    all_bid_reqs = [mec.bidding_requirement]*n
+    if "fallback_behavior" in params:
+        fallback_probability = params["fallback_probability"]/100
+        rand = np.random.rand(n)
+        for i in range(n):
+             if rand[i] < fallback_probability:
+                  all_behavior_names[i] = params["fallback_behavior"]
+                  all_bid_reqs[i] = params["fallback_bidding_requirement"]
+    for i in range(n):
+        all_reviewers.append(possible_bidder_types[all_behavior_names[i]](params,all_bid_reqs[i]))
+    params["all_behavior_names"] = all_behavior_names
+    params["all_bid_reqs"] = all_bid_reqs
+
+
     output_detail_level_permutations = params['output_detail_level_permutations']
     output_detail_level_iterations = params['output_detail_level_iterations']
     path_csv = '.\\output\\simulation_{0}\\sample_{1}.csv'.format(time_stamp, current_sample)
     columns = ['#step',             # number of times that a bidder played so far
                '#updates',          # number of price updates so far (not including current)
                'reviewer id',
+               'reviewer type',
+               'bid req',
                'bidder selected',     # True if this reviewer was selected to update bid since last price update
                'paper id',
                'private_cost',    # the fixed private cost of paper_id to reviewer_id
@@ -204,15 +231,17 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp, input_
     iterations_output = 0
     permutations_output = 0
     final_state = None
-    for step, current_bidder in enumerate(bidding_order):
+    for step, current_bidder_idx in enumerate(bidding_order):
         update_prices = False
         output_bids = False
-        mec.current_bidding_profile = reviewer_behavior.apply_reviewer_behavior(params, mec.current_bidding_profile,
-                                                                                current_bidder, mec.threshold,
-                                                                                mec.get_prices_for_same_bid(current_bidder, 1))
-        bidders_who_bid_since_last_update.append(current_bidder)
+        current_reviewer = all_reviewers[current_bidder_idx]
 
-        #total_private_cost = sum([params['cost_matrix'][current_bidder][paper] * mec.current_bidding_profile[current_bidder][paper] *
+        mec.current_bidding_profile = current_reviewer.apply_reviewer_behavior(params, mec.current_bidding_profile,
+                                                                                current_bidder_idx,
+                                                                                mec.get_prices_for_same_bid(current_bidder_idx, 1))
+        bidders_who_bid_since_last_update.append(current_bidder_idx)
+
+        #total_private_cost = sum([params['cost_matrix'][current_bidder_idx][paper] * mec.current_bidding_profile[current_bidder_idx][paper] *
         #                          mec.prices[paper] for paper in range(0, params['total_papers'])])
         # TODO: the logic of this part is not very clear
         if step >= params['total_reviewers'] * forced_permutations:

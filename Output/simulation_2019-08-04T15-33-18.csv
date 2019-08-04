@@ -1,0 +1,5 @@
+bidding requirement,samples,behavior,total bids,total excess papers,total social cost,matching input json
+3,8,IntegralGreedyBidder,3.0,7671.375000000047,252.375,cost_matrix_1_2_8.json
+4,8,IntegralGreedyBidder,3.0,8092.406250000026,280.625,cost_matrix_1_2_8.json
+5,8,IntegralGreedyBidder,3.0,8574.853958541484,326.875,cost_matrix_1_2_8.json
+7,8,IntegralGreedyBidder,3.0,8828.629120879057,483.875,cost_matrix_1_2_8.json
