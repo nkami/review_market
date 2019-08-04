@@ -213,6 +213,7 @@ def run_simulation_and_output_csv_file(params, bidding_order, time_stamp):
         if step == len(bidding_order)-1:
             output_bids = True
         if update_prices:
+            print("step {0}".format(step))
             mec.update_demand()
             if output_bids:
                 algorithm = possible_algorithms[params['matching_algorithm']](params)
@@ -245,7 +246,7 @@ def output_json_file(params, final_bidding_profile, time_stamp):
               'total_papers': params['total_papers'],
               'final_bidding_profile': final_bidding_profile.tolist(),
               'papers_requirements': params['papers_requirements'],
-              'unallocated_papers_price': params['unallocated_papers_price'],
+           #   'unallocated_papers_price': params['unallocated_papers_price'],
               'cost_matrix': params['cost_matrix'],
               'quota_matrix': params['quota_matrix']}
     try:

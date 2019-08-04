@@ -61,6 +61,7 @@ class InstanceGenerator:
         self.number_of_papers = None
         self.private_prices_generator = possible_private_price_generators[params['private_prices_generator']](params)
         self.papers_review_requirement = params['papers_requirements']
+        # TODO: remove
         self.unallocated_papers_price = params['unallocated_papers_price']
 
     # Returns a preferences profile and a COI list, a preferences profile is a list of lists of tuples. each list is a
@@ -160,7 +161,6 @@ if __name__ == '__main__':
               "output_detail_level_permutations": 100,  # percent of permutation updates that will be printed
               "output_detail_level_iterations": 20,  # percent of iteration updates that will be printed
               'papers_requirements': instance.papers_review_requirement,
-              'unallocated_papers_price': instance.unallocated_papers_cost,
               'cost_matrix': cost_matrix.tolist(),
               'quota_matrix': quota_matrix.tolist()}
     try:
