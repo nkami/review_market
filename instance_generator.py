@@ -147,29 +147,41 @@ if __name__ == '__main__':
         for paper in range(0, instance.total_papers):
             if str(paper) in instance.private_costs[reviewer].keys():  # a coi paper will not have a price
                 cost_matrix[reviewer][paper] = instance.private_costs[reviewer][str(paper)]
-    output = {'reviewers_behavior': 'fill',
-              'forced_permutations': 'fill',
-              'number_of_bids_until_prices_update': 'fill',
-              'total_bids_until_closure': 'fill',
-              'matching_algorithm': 'fill',
-              'market_mechanism': 'fill',
-              'ignore_quota_constraints': params['ignore_quota_constraints'],
-              'additional_params': 'fill',
-              'total_reviewers': instance.total_reviewers,
-              'total_papers': instance.total_papers,
-              'min_price': 0,
-              'bidding_requirement': 'fill',            # the bidding requirement is used for the bidding mechanism, whereas the papers_requirement is used by the allocation algorithm.
-                                                        # they do NOT have to agree in the general case
-              'output_detail_level_permutations': 100,  # percent of permutation updates that will be printed
-              'output_detail_level_iterations': 20,  # percent of iteration updates that will be printed
-              'samples': 10,  # amount of runs per value of the selected parameter
-              'papers_requirements': instance.papers_review_requirement,
-              'cost_matrix': cost_matrix.tolist(),
-              'quota_matrix': quota_matrix.tolist()}
+    # output = {'reviewers_behavior': 'fill',
+    #           'forced_permutations': 'fill',
+    #           'number_of_bids_until_prices_update': 'fill',
+    #           'total_bids_until_closure': 'fill',
+    #           'matching_algorithm': 'fill',
+    #           'market_mechanism': 'fill',
+    #           'ignore_quota_constraints': params['ignore_quota_constraints'],
+    #           'additional_params': 'fill',
+    #           'total_reviewers': instance.total_reviewers,
+    #           'total_papers': instance.total_papers,
+    #           'min_price': 0,
+    #           'bidding_requirement': 'fill',            # the bidding requirement is used for the bidding mechanism, whereas the papers_requirement is used by the allocation algorithm.
+    #                                                     # they do NOT have to agree in the general case
+    #           'output_detail_level_permutations': 100,  # percent of permutation updates that will be printed
+    #           'output_detail_level_iterations': 20,  # percent of iteration updates that will be printed
+    #           'samples': 10,  # amount of runs per value of the selected parameter
+    #           'papers_requirements': instance.papers_review_requirement,
+    #           'cost_matrix': cost_matrix.tolist(),
+    #           'quota_matrix': quota_matrix.tolist()}
+    cost_matrix_output = {'preflib_file': params['additional_params']['PreflibFile'],
+                          'total_reviewers': instance.total_reviewers,
+                          'total_papers': instance.total_papers,
+                          'cost_matrix': cost_matrix.tolist()}
+    quota_matrix_output = {'preflib_file': params['additional_params']['PreflibFile'],
+                           'total_reviewers': instance.total_reviewers,
+                           'total_papers': instance.total_papers,
+                           'quota_matrix': quota_matrix.tolist()}
     try:
         pathlib.Path('.\\output').mkdir()
     except FileExistsError:
         pass
-    path = '.\\output\\cost_matrix_{0}.json'.format(datetime.datetime.now().isoformat()[:-7].replace(':', '-'))
-    with open(path, 'w') as output_file:
-        json.dump(output, output_file, indent=4)
+    time_stamp = datetime.datetime.now().isoformat()[:-7].replace(':', '-')
+    cost_matrix_path = '.\\output\\cost_matrix_{0}.json'.format(time_stamp)
+    quota_matrix_path = '.\\output\\quota_matrix_{0}.json'.format(time_stamp)
+    data_and_paths = [(cost_matrix_path, cost_matrix_output), (quota_matrix_path, quota_matrix_output)]
+    for current_pair in data_and_paths:
+        with open(current_pair[0], 'w') as output_file:
+            json.dump(current_pair[1], output_file, indent=4)

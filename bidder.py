@@ -16,10 +16,15 @@ def c_q_vec_to_pairs(params, reviewer_index):
 
 
 class Bidder:
-    def __init__(self, params,bid_req):
+    def __init__(self, params):
         self.cost_threshold = 10000
         self.cost_threshold_strong_bid = 0
-        self.bid_req = bid_req
+        if params['current_bidding_requirements'] == -1:
+            k = sum(params['papers_requirements'])
+            k = k / params['total_reviewers']
+            self.bidding_requirement = k
+        else:
+            self.bidding_requirement = params['current_bidding_requirements']
         if "cost_threshold" in params:
             self.cost_threshold = params["cost_threshold"]
         if "cost_threshold2" in params:
@@ -27,8 +32,6 @@ class Bidder:
 
     def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, prices):
         print('Method not implemented')
-
-
 
 
 class SincereIntegralBidderWithMinPrice(Bidder):
@@ -46,9 +49,10 @@ class SincereIntegralBidderWithMinPrice(Bidder):
             else:
                 current_bidding_profile[reviewer_index][paper] = 0
             # only adds papers whose price is above min_price, but does not remove them otherwise
-            if contribution >= self.bid_req:
+            if contribution >= self.bidding_requirement:
                 break
         return current_bidding_profile
+
 
 class IntegralGreedyBidder(Bidder):
     # Orders papers according to (cost - price*weight) in increasing order.
@@ -61,7 +65,7 @@ class IntegralGreedyBidder(Bidder):
         else:
             price_weight = 0
         private_costs = params['cost_matrix'][reviewer_index]
-        paper_COI = np.array(params['quota_matrix'][reviewer_index])==0
+        paper_COI = np.array(params['quota_matrix'][reviewer_index]) == 0
         priority = np.subtract(private_costs , np.multiply(price_weight, prices))
         sorted_papers_id = np.argsort(priority)
         for paper_id in sorted_papers_id:
@@ -73,9 +77,10 @@ class IntegralGreedyBidder(Bidder):
                     current_bidding_profile[reviewer_index][paper_id] = 1
                     contribution += prices[paper_id]
 
-            if contribution >= self.bid_req:
+            if contribution >= self.bidding_requirement:
                 break
         return current_bidding_profile
+
 
 class IntegralSincereBidder(IntegralGreedyBidder):
     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
@@ -85,6 +90,7 @@ class IntegralSincereBidder(IntegralGreedyBidder):
         my_params['price_weight'] = 0
         IntegralGreedyBidder.apply_reviewer_behavior(self, my_params, current_bidding_profile, reviewer_index, prices)
         return current_bidding_profile
+
 
 class UniformBidder(IntegralSincereBidder):
     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
@@ -114,15 +120,6 @@ class UniformBidder(IntegralSincereBidder):
 #                     current_bidding_profile[reviewer_index][paper_id] = 2
 #                 elif private_costs[paper_id] <= cost_threshold:
 #                     current_bidding_profile[reviewer_index][paper_id] = 1
-#         return current_bidding_profile
-
-# class BestTwoPreferenceBehavior(BidderBehaviors):
-#     # Each reviewer will bid 1 on all the papers that are in one of their best two preferences rank.
-#     def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):
-#         for paper in range(0, problem_instance.total_papers):
-#             if (paper in problem_instance.preferences_profile[reviewer_index][0]
-#                     or paper in problem_instance.preferences_profile[reviewer_index][1]):
-#                 current_bidding_profile[reviewer_index][paper] = 1
 #         return current_bidding_profile
 
 
