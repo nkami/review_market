@@ -16,7 +16,7 @@ def c_q_vec_to_pairs(params, reviewer_index):
 
 
 class Bidder:
-    def __init__(self, params):
+    def __init__(self, params,is_fallback=False):
         self.cost_threshold = 10000
         self.cost_threshold_strong_bid = 0
         if params['current_bidding_requirements'] == -1:
@@ -29,9 +29,13 @@ class Bidder:
             self.cost_threshold = params["cost_threshold"]
         if "cost_threshold2" in params:
             self.cost_threshold_strong_bid = params["cost_threshold2"]
+        self.is_fallback = is_fallback
 
     def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, prices):
         print('Method not implemented')
+
+    def get_type(self):
+        return "Bidder"
 
 
 class SincereIntegralBidderWithMinPrice(Bidder):
@@ -52,7 +56,8 @@ class SincereIntegralBidderWithMinPrice(Bidder):
             if contribution >= self.bidding_requirement:
                 break
         return current_bidding_profile
-
+    def get_type(self):
+        return "SincereIntegralBidderWithMinPrice"
 
 class IntegralGreedyBidder(Bidder):
     # Orders papers according to (cost - price*weight) in increasing order.
@@ -80,7 +85,8 @@ class IntegralGreedyBidder(Bidder):
             if contribution >= self.bidding_requirement:
                 break
         return current_bidding_profile
-
+    def get_type(self):
+        return "IntegralGreedyBidder"
 
 class IntegralSincereBidder(IntegralGreedyBidder):
     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
@@ -90,7 +96,8 @@ class IntegralSincereBidder(IntegralGreedyBidder):
         my_params['price_weight'] = 0
         IntegralGreedyBidder.apply_reviewer_behavior(self, my_params, current_bidding_profile, reviewer_index, prices)
         return current_bidding_profile
-
+    def get_type(self):
+        return "IntegralSincereBidder"
 
 class UniformBidder(IntegralSincereBidder):
     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
@@ -99,7 +106,8 @@ class UniformBidder(IntegralSincereBidder):
         my_prices = [1]*len(prices)
         IntegralGreedyBidder.apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index,  my_prices)
         return current_bidding_profile
-
+    def get_type(self):
+        return "UniformBidder"
 # class FixedBehaviorCostThreshold(BidderBehaviors):
 #     # bids on all papers with cost below a given threshold
 #     def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, threshold, prices):

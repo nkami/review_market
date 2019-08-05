@@ -320,7 +320,7 @@ def create_bidders(params):
             fallback_probability = params['current_fallback_probability'] / 100
             rand = np.random.uniform(0, 1)
             if rand < fallback_probability:
-                bidders.append(possible_bidder_types[params['fallback_behavior']](params))
+                bidders.append(possible_bidder_types[params['fallback_behavior']](params,True))
             else:
                 bidders.append(possible_bidder_types[params['reviewers_behavior']](params))
         else:
@@ -347,9 +347,14 @@ if __name__ == '__main__':
                'number_of_bids_until_prices_update',
                'total_bids_until_closure',
                'fallback_probability',
+               'sample index',
                'total bids',
-               'total excess papers',
-               'total social cost',
+               'total_excess_papers',
+               'max_excess_papers',
+               'average_cost_per_step_2_paper',
+               'average_bidder_cost',
+               'average_fallback_bidder_cost',
+               'var_bidder_cost',
                'cost matrix used',
                'quota matrix used',
                'input json file used']
@@ -362,6 +367,8 @@ if __name__ == '__main__':
     total_samples = params['samples'] * len(all_parameters)
     for combination_idx, current_combination in enumerate(all_parameters):
         params = update_current_params(params, current_combination)
+        m = params['total_papers']
+        n = params['total_reviewers']
         samples_results_of_current_combination = []
         value_folder_name = 'combination_{0}'.format(combination_idx)
         combination_path = '.\\output\\simulation_{0}\\{1}'.format(time_stamp, value_folder_name)
@@ -374,21 +381,36 @@ if __name__ == '__main__':
             samples_path = combination_path + '\\sample_{0}.csv'.format(sample_idx)
             final_state = run_simulation_and_output_csv_file(params, bidders, bidding_order, input_file_name,
                                                              samples_path, sample_idx)
-            total_bids = sum([final_state.loc[bidder * params['total_papers'], 'total bid'] for bidder in
-                              range(0, params['total_reviewers'])])
-            total_social_cost = sum([final_state.loc[bidder * params['total_papers'], 'total realized cost']
-                                     for bidder in range(0, params['total_reviewers'])])
-            # total_excess_papers = sum([final_state.loc[bidder * params['total_papers'], 'total realized cost']
-            #                            for bidder in range(0, params['total_reviewers'])])
-            total_excess_papers = '?'
+            total_bids = sum([final_state.loc[bidder * m, 'total bid'] for bidder in
+                              range(0, n)])
+
+            realized_costs =    np.array([final_state.loc[bidder_index * m, 'total realized cost']
+                                 for bidder_index in range(0, n)]    )
+            fallback_mask = [bidder.is_fallback for bidder in bidders]
+            average_bidder_cost = np.mean(realized_costs)
+            average_fallback_bidder_cost = np.mean(realized_costs[fallback_mask])
+            var_bidder_cost = np.var(realized_costs)
+
+            step_2_allocation = np.reshape(np.array(final_state['step 2 allocation']),[n+1,m])
+            excess_papers = step_2_allocation[n,:]
+            step_2_realized_costs = np.multiply(step_2_allocation[0:n,:],np.array(params['cost_matrix']))
+            average_cost_per_step_2_paper = np.sum(step_2_realized_costs)/np.sum(step_2_allocation[0:n,:])
+
+            total_excess_papers = excess_papers.sum()
+            max_excess_papers = excess_papers.max()
             results_of_all_parameters_values.append([params['current_bidding_requirements'],
                                                      params['current_forced_permutations'],
                                                      params['current_number_of_bids_until_prices_update'],
                                                      params['current_total_bids_until_closure'],
                                                      params['current_fallback_probability'],
+                                                     sample_idx,
                                                      total_bids,
-                                                     total_social_cost,
                                                      total_excess_papers,
+                                                     max_excess_papers,
+                                                     average_cost_per_step_2_paper,
+                                                     average_bidder_cost,
+                                                     average_fallback_bidder_cost,
+                                                     var_bidder_cost,
                                                      params['cost_matrix_path'],
                                                      params['quota_matrix_path'],
                                                      input_file_name])

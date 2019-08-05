@@ -1,5 +1,0 @@
-bidding requirement,samples,behavior,total bids,total excess papers,total social cost,matching input json
-3,4,IntegralSincereBidder,3.0616814473860745,22621.48188294808,86.58630952380952,cost_matrix_1_2_8.json
-4,4,IntegralSincereBidder,2.821732393613654,20427.972473323083,103.66249999999998,cost_matrix_1_2_8.json
-6,4,IntegralSincereBidder,2.964568584766134,17676.613467655476,138.4279491341991,cost_matrix_1_2_8.json
-7,4,IntegralSincereBidder,3.667483244190315,17567.811249572616,139.14823497580852,cost_matrix_1_2_8.json

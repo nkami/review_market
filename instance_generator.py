@@ -9,7 +9,7 @@ import re
 rank_cost_lower_bounds = [0,1,2,8,15]
 rank_cost_upper_bounds = [1,2,8,15,20]
 
-
+matrices_local_dir = ".\\cost_matrices"
 class Instance:
     # A problem instance which consists of a preferences profile, total amount of papers, total amount of reviewers and
     # papers review requirements. Papers review requirements is a list that assigns each paper the amount of times it
@@ -175,12 +175,12 @@ if __name__ == '__main__':
                            'total_papers': instance.total_papers,
                            'quota_matrix': quota_matrix.tolist()}
     try:
-        pathlib.Path('.\\output').mkdir()
+        pathlib.Path(matrices_local_dir).mkdir()
     except FileExistsError:
         pass
     time_stamp = datetime.datetime.now().isoformat()[:-7].replace(':', '-')
-    cost_matrix_path = '.\\output\\cost_matrix_{0}.json'.format(time_stamp)
-    quota_matrix_path = '.\\output\\quota_matrix_{0}.json'.format(time_stamp)
+    cost_matrix_path = '{1}\\cost_matrix_{0}.json'.format(time_stamp,matrices_local_dir)
+    quota_matrix_path = '{1}\\quota_matrix_{0}.json'.format(time_stamp,matrices_local_dir)
     data_and_paths = [(cost_matrix_path, cost_matrix_output), (quota_matrix_path, quota_matrix_output)]
     for current_pair in data_and_paths:
         with open(current_pair[0], 'w') as output_file:
