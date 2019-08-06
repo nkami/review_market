@@ -30,6 +30,10 @@ class Bidder:
         if "cost_threshold2" in params:
             self.cost_threshold_strong_bid = params["cost_threshold2"]
         self.is_fallback = is_fallback
+        if is_fallback:
+            self.bidding_requirement = params['fallback_bidding_requirement']
+        self.use_fallback_limit = params['use_fallback_limit']
+        self.bidding_limit = params['fallback_bidding_requirement']
 
     def apply_reviewer_behavior(self, params, current_bidding_profile, reviewer_index, prices):
         print('Method not implemented')
@@ -83,6 +87,8 @@ class IntegralGreedyBidder(Bidder):
                     contribution += prices[paper_id]
 
             if contribution >= self.bidding_requirement:
+                break
+            if self.use_fallback_limit and np.sum(current_bidding_profile[reviewer_index]>0) >= self.bidding_limit:
                 break
         return current_bidding_profile
     def get_type(self):

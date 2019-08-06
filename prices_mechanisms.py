@@ -9,6 +9,7 @@ from bidder import *
 from matching_algorithms import *
 
 
+
 class Mechanism:
     def __init__(self, params):
         self.cost_matrix = params['cost_matrix']
@@ -79,6 +80,17 @@ possible_bidder_types = {
                       'IntegralGreedyBidder': IntegralGreedyBidder,
                       'UniformBidder': UniformBidder,
                       }
+# Gini and Hoover formulas taken from http://www.nickmattei.net/docs/papers.pdf
+def gini_index(u):
+    um = np.matrix(u)
+    U = np.abs(np.transpose(um) - um)
+    return U.sum() / (2*len(u)*um.sum())
+
+
+def hoover_index(u):
+    us = np.sum(u)
+    return np.sum(np.abs(u - us/len(u))) / (2*us)
+
 
 # adds to output the current allocation and prices for all bidders and papers
 def current_state_output(step, mec, mec_previous, bidders, bidders_who_bid_since_last_update, input_file_name, params):
@@ -107,7 +119,7 @@ def current_state_output(step, mec, mec_previous, bidders, bidders_who_bid_since
                 last_bids_data.append([step,
                                          mec.number_of_updates,
                                          bidder_idx,
-                                         bidders[bidder_idx],
+                                         bidders[bidder_idx].get_type(),
                                          params['current_bidding_requirements'],
                                          (bidder_idx in bidders_who_bid_since_last_update),
                                          paper,
@@ -128,7 +140,8 @@ def current_state_output(step, mec, mec_previous, bidders, bidders_who_bid_since
                                          np.sum(bids),
                                          np.dot(current_prices, bids),
                                          np.dot(params['cost_matrix'][bidder_idx], final_allocation[bidder_idx]),
-                                         input_file_name])
+                                       #  input_file_name
+                                       ])
         else:  # virtual bidder
             for paper in range(0, mec.total_papers):
                 last_bids_data.append([step,
@@ -145,17 +158,18 @@ def current_state_output(step, mec, mec_previous, bidders, bidders_who_bid_since
                                        'VB',
                                        'VB',
                                        'VB',
-                                       'VB',
+                                       0,
                                        'VB',
                                        'VB',
                                        step_1_unallocated_papers[paper],
                                        step_2_unallocated_papers[paper],
                                        algorithm_result['unallocated_papers'][paper],
                                        algorithm_result['unallocated_papers'][paper] * params['unallocated_papers_price'][paper],
-                                       'VB',
-                                       'VB',
+                                       0,
+                                       0,
                                        np.dot(params['unallocated_papers_price'], algorithm_result['unallocated_papers']),
-                                       input_file_name])
+                                       #input_file_name
+                                       ])
     return last_bids_data
 
 
@@ -186,7 +200,8 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
                'total bid',       # sum of bids for this reviewer
                'total price',     # sum of bid*price for this reviewer
                'total realized cost',   # sum of realized_cost
-               'matching input json file']
+               #'matching input json file'
+               ]
     bidders_who_bid_since_last_update = []
     mec_before_update = copy.deepcopy(mec)
     iterations_output = 0
@@ -236,7 +251,7 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
         market_bids_data = np.array(market_bids_data)
         data_frame = pd.DataFrame(market_bids_data, columns=columns)
         data_frame.to_csv(sample_path, index=None, header=True)
-    final_state = np.array(final_state)
+   # final_state = np.array(final_state)
     final_state = pd.DataFrame(final_state, columns=columns)
     return final_state
 
@@ -350,11 +365,18 @@ if __name__ == '__main__':
                'sample index',
                'total bids',
                'total_excess_papers',
-               'max_excess_papers',
+               'gini_paper_bids',
+               'hoover_paper_bids',
                'average_cost_per_step_2_paper',
                'average_bidder_cost',
+               'gini_bidder_cost',
+               'hoover_bidder_cost',
                'average_fallback_bidder_cost',
-               'var_bidder_cost',
+               'gini_fallback_bidder_cost',
+               'hoover_fallback_bidder_cost',
+               'average_main_bidder_cost',
+               'gini_main_bidder_cost',
+               'hoover_main_bidder_cost',
                'cost matrix used',
                'quota matrix used',
                'input json file used']
@@ -381,36 +403,43 @@ if __name__ == '__main__':
             samples_path = combination_path + '\\sample_{0}.csv'.format(sample_idx)
             final_state = run_simulation_and_output_csv_file(params, bidders, bidding_order, input_file_name,
                                                              samples_path, sample_idx)
-            total_bids = sum([final_state.loc[bidder * m, 'total bid'] for bidder in
-                              range(0, n)])
+            bids =  np.reshape(np.array(final_state['bid']),[n+1,m])
+            total_bids = np.sum(bids,0)
 
             realized_costs =    np.array([final_state.loc[bidder_index * m, 'total realized cost']
                                  for bidder_index in range(0, n)]    )
             fallback_mask = [bidder.is_fallback for bidder in bidders]
-            average_bidder_cost = np.mean(realized_costs)
-            average_fallback_bidder_cost = np.mean(realized_costs[fallback_mask])
-            var_bidder_cost = np.var(realized_costs)
+            fallback_realized_costs = realized_costs[fallback_mask]
+            main_realized_costs  = realized_costs[np.invert(fallback_mask)]
 
+            # only relevant for mock algorithm (otherwise should return NaN or 0)
             step_2_allocation = np.reshape(np.array(final_state['step 2 allocation']),[n+1,m])
             excess_papers = step_2_allocation[n,:]
             step_2_realized_costs = np.multiply(step_2_allocation[0:n,:],np.array(params['cost_matrix']))
             average_cost_per_step_2_paper = np.sum(step_2_realized_costs)/np.sum(step_2_allocation[0:n,:])
 
             total_excess_papers = excess_papers.sum()
-            max_excess_papers = excess_papers.max()
+
             results_of_all_parameters_values.append([params['current_bidding_requirements'],
                                                      params['current_forced_permutations'],
                                                      params['current_number_of_bids_until_prices_update'],
                                                      params['current_total_bids_until_closure'],
                                                      params['current_fallback_probability'],
                                                      sample_idx,
-                                                     total_bids,
+                                                     np.sum(total_bids),
                                                      total_excess_papers,
-                                                     max_excess_papers,
+                                                     gini_index(total_bids),
+                                                     hoover_index(total_bids),
                                                      average_cost_per_step_2_paper,
-                                                     average_bidder_cost,
-                                                     average_fallback_bidder_cost,
-                                                     var_bidder_cost,
+                                                     np.mean(realized_costs),
+                                                     gini_index(realized_costs),
+                                                     hoover_index(realized_costs),
+                                                     np.mean(fallback_realized_costs),
+                                                     gini_index(fallback_realized_costs),
+                                                     hoover_index(fallback_realized_costs),
+                                                     np.mean(main_realized_costs),
+                                                     gini_index(main_realized_costs),
+                                                     hoover_index(main_realized_costs),
                                                      params['cost_matrix_path'],
                                                      params['quota_matrix_path'],
                                                      input_file_name])
