@@ -1,45 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="874230da-78a5-4b81-8350-a45f2fae890a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_1_2_8.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_2019-08-04T16-03-15.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_2019-08-04T16-05-48.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_m52_n24.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/cost_matrix_sep.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/quota_matrix_sep.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/sim_input.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-25T23-26-22.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-25T23-26-22.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-25T23-28-19.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-25T23-28-19.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-28T12-39-21.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-28T12-39-21.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-28T12-41-03.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-07-28T12-41-03.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T13-21-18.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T13-21-18.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T14-23-51.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T14-23-51.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T14-52-52.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T14-52-52.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T14-56-13.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T14-56-13.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T14-58-35.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T16-02-16.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-01T16-02-16.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-02T09-05-03.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-02T09-10-01.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-04T11-38-31.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-04T14-53-44.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-04T14-56-43.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-04T15-33-18.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/tmp_input_adjust999.toi" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bidder.py" beforeDir="false" afterPath="$PROJECT_DIR$/bidder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/instance_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prices_mechanisms.py" beforeDir="false" afterPath="$PROJECT_DIR$/prices_mechanisms.py" afterDir="false" />
-    </list>
+    <list default="true" id="874230da-78a5-4b81-8350-a45f2fae890a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,8 +41,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/json/sim_input.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+            <state relative-caret-position="221">
+              <caret line="13" column="17" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -110,7 +72,7 @@
         <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="785">
-              <caret line="361" column="163" lean-forward="true" selection-start-line="361" selection-start-column="163" selection-end-line="361" selection-end-column="163" />
+              <caret line="361" column="68" selection-start-line="361" selection-start-column="68" selection-end-line="361" selection-end-column="68" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -203,10 +165,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-6" />
-    <option name="y" value="-6" />
-    <option name="width" value="1381" />
-    <option name="height" value="925" />
+    <option name="x" value="2728" />
+    <option name="y" value="168" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -401,12 +363,12 @@
       <workItem from="1559626792991" duration="2242000" />
       <workItem from="1559629242511" duration="9271000" />
       <workItem from="1563283273915" duration="105197000" />
-      <workItem from="1564653437286" duration="27471000" />
+      <workItem from="1564653437286" duration="28822000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144181000" />
+    <option name="totallyTimeSpent" value="145532000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -418,7 +380,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="2728" y="168" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4987775" visible="true" weight="0.31343284" />
@@ -780,7 +742,7 @@
     <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="785">
-          <caret line="361" column="163" lean-forward="true" selection-start-line="361" selection-start-column="163" selection-end-line="361" selection-end-column="163" />
+          <caret line="361" column="68" selection-start-line="361" selection-start-column="68" selection-end-line="361" selection-end-column="68" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -789,8 +751,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/json/sim_input.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+        <state relative-caret-position="221">
+          <caret line="13" column="17" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="17" />
         </state>
       </provider>
     </entry>
