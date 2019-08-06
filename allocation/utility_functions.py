@@ -274,7 +274,7 @@ def read_cost_file(fname):
   with open(fname, 'r') as input_file:
     li = input_file.readline().strip()
     while li.startswith("#"):
-      print(li)
+      #print(li)
       li = input_file.readline().strip()
 
     num_agents = int(li)
