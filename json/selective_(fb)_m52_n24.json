@@ -4,7 +4,7 @@
     "fallback_probability": [0,10,25,50,75,90,100],
     "forced_permutations": [0],
     "number_of_bids_until_prices_update": [1],
-    "total_bids_until_closure": [32,62,160],
+    "total_bids_until_closure": [62],
     "matching_algorithm": "FractionalAllocation",
     "market_mechanism": "PriceMechanism",
     "ignore_quota_constraints": false,

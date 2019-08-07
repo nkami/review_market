@@ -15,7 +15,7 @@
     "bidding_requirements": [8],
     "fallback_bidding_requirement" : 12,
     "bidding_limit": 1000,
-    "samples": 10,
+    "samples": 40,
     "cost_threshold": 8,
     "cost_threshold2": 0,
     "amount_of_csv_sample_outputs_per_100_samples": 1,
