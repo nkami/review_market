@@ -5,9 +5,10 @@ import numpy as np
 import itertools as it
 import pathlib
 import datetime
+import time
+from tqdm import tqdm
 from bidder import *
 from matching_algorithms import *
-
 
 
 class Mechanism:
@@ -96,86 +97,88 @@ def hoover_index(u):
 # adds to output the current allocation and prices for all bidders and papers
 def current_state_output(step, mec, mec_previous, bidders, bidders_who_bid_since_last_update, input_file_name, params):
     current_prices = mec.get_prices()
-    algorithm = possible_algorithms[params['matching_algorithm']](params)
-    algorithm_result = algorithm.match(mec.current_bidding_profile, params)
-    if params['matching_algorithm'] == 'FractionalAllocation':
-        step_1_unallocated_papers = np.subtract(mec.papers_review_requirements,
-                                         algorithm_result['first_step_allocation'].sum(axis=0))
-        step_2_unallocated_papers = np.subtract(mec.papers_review_requirements,
-                                         algorithm_result['second_step_allocation'].sum(axis=0))
-    else:
-        step_1_unallocated_papers = np.zeros(mec.total_papers)
-        step_1_unallocated_papers[:] = -1
-        step_2_unallocated_papers = step_1_unallocated_papers
-    final_allocation = algorithm_result['third_step_allocation']
     last_bids_data = []
-    total_contribution = np.dot(mec.current_bidding_profile,current_prices)
-    all_realized_costs = np.multiply(params['cost_matrix'], final_allocation)
-    for bidder_idx in range(0, mec.total_reviewers + 1):
-        if bidder_idx != mec.total_reviewers:
-            bids = mec.current_bidding_profile[bidder_idx]
-            bidder = bidders[bidder_idx]
-            old_bids = mec_previous.current_bidding_profile[bidder_idx]
-            # this is the price seen by the bidder when bidding:
-            # TODO: it is not computed correctly since it just considers the last price update
-            seen_prices = mec_previous.get_prices_for_same_bid(bidder_idx, 1)
-            for paper in range(0, mec.total_papers):
-                last_bids_data.append([step,
-                                         mec.number_of_updates,
-                                         bidder_idx,
-                                         bidder.get_type(),
-                                         bidder.bidding_requirement,
-                                         (bidder_idx in bidders_who_bid_since_last_update),
-                                         paper,
-                                         bidder.private_costs[paper],
-                                         mec_previous.demand[paper],
-                                         mec.demand[paper],
-                                         current_prices[paper],
-                                         seen_prices[paper],
-                                         0,#np.dot(seen_prices, bids),
-                                         old_bids[paper],
-                                         bids[paper],
-                                         int(bids[paper] > 0),
-                                         final_allocation[bidder_idx][paper],
-                                         algorithm_result['first_step_allocation'][bidder_idx][paper],
-                                         algorithm_result['second_step_allocation'][bidder_idx][paper],
-                                         algorithm_result['third_step_allocation'][bidder_idx][paper],
-                                         #final_allocation[bidder_idx][paper] * bidder.private_costs[paper],
-                                         all_realized_costs[bidder_idx][paper],
-                                         np.sum(bids),
-                                         total_contribution[bidder_idx],
-                                         np.sum(all_realized_costs[bidder_idx]),
-                                         #np.dot(params['cost_matrix'][bidder_idx], final_allocation[bidder_idx]),
-                                       #  input_file_name
-                                       ])
-        else:  # virtual bidder
-            for paper in range(0, mec.total_papers):
-                last_bids_data.append([step,
-                                       mec.number_of_updates,
-                                       'VB',
-                                       'VB',
-                                       'VB',
-                                       'VB',
-                                       paper,
-                                       params['unallocated_papers_price'][paper],
-                                       'VB',
-                                       'VB',
-                                       'VB',
-                                       'VB',
-                                       'VB',
-                                       'VB',
-                                       0,
-                                       'VB',
-                                       'VB',
-                                       step_1_unallocated_papers[paper],
-                                       step_2_unallocated_papers[paper],
-                                       algorithm_result['unallocated_papers'][paper],
-                                       algorithm_result['unallocated_papers'][paper] * params['unallocated_papers_price'][paper],
-                                       0,
-                                       0,
-                                       0,#np.dot(params['unallocated_papers_price'], algorithm_result['unallocated_papers']),
-                                       #input_file_name
-                                       ])
+    for algorithm_name in params['matching_algorithm']:
+        algorithm = possible_algorithms[algorithm_name](params)
+        algorithm_result = algorithm.match(mec.current_bidding_profile, params)
+        if params['matching_algorithm'] == 'FractionalAllocation':
+            step_1_unallocated_papers = np.subtract(mec.papers_review_requirements,
+                                             algorithm_result['first_step_allocation'].sum(axis=0))
+            step_2_unallocated_papers = np.subtract(mec.papers_review_requirements,
+                                             algorithm_result['second_step_allocation'].sum(axis=0))
+        else:
+            step_1_unallocated_papers = [-1 for i in range(0, mec.total_papers)]
+            step_2_unallocated_papers = step_1_unallocated_papers
+        final_allocation = algorithm_result['third_step_allocation']
+        total_contribution = np.dot(mec.current_bidding_profile, current_prices)
+        all_realized_costs = np.multiply(params['cost_matrix'], final_allocation)
+        for bidder_idx in range(0, mec.total_reviewers + 1):
+            if bidder_idx != mec.total_reviewers:
+                bids = mec.current_bidding_profile[bidder_idx]
+                bidder = bidders[bidder_idx]
+                old_bids = mec_previous.current_bidding_profile[bidder_idx]
+                # this is the price seen by the bidder when bidding:
+                # TODO: it is not computed correctly since it just considers the last price update
+                seen_prices = mec_previous.get_prices_for_same_bid(bidder_idx, 1)
+                for paper in range(0, mec.total_papers):
+                    last_bids_data.append([step,
+                                             mec.number_of_updates,
+                                             bidder_idx,
+                                             bidder.get_type(),
+                                             bidder.bidding_requirement,
+                                             (bidder_idx in bidders_who_bid_since_last_update),
+                                             paper,
+                                             bidder.private_costs[paper],
+                                             mec_previous.demand[paper],
+                                             mec.demand[paper],
+                                             current_prices[paper],
+                                             seen_prices[paper],
+                                             0,#np.dot(seen_prices, bids),
+                                             old_bids[paper],
+                                             bids[paper],
+                                             int(bids[paper] > 0),
+                                             final_allocation[bidder_idx][paper],
+                                             algorithm_result['first_step_allocation'][bidder_idx][paper],
+                                             algorithm_result['second_step_allocation'][bidder_idx][paper],
+                                             algorithm_result['third_step_allocation'][bidder_idx][paper],
+                                             #final_allocation[bidder_idx][paper] * bidder.private_costs[paper],
+                                             all_realized_costs[bidder_idx][paper],
+                                             np.sum(bids),
+                                             total_contribution[bidder_idx],
+                                             np.sum(all_realized_costs[bidder_idx]),
+                                             algorithm_name
+                                             #np.dot(params['cost_matrix'][bidder_idx], final_allocation[bidder_idx]),
+                                           #  input_file_name
+                                           ])
+            else:  # virtual bidder
+                for paper in range(0, mec.total_papers):
+                    last_bids_data.append([step,
+                                           mec.number_of_updates,
+                                           'VB',
+                                           'VB',
+                                           'VB',
+                                           'VB',
+                                           paper,
+                                           params['unallocated_papers_price'][paper],
+                                           'VB',
+                                           'VB',
+                                           'VB',
+                                           'VB',
+                                           'VB',
+                                           'VB',
+                                           0,
+                                           'VB',
+                                           'VB',
+                                           step_1_unallocated_papers[paper],
+                                           step_2_unallocated_papers[paper],
+                                           algorithm_result['unallocated_papers'][paper],
+                                           algorithm_result['unallocated_papers'][paper] * params['unallocated_papers_price'][paper],
+                                           0,
+                                           0,
+                                           0,#np.dot(params['unallocated_papers_price'], algorithm_result['unallocated_papers']),
+                                           #input_file_name
+                                           algorithm_name
+                                           ])
     return last_bids_data
 
 
@@ -206,6 +209,7 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
                'total bid',       # sum of bids for this reviewer
                'total price',     # sum of bid*price for this reviewer
                'total realized cost',   # sum of realized_cost
+               'matching algorithm'
                #'matching input json file'
                ]
     bidders_who_bid_since_last_update = []
@@ -242,8 +246,8 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
         # always print the last state
         if step == len(bidding_order) - 1:
             output_bids = True
-            final_state = current_state_output(step, mec, mec_before_update, bidders, bidders_who_bid_since_last_update,
-                                               input_file_name, params)
+            final_state = current_state_output(step, mec, mec_before_update, bidders,
+                                                bidders_who_bid_since_last_update, input_file_name, params)
         if update_prices:
             mec.update_demand()
             if output_bids:
@@ -260,31 +264,6 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
    # final_state = np.array(final_state)
     final_state = pd.DataFrame(final_state, columns=columns)
     return final_state
-
-
-# def output_json_file(params, final_bidding_profile, time_stamp):
-#     output = {'reviewers_behavior': params['reviewers_behavior'],
-#               'forced_permutations': params['forced_permutations'],
-#               'number_of_bids_until_prices_update': params['number_of_bids_until_prices_update'],
-#               'total_bids_until_closure': params['total_bids_until_closure'],
-#               'matching_algorithm': params['matching_algorithm'],
-#               'market_mechanism': params['market_mechanism'],
-#               'ignore_quota_constraints': params['ignore_quota_constraints'],
-#               'additional_params': {},
-#               'total_reviewers': params['total_reviewers'],
-#               'total_papers': params['total_papers'],
-#               'final_bidding_profile': final_bidding_profile.tolist(),
-#               'papers_requirements': params['papers_requirements'],
-#            #   'unallocated_papers_price': params['unallocated_papers_price'],
-#               'cost_matrix': params['cost_matrix'],
-#               'quota_matrix': params['quota_matrix']}
-#     try:
-#         pathlib.Path('.\\output').mkdir()
-#     except FileExistsError:
-#         pass
-#     path_json = '.\\output\\simulation_{0}.json'.format(time_stamp)
-#     with open(path_json, 'w') as output_file:
-#         json.dump(output, output_file, indent=4)
 
 
 def adjust_params(params):
@@ -316,6 +295,7 @@ def update_current_params(params, current_parameters_combination):
     params['current_number_of_bids_until_prices_update'] = current_parameters_combination[2]
     params['current_total_bids_until_closure'] = current_parameters_combination[3]
     params['current_fallback_probability'] = current_parameters_combination[4]
+    params['current_price_weight'] = current_parameters_combination[5]
     return params
 
 
@@ -341,11 +321,11 @@ def create_bidders(params):
             fallback_probability = params['current_fallback_probability'] / 100
             rand = np.random.uniform(0, 1)
             if rand < fallback_probability:
-                bidders.append(possible_bidder_types[params['fallback_behavior']](params,i,True))
+                bidders.append(possible_bidder_types[params['fallback_behavior']](params, i, True))
             else:
-                bidders.append(possible_bidder_types[params['reviewers_behavior']](params,i))
+                bidders.append(possible_bidder_types[params['reviewers_behavior']](params, i))
         else:
-            bidders.append(possible_bidder_types[params['reviewers_behavior']](params,i))
+            bidders.append(possible_bidder_types[params['reviewers_behavior']](params, i))
     return bidders
 
 
@@ -364,10 +344,12 @@ if __name__ == '__main__':
     time_stamp = datetime.datetime.now().isoformat()[:-7].replace(':', '-')
     pathlib.Path('.\\output\\simulation_{0}'.format(time_stamp)).mkdir()
     columns = ['bidding requirement',
-               'forced_permutations',
-               'number_of_bids_until_prices_update',
-               'total_bids_until_closure',
-               'fallback_probability',
+               'forced permutations',
+               'number of bids until prices update',
+               'total bids until closure',
+               'fallback probability',
+               'price weight',
+               'matching algorithm',
                'sample index',
                'total bids',
                'total_excess_papers',
@@ -391,8 +373,10 @@ if __name__ == '__main__':
                                      params['forced_permutations'],
                                      params['number_of_bids_until_prices_update'],
                                      params['total_bids_until_closure'],
-                                     params['fallback_probability']))
+                                     params['fallback_probability'],
+                                     params['price_weight']))
     total_samples = params['samples'] * len(all_parameters)
+    progress_bar = tqdm(total=total_samples)
     for combination_idx, current_combination in enumerate(all_parameters):
         params = update_current_params(params, current_combination)
         m = params['total_papers']
@@ -402,53 +386,60 @@ if __name__ == '__main__':
         combination_path = '.\\output\\simulation_{0}\\{1}'.format(time_stamp, value_folder_name)
         pathlib.Path(combination_path).mkdir()
         for sample_idx in range(0, params['samples']):
-            print('currently at sample {0} out of a total {1} samples'.format(
-                combination_idx * params['samples'] + sample_idx, total_samples))
+            progress_bar.update(1)
             bidders = create_bidders(params)
             bidding_order = create_bidding_order(params)
             samples_path = combination_path + '\\sample_{0}.csv'.format(sample_idx)
             final_state = run_simulation_and_output_csv_file(params, bidders, bidding_order, input_file_name,
                                                              samples_path, sample_idx)
-            bids =  np.reshape(np.array(final_state['bid']),[n+1,m])
-            total_bids = np.sum(bids,0)
+            for algorithm_name in params['matching_algorithm']:
+                current_final_state = final_state.loc[final_state['matching algorithm'] == algorithm_name]
+                reseted_rows = {}
+                for row_number, (index, row) in enumerate(current_final_state.iterrows()):
+                    reseted_rows[index] = row_number
+                current_final_state.rename(index=reseted_rows, inplace=True)
+                bids = np.reshape(np.array(current_final_state['bid']), [n+1, m])
+                total_bids = np.sum(bids, 0)
+                realized_costs = np.array([current_final_state.loc[bidder_index * m, 'total realized cost'] for
+                                           bidder_index in range(0, n)])
+                fallback_mask = [bidder.is_fallback for bidder in bidders]
+                fallback_realized_costs = realized_costs[fallback_mask]
+                main_realized_costs = realized_costs[np.invert(fallback_mask)]
 
-            realized_costs =    np.array([final_state.loc[bidder_index * m, 'total realized cost']
-                                 for bidder_index in range(0, n)]    )
-            fallback_mask = [bidder.is_fallback for bidder in bidders]
-            fallback_realized_costs = realized_costs[fallback_mask]
-            main_realized_costs  = realized_costs[np.invert(fallback_mask)]
+                # only relevant for mock algorithm (otherwise should return NaN or 0)
+                step_2_allocation = np.reshape(np.array(current_final_state['step 2 allocation']), [n+1, m])
+                excess_papers = step_2_allocation[n, :]
+                step_2_realized_costs = np.multiply(step_2_allocation[0:n, :], np.array(params['cost_matrix']))
+                average_cost_per_step_2_paper = np.sum(step_2_realized_costs)/np.sum(step_2_allocation[0:n, :])
 
-            # only relevant for mock algorithm (otherwise should return NaN or 0)
-            step_2_allocation = np.reshape(np.array(final_state['step 2 allocation']),[n+1,m])
-            excess_papers = step_2_allocation[n,:]
-            step_2_realized_costs = np.multiply(step_2_allocation[0:n,:],np.array(params['cost_matrix']))
-            average_cost_per_step_2_paper = np.sum(step_2_realized_costs)/np.sum(step_2_allocation[0:n,:])
+                total_excess_papers = excess_papers.sum()
 
-            total_excess_papers = excess_papers.sum()
-
-            results_of_all_parameters_values.append([params['current_bidding_requirements'],
-                                                     params['current_forced_permutations'],
-                                                     params['current_number_of_bids_until_prices_update'],
-                                                     params['current_total_bids_until_closure'],
-                                                     params['current_fallback_probability'],
-                                                     sample_idx,
-                                                     np.sum(total_bids),
-                                                     total_excess_papers,
-                                                     gini_index(total_bids),
-                                                     hoover_index(total_bids),
-                                                     average_cost_per_step_2_paper,
-                                                     np.mean(realized_costs),
-                                                     gini_index(realized_costs),
-                                                     hoover_index(realized_costs),
-                                                     np.mean(fallback_realized_costs),
-                                                     gini_index(fallback_realized_costs),
-                                                     hoover_index(fallback_realized_costs),
-                                                     np.mean(main_realized_costs),
-                                                     gini_index(main_realized_costs),
-                                                     hoover_index(main_realized_costs),
-                                                     params['cost_matrix_path'],
-                                                     params['quota_matrix_path'],
-                                                     input_file_name])
+                results_of_all_parameters_values.append([params['current_bidding_requirements'],
+                                                         params['current_forced_permutations'],
+                                                         params['current_number_of_bids_until_prices_update'],
+                                                         params['current_total_bids_until_closure'],
+                                                         params['current_fallback_probability'],
+                                                         params['current_price_weight'],
+                                                         algorithm_name,
+                                                         sample_idx,
+                                                         np.sum(total_bids),
+                                                         total_excess_papers,
+                                                         gini_index(total_bids),
+                                                         hoover_index(total_bids),
+                                                         average_cost_per_step_2_paper,
+                                                         np.mean(realized_costs),
+                                                         gini_index(realized_costs),
+                                                         hoover_index(realized_costs),
+                                                         np.mean(fallback_realized_costs),
+                                                         gini_index(fallback_realized_costs),
+                                                         hoover_index(fallback_realized_costs),
+                                                         np.mean(main_realized_costs),
+                                                         gini_index(main_realized_costs),
+                                                         hoover_index(main_realized_costs),
+                                                         params['cost_matrix_path'],
+                                                         params['quota_matrix_path'],
+                                                         input_file_name])
+    progress_bar.close()
     results_of_all_parameters_values = np.array(results_of_all_parameters_values)
     data_frame = pd.DataFrame(results_of_all_parameters_values, columns=columns)
     path_csv = '.\\output\\simulation_{0}\\all_samples.csv'.format(time_stamp)

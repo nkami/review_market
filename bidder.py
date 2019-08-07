@@ -17,11 +17,11 @@ def c_q_vec_to_pairs(params, reviewer_index):
 
 class Bidder:
 
-    def __init__(self, params,reviewer_index,is_fallback=False):
+    def __init__(self, params, reviewer_index, is_fallback=False):
 
         self.reviewer_index = reviewer_index
         self.private_costs = params['cost_matrix'][reviewer_index]
-        self.price_weight = params['price_weight']
+        self.price_weight = params['current_price_weight']
         self.paper_COI = np.array(params['quota_matrix'][self.reviewer_index]) == 0
         self.paper_thresholds = [0] * len(self.private_costs)
 
@@ -37,14 +37,14 @@ class Bidder:
             self.cost_threshold_strong_bid = params["cost_threshold2"]
         self.is_fallback = is_fallback
         if self.is_fallback:
-            self.bidding_requirement =  params["fallback_bidding_requirement"]
+            self.bidding_requirement = params["fallback_bidding_requirement"]
         self.bidding_limit = params['bidding_limit']
         self.init(params)
 
-    def init(self,params):
+    def init(self, params):
         return
 
-    def bid(self,paper_id,current_bidding_profile):
+    def bid(self, paper_id, current_bidding_profile):
         if self.private_costs[paper_id] <= self.cost_threshold_strong_bid:
             current_bidding_profile[self.reviewer_index][paper_id] = 2
         elif self.private_costs[paper_id] <= self.cost_threshold:
@@ -82,7 +82,7 @@ class IntegralSelectiveBidder(Bidder):
         sorted_papers_id = np.argsort(self.private_costs)
         for paper_id in sorted_papers_id:
             if self.paper_COI[paper_id] == False and prices[paper_id] >= self.paper_thresholds[paper_id]:
-               self.bid(paper_id,current_bidding_profile)
+               self.bid(paper_id, current_bidding_profile)
                contribution += prices[paper_id]
             if contribution >= self.bidding_requirement or np.sum(current_bidding_profile[self.reviewer_index] > 0) >= self.bidding_limit:
                 break
@@ -95,7 +95,7 @@ class UniformSelectiveBidder(IntegralSelectiveBidder):
     def init(self, params):
         my_params = copy.deepcopy(params)
         my_params["selective_price_threshold"] = 0
-        my_params["selective_fraction_sure"] +=  params['selective_fraction_maybe']/2
+        my_params["selective_fraction_sure"] += params['selective_fraction_maybe']/2
         my_params['selective_fraction_maybe'] = 0
         IntegralSelectiveBidder.init(self,my_params)
 
