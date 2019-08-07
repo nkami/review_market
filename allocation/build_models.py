@@ -18,6 +18,61 @@ import sys
 import gurobipy as gpy
 import utility_functions as utils
 
+
+def max_fractional_model(agents, objects, agent_prefs, agent_caps, object_caps, min_object_per_reviewer, max_object_per_reviewer):
+  '''
+    Build a fractional model where we have mins and maxes as well as multiple capacities for each 
+    of the agents.
+  '''
+  m = gpy.Model('Frac')
+
+  # Dicts to keep track of varibles...
+  assigned = {}
+  utility = {}
+  
+  # Create a real valued variable  
+  for a in agents:
+    for o in objects:
+      assigned[a,o] = m.addVar(vtype=gpy.GRB.CONTINUOUS, name='assigned_%s_%s' % (a,o))
+
+  # Create a variable for each agent's utility.
+  for a in agents:
+    utility[a] = m.addVar(vtype=gpy.GRB.CONTINUOUS, name='utility_%s' % (a))
+
+  # add the variables to the model.
+  m.update()
+
+  # Setup the Constraints...
+  # Agents have a (possibly 0) capacity for every paper.
+  for a in agents:
+    for o in objects:
+      m.addConstr(assigned[a,o] <= agent_caps[a][o])
+
+  # Enforce that items can only be allocated o times each..
+  for o in objects:
+    m.addConstr(gpy.quicksum(assigned[a,o] for a in agents) >= object_caps[o][0], 'object_min_cap_%s' % (o))
+    m.addConstr(gpy.quicksum(assigned[a,o] for a in agents) <= object_caps[o][1], 'object_max_cap_%s' % (o))
+
+  # Enforce that each agent can't have more than agent_cap items.
+  for a in agents:
+    m.addConstr(gpy.quicksum(assigned[a,o] for o in objects) >= min_object_per_reviewer, 'agent_min_cap_%s' % (a))
+    m.addConstr(gpy.quicksum(assigned[a,o] for o in objects) <= max_object_per_reviewer, 'agent_max_cap_%s' % (a))
+
+  # Enforce the agent utility computations.
+  for a in agents:
+    m.addConstr(gpy.quicksum(assigned[a,o] * agent_prefs[a][o] for o in agent_prefs[a].keys()) == utility[a], 'agent_%s_utility' % (a))
+
+  m.update()
+
+  # Set the objective..
+  # Add in that we want to maxamize the sum of the values for each agent.
+  m.setObjective(gpy.quicksum(utility[a] for a in agents), gpy.GRB.MAXIMIZE)
+
+  m.update()
+
+  return m, assigned, utility
+
+
 def build_utility_cap_model(m, agents, objects, agent_prefs, agent_caps, object_caps, par_assignment):
 
   # Dicts to keep track of varibles...
@@ -222,8 +277,6 @@ def build_ranksum_cap_model(agents, objects, agent_prefs, agent_caps, object_cap
   m.update()
   #print(rank_sum)
   return m, assigned, rank_signature
-
-
 
 
 def owa_model(agents, objects, agent_prefs, agent_caps, object_caps, owa):

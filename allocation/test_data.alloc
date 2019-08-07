@@ -3,7 +3,7 @@
 # Number of Reviewers
 # Number of Papers
 # Minimal Number of Reviewer Per Paper (r)
-# Maximal Number of Reviewer Per Paper (or -1 for unbounded)
+# Maximal Number of Reviewer Per Paper (must have some upper bound, otherwise will give inf for positive bids)
 # Minimal Number of Papers Per Reviewer
 # Maximal Number of Papers Per Reviewer (k)
 # Comma Seperated matrix of REVIEWERS X PAPERS where i,j is the cost
@@ -18,7 +18,7 @@
 4
 5,5,5,5,5,5
 5,5,5,5,5,5
-5,5,5,5,5,5
+1,1,5,5,5,5
+0.5,1,1,1,1,1
 1,1,1,1,1,1
-1,1,1,1,1,1
-1,1,1,1,1,1
+1,1,1,1,1,0

@@ -42,14 +42,31 @@ if __name__ == "__main__":
 
   # Get stuff setup.
   print("Parsing File..")
-  utils.read_cost_file(parsed_args.data_file)
-  '''
-  agent_caps = {x:(parsed_args.agent_min, parsed_args.agent_max) for x in agents}
-  object_caps = {x:(parsed_args.object_min, parsed_args.object_max) for x in objects}
 
-  if parsed_args.verbose:
-  	utils.pretty_print_fractional()
-'''
+  agents, objects, agent_prefs, agent_caps, object_caps, min_object_per_reviewer, max_object_per_reviewer = utils.read_cost_file(parsed_args.data_file)
+  model, var_assigned, utility = models.max_fractional_model(agents, objects, agent_prefs, agent_caps, object_caps, min_object_per_reviewer, max_object_per_reviewer)
+  if parsed_args.verbose: utils.pretty_print_fractional_model(agents, objects, agent_prefs, agent_caps, object_caps, min_object_per_reviewer, max_object_per_reviewer)
+
+  # Quiet Down the Optimizer...
+  model.setParam(gpy.GRB.Param.OutputFlag, False )
+  model.optimize()
+  if model.getAttr('Status') == 2:
+  	print("Found Fractional Max Sum Assignment in {} seconds".format(model.Runtime))
+  	if parsed_args.verbose: utils.pretty_print_fractional_solution(model, agents, objects, var_assigned, utility)
+ #  		#if parsed_args.pickle_file != False:
+ #    	#	pk = utils.get_allocation_pickle("Utilitarian SW", agent_caps, agents, object_caps, objects, agent_prefs, var_assigned)
+ #    	#	with open(parsed_args.pickle_file + "-utilitarian.pickle", 'wb') as f:
+ #      	#		pickle.dump(pk, f, protocol=pickle.HIGHEST_PROTOCOL)
+	# else:
+ #  		print("Could not find an optimal Utilitarian solution.")
+
+
+
+
+
+
+
+
 
 
 

@@ -67,12 +67,46 @@ def pretty_print_model(agents, objects, agent_prefs, agent_caps, object_caps):
         + ", ".join([str(o) + "(" + str(u) + ")" for o,u in sorted(agent_prefs[a].items(),key=lambda x:x[1], reverse=True)]))
   print("{:-^75}".format(""))
 
+def pretty_print_fractional_model(agents, objects, agent_prefs, agent_caps, object_caps, min_object_per_reviewer, max_object_per_reviewer):
+  # Print the current model..
+  print("{:^10}".format("Objects") + "| Min, Max")
+  print("{:-^75}".format(""))
+  for o in objects:
+    c = object_caps[o]
+    print("{:^10}".format(str(o)) + "| " + str(c[0]) + ", " + str(c[1]))
+  print("{:-^75}".format(""))
+  print("{:^10}".format("Agents") + "|" \
+        + "{:^10}".format("Min, Max") + "|" \
+        + "{:^50}".format("Object (Utility) [Max]") + "|")
+  print("{:-^75}".format(""))
+  for a in sorted(agent_prefs.keys()):
+    print("{:^10}".format(str(a)) + "|" \
+        + "{:^10}".format(str(min_object_per_reviewer) + "," + str(max_object_per_reviewer) + "| " \
+        + ", ".join([str(o) + " (" + str(u) + ") " + "[" +str(agent_caps[a][o]) + "]" for o,u in sorted(agent_prefs[a].items(),key=lambda x:x[1], reverse=True)])))
+  print("{:-^75}".format(""))
+
 def pretty_print_utility_solution(m, agents, objects, assigned, utility, owa_utility=[]):
   print("{:-^75}".format(""))
   if m != 0:
     for a in agents:
       out = "Agent " + str(a) + " assigned : " + \
             ",".join([str(i) for i in objects if assigned[a,i].x >= 0.1]) + \
+            " = " + str(utility[a].x)
+      if owa_utility != []:
+        out += " OWA: " + str(owa_utility[a].x)
+      print(out)
+    print("Finished in (seconds): " + str(m.Runtime))
+    print("Objective Value: " + str(m.ObjVal))
+  else:
+    print("No Solution")
+  print("{:-^75}".format(""))
+
+def pretty_print_fractional_solution(m, agents, objects, assigned, utility, owa_utility=[]):
+  print("{:-^75}".format(""))
+  if m != 0:
+    for a in agents:
+      out = "Agent " + str(a) + " assigned : " + \
+            ",".join([str(assigned[a,i].x) + " x " + str(i) for i in objects if assigned[a,i].x >= 0.001]) + \
             " = " + str(utility[a].x)
       if owa_utility != []:
         out += " OWA: " + str(owa_utility[a].x)
@@ -232,14 +266,60 @@ def read_preflib_file(fname):
 
   return agents, objects, agent_prefs
 
+'''
+  Reader for the new format...
+'''
+
 def read_cost_file(fname):
   with open(fname, 'r') as input_file:
     li = input_file.readline().strip()
     while li.startswith("#"):
-      print(li)
+      #print(li)
       li = input_file.readline().strip()
 
+    num_agents = int(li)
+    num_objects = int(input_file.readline().strip())
+    min_reviews_per_object = int(input_file.readline().strip())
+    max_reviews_per_object = int(input_file.readline().strip())
+    min_object_per_reviewer = int(input_file.readline().strip())
+    max_object_per_reviewer = int(input_file.readline().strip())
 
-  print("There were comments")
+    # Generate a bid structure.
+    agents = ["a"+str(i) for i in range(num_agents)]
+    objects = ["i"+str(i) for i in range(num_objects)]
+
+    # Agent Prefs is a map from object --> value for each agent
+    agent_prefs = {}
+    for i,a in enumerate(agents):
+      apref = {}
+      bits = input_file.readline().strip().split(",")
+      for j,o in enumerate(objects):
+        apref[o] = float(bits[j])
+      agent_prefs[a] = apref
+
+    # Generate object cap vector
+    object_caps = {}
+    for i,o in enumerate(objects):
+      object_caps[o] = (min_reviews_per_object, max_reviews_per_object)
+
+    # Generate agent max
+    agent_caps = {}
+    for i,a in enumerate(agents):
+      acap = {}
+      bits = input_file.readline().strip().split(",")
+      for j,o in enumerate(objects):
+        acap[o] = float(bits[j])
+      agent_caps[a] = acap
+
+    return agents, objects, agent_prefs, agent_caps, object_caps, min_object_per_reviewer, max_object_per_reviewer
+
+
+
+
+
+
+
+
+
 
 

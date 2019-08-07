@@ -71,6 +71,13 @@ if __name__ == "__main__":
   agent_caps = {x:(parsed_args.agent_min, parsed_args.agent_max) for x in agents}
   object_caps = {x:(parsed_args.object_min, parsed_args.object_max) for x in objects}
 
+  print(agents)
+  print(objects)
+  print(agent_prefs)
+  print(agent_caps)
+  print(object_caps)
+  exit()
+
 
   # Compute and display the Utilitarian Assignment
   if parsed_args.utilitarian:
