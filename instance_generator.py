@@ -100,6 +100,7 @@ class PreflibInstanceGenerator(InstanceGenerator):
             line = re.sub('},{', ';', line)
             line = re.sub(',{', ';', line)
             line = re.sub('},', '', line)
+            line = re.sub('}', '', line)
             if line_number > starting_line:
                 reviewer_profile = []
                 reviewer_no_coi = []

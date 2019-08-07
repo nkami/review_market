@@ -73,7 +73,8 @@ class PriceMechanism(Mechanism):
 
 possible_mechanisms = {'PriceMechanism': PriceMechanism}
 possible_bidder_types = {
-                      'SincereIntegralBidderWithMinPrice': SincereIntegralBidderWithMinPrice,
+                      'IntegralSelectiveBidder' : IntegralSelectiveBidder,
+                      'UniformSelectiveBidder': UniformSelectiveBidder,
                       'BestIntegralSincereUnderbidResponse': BestIntegralSincereUnderbidResponse,
                       'BestIntegralSincereResponse': BestIntegralSincereResponse,
                       'IntegralSincereBidder': IntegralSincereBidder,
@@ -108,9 +109,12 @@ def current_state_output(step, mec, mec_previous, bidders, bidders_who_bid_since
         step_2_unallocated_papers = step_1_unallocated_papers
     final_allocation = algorithm_result['third_step_allocation']
     last_bids_data = []
+    total_contribution = np.dot(mec.current_bidding_profile,current_prices)
+    all_realized_costs = np.multiply(params['cost_matrix'], final_allocation)
     for bidder_idx in range(0, mec.total_reviewers + 1):
         if bidder_idx != mec.total_reviewers:
             bids = mec.current_bidding_profile[bidder_idx]
+            bidder = bidders[bidder_idx]
             old_bids = mec_previous.current_bidding_profile[bidder_idx]
             # this is the price seen by the bidder when bidding:
             # TODO: it is not computed correctly since it just considers the last price update
@@ -119,16 +123,16 @@ def current_state_output(step, mec, mec_previous, bidders, bidders_who_bid_since
                 last_bids_data.append([step,
                                          mec.number_of_updates,
                                          bidder_idx,
-                                         bidders[bidder_idx].get_type(),
-                                         params['current_bidding_requirements'],
+                                         bidder.get_type(),
+                                         bidder.bidding_requirement,
                                          (bidder_idx in bidders_who_bid_since_last_update),
                                          paper,
-                                         params['cost_matrix'][bidder_idx][paper],
+                                         bidder.private_costs[paper],
                                          mec_previous.demand[paper],
                                          mec.demand[paper],
                                          current_prices[paper],
                                          seen_prices[paper],
-                                         np.dot(seen_prices, bids),
+                                         0,#np.dot(seen_prices, bids),
                                          old_bids[paper],
                                          bids[paper],
                                          int(bids[paper] > 0),
@@ -136,10 +140,12 @@ def current_state_output(step, mec, mec_previous, bidders, bidders_who_bid_since
                                          algorithm_result['first_step_allocation'][bidder_idx][paper],
                                          algorithm_result['second_step_allocation'][bidder_idx][paper],
                                          algorithm_result['third_step_allocation'][bidder_idx][paper],
-                                         final_allocation[bidder_idx][paper] * params['cost_matrix'][bidder_idx][paper],
+                                         #final_allocation[bidder_idx][paper] * bidder.private_costs[paper],
+                                         all_realized_costs[bidder_idx][paper],
                                          np.sum(bids),
-                                         np.dot(current_prices, bids),
-                                         np.dot(params['cost_matrix'][bidder_idx], final_allocation[bidder_idx]),
+                                         total_contribution[bidder_idx],
+                                         np.sum(all_realized_costs[bidder_idx]),
+                                         #np.dot(params['cost_matrix'][bidder_idx], final_allocation[bidder_idx]),
                                        #  input_file_name
                                        ])
         else:  # virtual bidder
@@ -167,7 +173,7 @@ def current_state_output(step, mec, mec_previous, bidders, bidders_who_bid_since
                                        algorithm_result['unallocated_papers'][paper] * params['unallocated_papers_price'][paper],
                                        0,
                                        0,
-                                       np.dot(params['unallocated_papers_price'], algorithm_result['unallocated_papers']),
+                                       0,#np.dot(params['unallocated_papers_price'], algorithm_result['unallocated_papers']),
                                        #input_file_name
                                        ])
     return last_bids_data
@@ -214,8 +220,8 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
         current_reviewer = bidders[current_bidder_idx]
 
         mec.current_bidding_profile = current_reviewer.apply_reviewer_behavior(params, mec.current_bidding_profile,
-                                                                               current_bidder_idx,
-                                                                               mec.get_prices_for_same_bid(current_bidder_idx, 1))
+                                                                               mec.get_prices_for_same_bid(
+                                                                                   current_bidder_idx, 1))
         bidders_who_bid_since_last_update.append(current_bidder_idx)
 
         # TODO: the logic of this part is not very clear
@@ -335,11 +341,11 @@ def create_bidders(params):
             fallback_probability = params['current_fallback_probability'] / 100
             rand = np.random.uniform(0, 1)
             if rand < fallback_probability:
-                bidders.append(possible_bidder_types[params['fallback_behavior']](params,True))
+                bidders.append(possible_bidder_types[params['fallback_behavior']](params,i,True))
             else:
-                bidders.append(possible_bidder_types[params['reviewers_behavior']](params))
+                bidders.append(possible_bidder_types[params['reviewers_behavior']](params,i))
         else:
-            bidders.append(possible_bidder_types[params['reviewers_behavior']](params))
+            bidders.append(possible_bidder_types[params['reviewers_behavior']](params,i))
     return bidders
 
 

@@ -4,5 +4,5 @@
 	"unallocated_papers_price": 1,
 	"instance_generator": "PreflibInstanceGenerator",
 	"ignore_quota_constraints": false,
-	"additional_params": {"PreflibFile": ".//data//Preflib//bids_m52_n24.txt"}
+	"additional_params": {"PreflibFile": ".//data//Preflib//bids_m442_n161.txt"}
 }
