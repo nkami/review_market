@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="874230da-78a5-4b81-8350-a45f2fae890a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/json/greedy_2_(fb)_m52_n24.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/json/selective_(fb)_m442_n161.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/json/selective_(fb)_m52_n24.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bidder.py" beforeDir="false" afterPath="$PROJECT_DIR$/bidder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/instance_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/sim_input.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/selective_(fb)_m52_n24.json/selective_(fb)_m52_n24.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prices_mechanisms.py" beforeDir="false" afterPath="$PROJECT_DIR$/prices_mechanisms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simple.gc.json" beforeDir="false" afterPath="$PROJECT_DIR$/simple.gc.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +18,7 @@
     <SUITE FILE_PATH="coverage/review_market$instance_generator.coverage" NAME="instance_generator Coverage Results" MODIFIED="1565129499639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/review_market$matching_algorithms.coverage" NAME="matching_algorithms Coverage Results" MODIFIED="1559648845550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/review_market$instance_generator__1_.coverage" NAME="instance_generator (1) Coverage Results" MODIFIED="1565129726139" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/review_market$prices_mechanisms.coverage" NAME="prices_mechanisms Coverage Results" MODIFIED="1565134958338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/review_market$prices_mechanisms.coverage" NAME="prices_mechanisms Coverage Results" MODIFIED="1565170630103" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -63,8 +58,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/matching_algorithms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="46" column="41" selection-start-line="46" selection-start-column="37" selection-end-line="46" selection-end-column="41" />
+            <state relative-caret-position="107">
+              <caret line="49" column="22" lean-forward="true" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -81,16 +76,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+            <state relative-caret-position="136">
+              <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m442_n161.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
@@ -100,24 +95,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="mock://C:\Users\reshefm\.PyCharm2018.3\system\snapshots\review_market9.pstat">
-          <provider selected="true" editor-type-id="profiler-session-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/simple.gc.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="74" selection-start-line="6" selection-start-column="74" selection-end-line="6" selection-end-column="74" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="213" column="27" selection-start-line="213" selection-start-column="27" selection-end-line="213" selection-end-column="27" />
+            <state relative-caret-position="1858">
+              <caret line="258" column="35" selection-start-line="258" selection-start-column="30" selection-end-line="258" selection-end-column="35" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -129,9 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>total bid</find>
-      <find>init_</find>
-      <find>&quot;fill</find>
       <find>bidding_re</find>
       <find>time_s</find>
       <find>order</find>
@@ -146,7 +124,6 @@
       <find>unall</find>
       <find>output</find>
       <find>exten</find>
-      <find>gini</find>
       <find>fallb</find>
       <find>bidders</find>
       <find>use_</find>
@@ -158,6 +135,11 @@
       <find>dot</find>
       <find>deepc</find>
       <find>deep</find>
+      <find>mec_pre</find>
+      <find>.array</find>
+      <find>gini</find>
+      <find>sum</find>
+      <find>array</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -199,9 +181,9 @@
         <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m52_n24.json" />
         <option value="$PROJECT_DIR$/simple.gc.json" />
         <option value="$PROJECT_DIR$/instance_generator.py" />
+        <option value="$PROJECT_DIR$/json/selective_(fb)_m442_n161.json" />
         <option value="$PROJECT_DIR$/prices_mechanisms.py" />
         <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json" />
-        <option value="$PROJECT_DIR$/json/selective_(fb)_m442_n161.json" />
       </list>
     </option>
   </component>
@@ -372,7 +354,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/prices_mechanisms.py" />
-      <option name="PARAMETERS" value="C:\Users\reshefm\Documents\GitHub\review_market-master\review_market\json\selective_(fb)_m442_n161.json" />
+      <option name="PARAMETERS" value="C:\Users\reshefm\Documents\GitHub\review_market-master\review_market\json\greedy_2_(fb)_m442_n161.json" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -410,12 +392,12 @@
       <workItem from="1559626792991" duration="2242000" />
       <workItem from="1559629242511" duration="9271000" />
       <workItem from="1563283273915" duration="105197000" />
-      <workItem from="1564653437286" duration="64664000" />
+      <workItem from="1564653437286" duration="68242000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="181374000" />
+    <option name="totallyTimeSpent" value="184952000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -430,20 +412,20 @@
     <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4987775" visible="true" weight="0.44444445" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4987775" visible="true" weight="0.23280424" />
       <window_info id="Structure" order="1" sideWeight="0.5012225" side_tool="true" weight="0.21205357" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.83522296" visible="true" weight="0.4013245" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4946695" weight="0.39653304" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.83371127" visible="true" weight="0.4013245" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49281934" weight="0.3960265" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3295082" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4989339" weight="0.27193934" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.16477703" side_tool="true" visible="true" weight="0.4013245" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.16628873" side_tool="true" visible="true" weight="0.4013245" />
       <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.4989339" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -486,12 +468,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/prices_mechanisms.py</url>
-          <line>426</line>
+          <line>435</line>
           <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/prices_mechanisms.py</url>
-          <line>412</line>
+          <line>421</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -500,19 +482,9 @@
           <option name="timeStamp" value="67" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/prices_mechanisms.py</url>
-          <line>348</line>
-          <option name="timeStamp" value="69" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/bidder.py</url>
           <line>84</line>
           <option name="timeStamp" value="71" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/prices_mechanisms.py</url>
-          <line>111</line>
-          <option name="timeStamp" value="74" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -762,16 +734,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="213" column="27" selection-start-line="213" selection-start-column="27" selection-end-line="213" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m52_n24.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -790,23 +752,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="131" column="4" selection-start-line="131" selection-start-column="4" selection-end-line="131" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/matching_algorithms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="46" column="41" selection-start-line="46" selection-start-column="37" selection-end-line="46" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -831,6 +776,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1858">
+          <caret line="258" column="35" selection-start-line="258" selection-start-column="30" selection-end-line="258" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/matching_algorithms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="49" column="22" lean-forward="true" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
         </state>
       </provider>
     </entry>
