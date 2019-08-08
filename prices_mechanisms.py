@@ -101,7 +101,7 @@ def current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, 
     for algorithm_name in params['matching_algorithm']:
         algorithm = possible_algorithms[algorithm_name](params)
         algorithm_result = algorithm.match(mec.current_bidding_profile, params)
-        if params['matching_algorithm'] == 'FractionalAllocation':
+        if algorithm_name == 'FractionalAllocation':
             step_1_unallocated_papers = np.subtract(mec.papers_review_requirements,
                                              algorithm_result['first_step_allocation'].sum(axis=0))
             step_2_unallocated_papers = np.subtract(mec.papers_review_requirements,
