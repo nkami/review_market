@@ -4,9 +4,9 @@ import os
 import pathlib
 import pickle
 import sys
-import gurobipy as gpy
+#import gurobipy as gpy
 sys.path.append('.\\allocation')
-import build_models as sum_owa
+#import build_models as sum_owa
 
 
 class MatchingAlgorithm:

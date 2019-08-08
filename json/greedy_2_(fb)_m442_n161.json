@@ -11,7 +11,7 @@
     "additional_params": "fill",
     "total_reviewers": 161,
     "total_papers": 442,
-    "price_weight" : 2,
+    "price_weight" : [2],
     "bidding_requirements": [8],
     "fallback_bidding_requirement" : 12,
     "bidding_limit": 1000,
