@@ -95,7 +95,7 @@ def hoover_index(u):
 
 
 # adds to output the current allocation and prices for all bidders and papers
-def current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, params):
+def current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, params, optimal_allocation):
     current_prices = mec.get_prices()
     last_bids_data = []
     for algorithm_name in params['matching_algorithm']:
@@ -149,7 +149,8 @@ def current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, 
                                              sum_bids,
                                              total_contribution[bidder_idx],
                                              sum_realized_costs[bidder_idx],
-                                             algorithm_name
+                                             algorithm_name,
+                                             optimal_allocation['third_step_allocation'][bidder_idx][paper]
                                              #np.dot(params['cost_matrix'][bidder_idx], final_allocation[bidder_idx]),
                                            #  input_file_name
                                            ])
@@ -180,12 +181,13 @@ def current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, 
                                            0,
                                            0,#np.dot(params['unallocated_papers_price'], algorithm_result['unallocated_papers']),
                                            #input_file_name
-                                           algorithm_name
+                                           algorithm_name,
+                                           'VB'
                                            ])
     return last_bids_data
 
 
-def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_file_name, sample_path, sample_idx):
+def run_simulation_and_output_csv_file(params, bidders, bidding_order, sample_path, sample_idx, optimal_allocation):
     market_bids_data = []
     mec = possible_mechanisms[params['market_mechanism']](params)
     columns = ['#step',             # number of times that a bidder played so far
@@ -212,7 +214,8 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
                'total bid',       # sum of bids for this reviewer
                'total price',     # sum of bid*price for this reviewer
                'total realized cost',   # sum of realized_cost
-               'matching algorithm'
+               'matching algorithm',
+               'optimal allocation'
                #'matching input json file'
                ]
     bidders_who_bid_since_last_update = []
@@ -249,12 +252,13 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
         # always print the last state
         if step == len(bidding_order) - 1:
             output_bids = True
-            final_state = current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, params)
+            final_state = current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, params,
+                                               optimal_allocation)
         if update_prices:
             mec.update_demand()
             if output_bids:
                 market_bids_data.extend(current_state_output(step, mec, bidders, bidders_who_bid_since_last_update,
-                                                             params))
+                                                             params, optimal_allocation))
             bidders_who_bid_since_last_update = []
             #mec_before_update = copy.deepcopy(mec)
             mec.number_of_updates += 1
@@ -372,6 +376,8 @@ if __name__ == '__main__':
                'cost matrix used',
                'quota matrix used',
                'input json file used']
+    optimal_algorithm = FractionalSumOWA(params)
+    optimal_allocation = optimal_algorithm.match(params['cost_matrix'], params)
     results_of_all_parameters_values = []
     all_parameters = list(it.product(params['bidding_requirements'],
                                      params['forced_permutations'],
@@ -396,14 +402,14 @@ if __name__ == '__main__':
             bidders = create_bidders(params)
             bidding_order = create_bidding_order(params)
             samples_path = combination_path + '\\sample_{0}.csv'.format(sample_idx)
-            final_state = run_simulation_and_output_csv_file(params, bidders, bidding_order, input_file_name,
-                                                             samples_path, sample_idx)
+            final_state = run_simulation_and_output_csv_file(params, bidders, bidding_order, samples_path, sample_idx,
+                                                             optimal_allocation)
             for algorithm_name in params['matching_algorithm']:
                 current_final_state = final_state.loc[final_state['matching algorithm'] == algorithm_name]
-                reseted_rows = {}
+                reset_rows = {}
                 for row_number, (index, row) in enumerate(current_final_state.iterrows()):
-                    reseted_rows[index] = row_number
-                current_final_state.rename(index=reseted_rows, inplace=True)
+                    reset_rows[index] = row_number
+                current_final_state.rename(index=reset_rows, inplace=True)
                 # TODO: maybe keep in array format from the beginning
                 bids = np.reshape(np.array(current_final_state['bid']), [n+1, m])
                 total_bids = np.sum(bids, 0)
