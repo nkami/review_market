@@ -189,14 +189,16 @@ class DiscreteSumOWA(MatchingAlgorithm):
         return equal
 
     def write_bid_to_file(self, bid, reviewers, file, params):
-        bidded = [paper for paper, amount in enumerate(bid) if amount == 1]
+        bidded_one = [paper for paper, amount in enumerate(bid) if amount == 1]
+        bidded_two = [paper for paper, amount in enumerate(bid) if amount == 2]
         didnt_bid = [paper for paper, amount in enumerate(bid) if amount == 0]
         for paper in didnt_bid:
             if params['quota_matrix'][reviewers[0]][paper] == 0:
                 didnt_bid.remove(paper)
-        bidded = str(bidded)[1:-1]
+        bidded_one = str(bidded_one)[1:-1]
+        bidded_two = str(bidded_two)[1:-1]
         didnt_bid = str(didnt_bid)[1:-1]
-        file.write('{0},{{1}},{{2}}\n'.format(len(reviewers), bidded, didnt_bid))
+        file.write(str(len(reviewers)) + ',{' + bidded_two + '},{' + bidded_one + '},{' + didnt_bid + '}\n')
 
     def adjust_input_format(self, bidding_profile, params):
         try:
