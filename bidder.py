@@ -69,11 +69,11 @@ class IntegralSelectiveBidder(Bidder):
         perturbed_costs = correl * np.array(self.private_costs)  +  (1-correl) * np.random.rand(m)
         sorted_papers_id = np.argsort(perturbed_costs)
         for idx, paper_id in enumerate(sorted_papers_id):
-            if idx <= fraction_sure * m:
+            if idx <= fraction_sure * m:  # always check
                 self.paper_thresholds[paper_id] = 0
-            elif idx <= (fraction_sure+fraction_maybe) * m:
+            elif idx <= (fraction_sure+fraction_maybe) * m:   # check of price is high
                 self.paper_thresholds[paper_id] = fraction_price
-            else:
+            else:             # never check
                 self.paper_thresholds[paper_id] = 10
 
 

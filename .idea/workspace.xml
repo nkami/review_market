@@ -2,13 +2,110 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="874230da-78a5-4b81-8350-a45f2fae890a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/json/greedy_2_(br)_m442_n161.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/json/sincere_(fb)_m52_n24.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/json/greedy_2_(fb)_m54_n31.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/json/greedy_2_(fb)_m613_n201.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/json/greedy_2_(rounds)_m176_n146.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/json/test.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output/aggregate_results.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Output/aggregate_results.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures/greedy_2_(fb)_m52_n24_2rounds.PNG" beforeDir="false" afterPath="$PROJECT_DIR$/figures/greedy_2_(fb)_m52_n24_2rounds.PNG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json/greedy_2_(fb)_m52_n24.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/greedy_(fb)_m52_n24.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/all_samples.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_0/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_1/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_10/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_11/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_12/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_13/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_14/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_15/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_16/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_17/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_18/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_19/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_2/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_20/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_21/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_22/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_23/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_24/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_25/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_26/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_27/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_28/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_29/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_3/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_30/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_31/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_32/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_33/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_34/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_35/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_36/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_37/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_38/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_39/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_4/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_40/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_41/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_42/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_43/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_44/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_45/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_46/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_47/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_48/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_49/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_5/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_50/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_51/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_52/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_53/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_54/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_55/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_56/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_57/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_58/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_59/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_6/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_60/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_61/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_62/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_7/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_8/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-16-05/combination_9/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/all_samples.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_0/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_1/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_10/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_11/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_12/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_13/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_14/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_15/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_16/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_17/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_18/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_19/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_2/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_20/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_3/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_4/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_5/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_6/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_7/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_8/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T10-39-58/combination_9/sample_0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T11-18-52/all_samples.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T11-27-57/all_samples.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output/simulation_2019-08-09T11-45-12/all_samples.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bidder.py" beforeDir="false" afterPath="$PROJECT_DIR$/bidder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cost_matrices/cost_matrix_sep.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cost_matrices/quota_matrix_sep.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gurobi.log" beforeDir="false" afterPath="$PROJECT_DIR$/gurobi.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/json/greedy_2_(fb)_m176_n146.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/greedy_2_(fb)_m176_n146.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/json/selective_(fb)_m176_n146.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/selective_(fb)_m176_n146.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/json/selective_(fb)_m442_n161.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/selective_(fb)_m442_n161.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/json/selective_(fb)_m52_n24.json" beforeDir="false" afterPath="$PROJECT_DIR$/json/selective_(fb)_m52_n24.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simple.gc.json" beforeDir="false" afterPath="$PROJECT_DIR$/simple.gc.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,30 +115,18 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/review_market$matching_algorithms_testing.coverage" NAME="matching_algorithms_testing Coverage Results" MODIFIED="1563285928924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/review_market$instance_generator.coverage" NAME="instance_generator Coverage Results" MODIFIED="1565171298995" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/review_market$instance_generator.coverage" NAME="instance_generator Coverage Results" MODIFIED="1565527760787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/review_market$matching_algorithms.coverage" NAME="matching_algorithms Coverage Results" MODIFIED="1559648845550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/review_market$instance_generator__1_.coverage" NAME="instance_generator (1) Coverage Results" MODIFIED="1565171356153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/review_market$prices_mechanisms.coverage" NAME="prices_mechanisms Coverage Results" MODIFIED="1565343720210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/review_market$instance_generator__1_.coverage" NAME="instance_generator (1) Coverage Results" MODIFIED="1565527792506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/review_market$prices_mechanisms.coverage" NAME="prices_mechanisms Coverage Results" MODIFIED="1565553860844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="101" selection-start-line="101" selection-end-line="101" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bidder.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="94" selection-start-line="94" selection-end-line="94" />
+            <state relative-caret-position="204">
+              <caret line="75" column="43" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -50,28 +135,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/json/greedy_2_(br)_m442_n161.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m176_n146.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+            <state relative-caret-position="136">
+              <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="45" selection-start-line="5" selection-start-column="45" selection-end-line="5" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m613_n201.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="307">
+              <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m54_n31.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -79,14 +173,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m176_n146.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" selection-start-line="14" selection-end-line="17" selection-end-column="37" />
+            <state relative-caret-position="221">
+              <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/json/greedy_(fb)_m52_n24.json">
+        <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m442_n161.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
               <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
@@ -95,13 +189,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="221">
-                <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
-              </first_editor>
-              <second_editor />
+        <entry file="file://$PROJECT_DIR$/bidder_behaviors.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="6" column="72" selection-start-line="6" selection-start-column="72" selection-end-line="6" selection-end-column="72" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/json/greedy_2_(rounds)_m176_n146.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -109,17 +212,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m52_n24.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/json/sincere_(fb)_m52_n24.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
+            <state relative-caret-position="255">
+              <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -193,39 +287,42 @@
         <option value="$PROJECT_DIR$/Output/cost_matrix_2019-08-04T16-03-54.json" />
         <option value="$PROJECT_DIR$/Output/cost_matrix_m52_n24.json" />
         <option value="$PROJECT_DIR$/json/sim_input.json" />
-        <option value="$PROJECT_DIR$/bidder.py" />
-        <option value="$PROJECT_DIR$/simple.gc.json" />
         <option value="$PROJECT_DIR$/instance_generator.py" />
-        <option value="$PROJECT_DIR$/json/selective_(fb)_m442_n161.json" />
         <option value="$PROJECT_DIR$/prices_mechanisms.py" />
         <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m146_n176.json" />
-        <option value="$PROJECT_DIR$/simple.gc.json" />
-        <option value="$PROJECT_DIR$/json/selective_(fb)_m176_n146.json" />
         <option value="$PROJECT_DIR$/matching_algorithms.py" />
-        <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m176_n146.json" />
-        <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json" />
         <option value="$PROJECT_DIR$/json/sincere_(fb)_m176_n146.json" />
         <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m52_n24.json" />
         <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m52_n24.json" />
-        <option value="$PROJECT_DIR$/json/selective_(fb)_m52_n24.json" />
         <option value="$PROJECT_DIR$/json/sincere_(fb)_m52_n24.json" />
         <option value="$PROJECT_DIR$/json/greedy_2_(br)_m442_n161.json" />
         <option value="$PROJECT_DIR$/json/greedy_(fb)_m52_n24.json" />
+        <option value="$PROJECT_DIR$/simple.gc.json" />
+        <option value="$PROJECT_DIR$/simple.gc.json" />
+        <option value="$PROJECT_DIR$/json/test.json" />
+        <option value="$PROJECT_DIR$/bidder.py" />
+        <option value="$PROJECT_DIR$/json/selective_(fb)_m52_n24.json" />
+        <option value="$PROJECT_DIR$/json/selective_(fb)_m176_n146.json" />
+        <option value="$PROJECT_DIR$/json/greedy_2_(rounds)_m176_n146.json" />
+        <option value="$PROJECT_DIR$/json/selective_(fb)_m442_n161.json" />
+        <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m176_n146.json" />
+        <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m54_n31.json" />
+        <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json" />
+        <option value="$PROJECT_DIR$/json/greedy_2_(fb)_m613_n201.json" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-6" />
     <option name="y" value="-6" />
-    <option name="width" value="1381" />
-    <option name="height" value="925" />
+    <option name="width" value="1382" />
+    <option name="height" value="926" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -256,6 +353,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -386,7 +484,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/prices_mechanisms.py" />
-      <option name="PARAMETERS" value="C:\Users\reshefm\Documents\GitHub\review_market-master\review_market\json\greedy_(fb)_m52_n24.json" />
+      <option name="PARAMETERS" value="C:\Users\reshefm\Documents\GitHub\review_market-master\review_market\json\greedy_2_(fb)_m54_n31.json" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -425,11 +523,12 @@
       <workItem from="1563283273915" duration="105197000" />
       <workItem from="1564653437286" duration="76492000" />
       <workItem from="1565334840812" duration="4114000" />
+      <workItem from="1565526519073" duration="9568000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197316000" />
+    <option name="totallyTimeSpent" value="206884000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -441,22 +540,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4987775" visible="true" weight="0.16577825" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4987775" visible="true" weight="0.24640967" />
       <window_info id="Structure" order="1" sideWeight="0.5012225" side_tool="true" weight="0.21205357" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8315565" weight="0.32827735" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4914712" weight="0.3954496" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.90400606" weight="0.3271523" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49055177" weight="0.394702" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3295082" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49811035" weight="0.27152318" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50852877" side_tool="true" visible="true" weight="0.32827735" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.09599395" side_tool="true" visible="true" weight="0.3271523" />
       <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.4989339" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -566,31 +665,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Output/simulation_2019-06-04T15-20-42.json" />
-    <entry file="file://$PROJECT_DIR$/Output/simulation_2019-06-04T15-41-44.csv" />
-    <entry file="file://$PROJECT_DIR$/Output/simulation_2019-06-04T15-41-44.json" />
-    <entry file="file://$PROJECT_DIR$/allocation/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/re.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="277" selection-start-line="277" selection-end-line="277" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/PrefLib/bids_m10_n8.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Output/cost_matrix_2019-05-05T16-38-17.json" />
     <entry file="file://$PROJECT_DIR$/matching_algorithms_testing.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -620,16 +694,6 @@
     <entry file="file://$PROJECT_DIR$/Output/cost_matrix_m54_n31_test2.json" />
     <entry file="file://$PROJECT_DIR$/simulation.json">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bidder_behaviors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-102">
-          <caret line="6" column="72" selection-start-line="6" selection-start-column="72" selection-end-line="6" selection-end-column="72" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/example_input.gc.json">
       <provider selected="true" editor-type-id="text-editor">
@@ -683,13 +747,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/numpy/core/fromnumeric.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
@@ -721,23 +778,6 @@
     <entry file="file://$PROJECT_DIR$/json/cost_matrix_1_2_8.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/instance_generator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="82" column="48" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/simple.gc.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/matching_algorithms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -755,45 +795,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m442_n161.json">
+    <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" selection-start-line="14" selection-end-line="17" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m176_n146.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" selection-start-line="14" selection-end-line="17" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m52_n24.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/json/sincere_(fb)_m52_n24.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m176_n146.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        <state relative-caret-position="323">
+          <caret line="101" selection-start-line="101" selection-end-line="101" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -801,6 +809,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/greedy_(fb)_m52_n24.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -814,30 +829,127 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/json/greedy_(fb)_m52_n24.json">
+    <entry file="file://$PROJECT_DIR$/json/sincere_(fb)_m52_n24.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+        <state relative-caret-position="408">
+          <caret line="24" column="54" selection-start-line="24" selection-start-column="54" selection-end-line="24" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bidder.py">
+    <entry file="file://$PROJECT_DIR$/instance_generator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="94" selection-start-line="94" selection-end-line="94" />
+        <state relative-caret-position="152">
+          <caret line="30" column="66" selection-start-line="30" selection-start-column="66" selection-end-line="30" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cost_matrices/cost_matrix_2019-08-11T15-41-57.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/simple.gc.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="55" selection-start-line="2" selection-start-column="55" selection-end-line="2" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/tokenize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="446" selection-start-line="446" selection-end-line="446" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="43" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/test.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bidder_behaviors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="6" column="72" selection-start-line="6" selection-start-column="72" selection-end-line="6" selection-end-column="72" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/prices_mechanisms.py">
+    <entry file="file://$PROJECT_DIR$/bidder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
+        <state relative-caret-position="204">
+          <caret line="75" column="43" selection-start-line="75" selection-start-column="43" selection-end-line="75" selection-end-column="43" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m52_n24.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m176_n146.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/greedy_2_(rounds)_m176_n146.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/selective_(fb)_m442_n161.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m176_n146.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m613_n201.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m54_n31.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/json/greedy_2_(fb)_m442_n161.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="45" selection-start-line="5" selection-start-column="45" selection-end-line="5" selection-end-column="45" />
         </state>
       </provider>
     </entry>
