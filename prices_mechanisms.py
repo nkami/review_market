@@ -264,11 +264,13 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
             bidders_who_bid_since_last_update = []
             #mec_before_update = copy.deepcopy(mec)
             mec.number_of_updates += 1
-    if sample_idx % 100 < params['amount_of_csv_sample_outputs_per_100_samples']:
-        market_bids_data = np.array(market_bids_data)
-        data_frame = pd.DataFrame(market_bids_data, columns=columns)
-        data_frame.to_csv(sample_path, index=None, header=True)
-   # final_state = np.array(final_state)
+    # TODO: control this better
+    if len(params["matching_algorithm"])<=1:
+        if sample_idx % 100 < params['amount_of_csv_sample_outputs_per_100_samples']:
+            market_bids_data = np.array(market_bids_data)
+            data_frame = pd.DataFrame(market_bids_data, columns=columns)
+            data_frame.to_csv(sample_path, index=None, header=True)
+    final_state = np.array(final_state)
     final_state = pd.DataFrame(final_state, columns=columns)
     return final_state
 
@@ -411,16 +413,16 @@ if __name__ == '__main__':
                     reseted_rows[index] = row_number
                 current_final_state.rename(index=reseted_rows, inplace=True)
                 # TODO: maybe keep in array format from the beginning
-                bids = np.reshape(np.array(current_final_state['positive bid']), [n+1, m])
+                bids = np.reshape(np.array(current_final_state['positive bid']).astype(np.float), [n+1, m])
                 total_bids = np.sum(bids, 0)
                 realized_costs = np.array([current_final_state.loc[bidder_index * m, 'total realized cost'] for
-                                           bidder_index in range(0, n)])
+                                           bidder_index in range(0, n)]).astype(np.float)
                 fallback_mask = [bidder.is_fallback for bidder in bidders]
                 fallback_realized_costs = realized_costs[fallback_mask]
                 main_realized_costs = realized_costs[np.invert(fallback_mask)]
 
                 # only relevant for mock algorithm (otherwise should return NaN or 0)
-                step_2_allocation = np.reshape(np.array(current_final_state['step 2 allocation']), [n+1, m])
+                step_2_allocation = np.reshape(np.array(current_final_state['step 2 allocation']).astype(np.float), [n+1, m])
                 excess_papers = step_2_allocation[n, :]
                 allocated_step2_papers = np.sum(step_2_allocation[0:n, :])
                 step_2_realized_costs = np.multiply(step_2_allocation[0:n, :], cost_matrix)
