@@ -24,6 +24,7 @@ class Bidder:
         self.price_weight = params['current_price_weight']
         self.paper_COI = np.array(params['quota_matrix'][self.reviewer_index]) == 0
         self.paper_thresholds = [0] * len(self.private_costs)
+        self.bid_rounds_so_far = 0
 
         if params['current_bidding_requirements'] == -1:
             k = sum(params['papers_requirements'])
@@ -115,6 +116,8 @@ class IntegralGreedyBidder(Bidder):
         contribution = 0
         priority = np.subtract(self.private_costs , np.multiply(self.price_weight, prices))
         sorted_papers_id = np.argsort(priority)
+        if self.bid_rounds_so_far == 0:
+            current_bidding_profile[self.reviewer_index] = [0]*len(self.private_costs)
         for paper_id in sorted_papers_id:
             if self.paper_COI[paper_id] == False:
                 self.bid(paper_id,current_bidding_profile)
@@ -122,6 +125,7 @@ class IntegralGreedyBidder(Bidder):
 
             if contribution >= self.bidding_requirement or np.sum(current_bidding_profile[self.reviewer_index] > 0) >= self.bidding_limit:
                 break
+        self.bid_rounds_so_far += 1
         return current_bidding_profile
 
 

@@ -34,10 +34,11 @@ class Mechanism:
 
 class PriceMechanism(Mechanism):
     def init_demand(self):
-        demand = []
-        for paper_index in range(0, self.total_papers):
-            paper_demand = np.sum(self.current_bidding_profile, axis=0)[paper_index]
-            demand.append(paper_demand)
+        capped_bids = np.minimum(self.current_bidding_profile,1)
+        demand = np.sum(capped_bids,axis=0)
+        # for paper_index in range(0, self.total_papers):
+        #     paper_demand = np.sum(self.current_bidding_profile, axis=0)[paper_index]
+        #     demand.append(paper_demand)
         return demand
 
     def price_by_demand(self, paper_requirement, paper_demand):
@@ -61,7 +62,7 @@ class PriceMechanism(Mechanism):
     # updates demand only based on new_bid, then recompute price
     def get_price_for_bid(self, paper_index, bidder_index, new_bid):
         old_bid = self.current_bidding_profile[bidder_index][paper_index]
-        paper_demand = self.demand[paper_index] - old_bid + new_bid
+        paper_demand = self.demand[paper_index] - min(1,old_bid) + min(1,new_bid)
         return self.price_by_demand(self.papers_review_requirements[paper_index], paper_demand)
 
     def get_prices_for_same_bid(self, bidder_index, new_bid):
@@ -170,7 +171,7 @@ def current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, 
                                            'VB',
                                            'VB',
                                            0,
-                                           'VB',
+                                           0,
                                            'VB',
                                            step_1_unallocated_papers[paper],
                                            step_2_unallocated_papers[paper],
@@ -220,6 +221,11 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
     iterations_output = 0
     permutations_output = 0
     final_state = None
+    n = params["total_reviewers"]
+    m = params["total_papers"]
+    if "init_balanced_bids" in params:
+        init_value = params["papers_requirements"][0]/n
+        mec.current_bidding_profile = np.full((n,m),init_value)
     num_of_steps = params['current_number_of_bids_until_prices_update']
     for step, current_bidder_idx in enumerate(bidding_order):
         update_prices = False
@@ -241,9 +247,9 @@ def run_simulation_and_output_csv_file(params, bidders, bidding_order, input_fil
                     output_bids = True
                     iterations_output += 1
                 num_of_steps = params['current_number_of_bids_until_prices_update']
-        elif (step + 1) % params['total_reviewers'] == 0:
+        elif (step + 1) % n == 0:
             update_prices = True
-            if 100 * (permutations_output/((step+1)/params['total_reviewers'])) < params['output_detail_level_permutations']:
+            if 100 * (permutations_output/((step+1)/n)) < params['output_detail_level_permutations']:
                 output_bids = True
                 permutations_output += 1
         # always print the last state
@@ -405,7 +411,7 @@ if __name__ == '__main__':
                     reseted_rows[index] = row_number
                 current_final_state.rename(index=reseted_rows, inplace=True)
                 # TODO: maybe keep in array format from the beginning
-                bids = np.reshape(np.array(current_final_state['bid']), [n+1, m])
+                bids = np.reshape(np.array(current_final_state['positive bid']), [n+1, m])
                 total_bids = np.sum(bids, 0)
                 realized_costs = np.array([current_final_state.loc[bidder_index * m, 'total realized cost'] for
                                            bidder_index in range(0, n)])
