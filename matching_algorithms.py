@@ -167,7 +167,7 @@ class DiscreteSumOWA(MatchingAlgorithm):
         maximum_papers_per_reviewer = int(np.ceil(k))
         minimum_reviewers_per_paper = int(np.floor(min(params['papers_requirements'])))
         maximum_reviewers_per_paper = int(np.floor(max(params['papers_requirements'])))
-        print(self.type)
+        #print(self.type)
         os.system('python .\\allocation\\cap_discrete_alloc.py -d .\\output\\tmp_input_adjust999.toi -p '
                   '.\\output\\tmp_output_adjust999 -a ' + str(minimum_papers_per_reviewer) + ' -A ' +
                   str(maximum_papers_per_reviewer) + ' -o ' + str(minimum_reviewers_per_paper) + ' -O ' +

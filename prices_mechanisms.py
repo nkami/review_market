@@ -460,6 +460,16 @@ if __name__ == '__main__':
                                                          params['quota_matrix_path'],
                                                          input_file_name])
     progress_bar.close()
+    optimal_algorithm = FractionalSumOWA(params)
+    optimal_allocation = optimal_algorithm.match(params['cost_matrix'], params)['third_step_allocation']
+    optimal_allocation_columns = ['paper' + str(idx) for idx in range(0, params['total_papers'])]
+    all_realized_costs = np.multiply(params['cost_matrix'], optimal_allocation)
+    optimal_cost = np.sum(all_realized_costs)
+    optimal_cost_column = [optimal_cost for i in range(0, params['total_reviewers'])]
+    optimal_path_csv = '.\\output\\simulation_{0}\\optimal_allocation.csv'.format(time_stamp)
+    optimal_data_frame = pd.DataFrame(optimal_allocation, columns=optimal_allocation_columns)
+    optimal_data_frame['cost'] = optimal_cost_column
+    optimal_data_frame.to_csv(optimal_path_csv, index=None, header=True)
     results_of_all_parameters_values = np.array(results_of_all_parameters_values)
     data_frame = pd.DataFrame(results_of_all_parameters_values, columns=columns)
     path_csv = '.\\output\\simulation_{0}\\all_samples.csv'.format(time_stamp)
