@@ -34,10 +34,12 @@ class Mechanism:
 
 class PriceMechanism(Mechanism):
     def init_demand(self):
-        demand = []
-        for paper_index in range(0, self.total_papers):
-            paper_demand = np.sum(self.current_bidding_profile, axis=0)[paper_index]
-            demand.append(paper_demand)
+        # demand = []
+        # for paper_index in range(0, self.total_papers):
+        #     papers_demands = np.sum(self.current_bidding_profile, axis=0)[paper_index]
+        #     demand.append(papers_demands)
+        papers_demands = np.sum(self.current_bidding_profile, axis=0)
+        demand = [paper_demand for paper_demand in papers_demands]
         return demand
 
     def price_by_demand(self, paper_requirement, paper_demand):

@@ -250,7 +250,8 @@ class DiscreteSumOWA(MatchingAlgorithm):
         third_step_allocation = np.zeros((params['total_reviewers'], params['total_papers']))
         for agent, reviewer in enumerate(owa_algo_agents_to_reviewers_map):
             for paper in file_info['allocation']['a{0}'.format(agent)]:
-                third_step_allocation[reviewer][int(paper[-1:])] = 1
+                paper_idx = int(paper.replace('paper', ''))
+                third_step_allocation[reviewer][paper_idx] = 1
         unallocated_papers = np.zeros(params['total_papers'])
         for paper_index in range(0, params['total_papers']):
             unallocated_papers[paper_index] = (params['papers_requirements'][paper_index]
