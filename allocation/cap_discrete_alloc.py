@@ -71,12 +71,12 @@ if __name__ == "__main__":
   agent_caps = {x:(parsed_args.agent_min, parsed_args.agent_max) for x in agents}
   object_caps = {x:(parsed_args.object_min, parsed_args.object_max) for x in objects}
 
-  print(agents)
-  print(objects)
-  print(agent_prefs)
-  print(agent_caps)
-  print(object_caps)
-  exit()
+  # print(agents)
+  # print(objects)
+  # print(agent_prefs)
+  # print(agent_caps)
+  # print(object_caps)
+  # exit()
 
 
   # Compute and display the Utilitarian Assignment
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     model.setParam(gpy.GRB.Param.OutputFlag, False )
     model.optimize()
     if model.getAttr('Status') == 2:
-      print("Found Utilitarian Assignment in {} seconds".format(model.Runtime))
+      #print("Found Utilitarian Assignment in {} seconds".format(model.Runtime))
       if parsed_args.verbose: utils.pretty_print_utility_solution(model, agents, objects, var_assigned, utility)
       if parsed_args.pickle_file != False:
         pk = utils.get_allocation_pickle("Utilitarian SW", agent_caps, agents, object_caps, objects, agent_prefs, var_assigned)
@@ -105,7 +105,7 @@ if __name__ == "__main__":
     model.setParam(gpy.GRB.Param.OutputFlag, False )
     model.optimize()
     if model.getAttr('Status') == 2:
-      print("Found Nash Product Assignment in {} seconds.".format(model.Runtime))
+      #print("Found Nash Product Assignment in {} seconds.".format(model.Runtime))
       if parsed_args.verbose: utils.pretty_print_utility_solution(model, agents, objects, var_assigned, utility)
       if parsed_args.pickle_file != False:
         pk = utils.get_allocation_pickle("Nash SW", agent_caps, agents, object_caps, objects, agent_prefs, var_assigned)
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     model.setParam(gpy.GRB.Param.OutputFlag, False )
     model.optimize()
     if model.getAttr('Status') == 2:
-      print("Found Rank Maximal Assignment in {} seconds.".format(model.Runtime))
+      #print("Found Rank Maximal Assignment in {} seconds.".format(model.Runtime))
       #print(rank_signature.keys())
       if parsed_args.verbose: utils.pretty_print_rank_solution(model, agents, objects, var_assigned, rank_signature)
 
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     model.setParam(gpy.GRB.Param.OutputFlag, False )
     model.optimize()
     if model.getAttr('Status') == 2:
-      print("Found Egalitarian Assignment in {} seconds.".format(model.Runtime))
+      #print("Found Egalitarian Assignment in {} seconds.".format(model.Runtime))
       if parsed_args.verbose: utils.pretty_print_utility_solution(model, agents, objects, var_assigned, utility)
       if parsed_args.pickle_file != False:
         pk = utils.get_allocation_pickle("Egalitarian SW", agent_caps, agents, object_caps, objects, agent_prefs, var_assigned)
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     model.setParam(gpy.GRB.Param.OutputFlag, False )
     model.optimize()
     if model.getAttr('Status') == 2:
-      print("Found Linear SumOWA Assignment in {} seconds.".format(model.Runtime))
+      #print("Found Linear SumOWA Assignment in {} seconds.".format(model.Runtime))
       if parsed_args.verbose: utils.pretty_print_utility_solution(model, agents, objects, var_assigned, utility, linear_owa_utility)
       if parsed_args.pickle_file != False:
         pk = utils.get_allocation_pickle("LinearSumOWA SW", agent_caps, agents, object_caps, objects, agent_prefs, var_assigned)

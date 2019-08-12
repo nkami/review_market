@@ -148,126 +148,161 @@ class FractionalSumOWA(MatchingAlgorithm):
         for paper in range(0, params['total_papers']):
             unallocated_papers[paper] = (params['papers_requirements'][paper]
                                          - np.sum(third_step_allocation, axis=0)[paper])
+        #os.remove('gurobi.log')
         return {'first_step_allocation': first_step_allocation, 'second_step_allocation': second_step_allocation,
                 'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
 
 
-possible_algorithms = {'FractionalAllocation': FractionalAllocation, 'FractionalSumOWA': FractionalSumOWA}
+class DiscreteSumOWA(MatchingAlgorithm):
+    def __init__(self, params):
+        super().__init__(params)
+        self.type = None
+        self.file_extension = None
 
-# class SumOWA(MatchingAlgorithm):
-#     def __init__(self, params):
-#         super().__init__(params)
-#         self.type = params['matching_algorithm'][-2:]
-#         if self.type == '-u':
-#             self.file_extension = '-utilitarian'
-#         elif self.type == '-e':
-#             self.file_extension = '-egalitarian'
-#         elif self.type == '-r':
-#             self.file_extension = '-rank_maximal'
-#         elif self.type == '-l':
-#             self.file_extension = '-linearsumowa'
-#         elif self.type == '-n':
-#             self.file_extension = '-nash'
-#         else:
-#             self.file_extension = None
-#
-#     def match(self, bidding_profile, params):
-#         common_and_unique_bids = self.adjust_input_format(bidding_profile, params)
-#         k = sum(params['papers_requirements'])
-#         k = k / params['total_reviewers']  # np.ceil(k / total_reviewers) ??????????
-#         k = int(k)
-#         os.system('python .\\allocation\\cap_discrete_alloc.py -d .\\output\\tmp_input_adjust999.toi -p '
-#                   '.\\output\\tmp_output_adjust999 -a ' + str(k) + ' -A ' + str(k) + ' -o ' +
-#                   str(min(params['papers_requirements'])) + ' -O ' + str(max(params['papers_requirements'])) + ' '
-#                   + self.type)
-#         algorithm_output = self.adjust_output_format(common_and_unique_bids, params)
-#         os.remove('.\\output\\tmp_input_adjust999.toi')
-#         os.remove('.\\output\\tmp_output_adjust999' + self.file_extension + '.pickle')
-#         os.remove('gurobi.log')
-#         return algorithm_output
-#
-#     # the bids1-2 are tuples of: (bid, bidder id)
-#     def check_if_bids_equal(self, bid1, bid2, params):
-#         equal = True
-#         diff = [abs(bid1[0][paper] - bid2[0][paper]) for paper in range(0, params['total_papers'])]
-#         if sum(diff) != 0:
-#             equal = False
-#         for paper in range(0, params['total_papers']):  # check that COI is the same as well
-#             if params['quota_matrix'][bid1[1]][paper] != params['quota_matrix'][bid2[1]][paper]:
-#                 equal = False
-#         return equal
-#
-#     def write_bid_to_file(self, bid, reviewers, file, params):
-#         bidded = [paper for paper, amount in enumerate(bid) if amount == 1]
-#         didnt_bid = [paper for paper, amount in enumerate(bid) if amount == 0]
-#         for paper in didnt_bid:
-#             if params['quota_matrix'][reviewers[0]][paper] == 0:
-#                 didnt_bid.remove(paper)
-#         bidded = str(bidded)[1:-1]
-#         didnt_bid = str(didnt_bid)[1:-1]
-#         file.write('{0},{{1}},{{2}}\n'.format(len(reviewers), bidded, didnt_bid))
-#
-#     def adjust_input_format(self, bidding_profile, params):
-#         try:
-#             pathlib.Path('.\\output').mkdir()
-#         except FileExistsError:
-#             pass
-#         path = '.\\output\\tmp_input_adjust999.toi'
-#         with open(path, 'w') as output_file:
-#             output_file.write('{0}\n'.format(params['total_papers']))
-#             for paper in range(0, params['total_papers']):
-#                 output_file.write('{0},paper {1}\n'.format(paper, paper))
-#             common_bids = []  # a list of tuples: (bid, list of reviewers)
-#             unique_bidders = [reviewer for reviewer in range(0, params['total_reviewers'])]
-#             for reviewer_bid in range(0, params['total_reviewers']):
-#                 for current_bid in range(0, params['total_reviewers']):
-#                     bid1 = (bidding_profile[reviewer_bid], reviewer_bid)
-#                     bid2 = (bidding_profile[current_bid], current_bid)
-#                     if reviewer_bid != current_bid and self.check_if_bids_equal(bid1, bid2, params):
-#                         in_common_bids = False
-#                         unique_bidders.remove(reviewer_bid)
-#                         for bid in common_bids:
-#                             if self.check_if_bids_equal(bid1, (bid[0], bid[1][0]), params):
-#                                 bid[1].append(reviewer_bid)
-#                                 in_common_bids = True
-#                                 break
-#                         if not in_common_bids:
-#                             common_bids.append((bidding_profile[reviewer_bid], [reviewer_bid]))
-#                         break
-#             output_file.write('{0},{1},{2}\n'.format(params['total_reviewers'], params['total_reviewers'],
-#                                                      len(unique_bidders) + len(common_bids)))
-#             for bid in common_bids:
-#                 self.write_bid_to_file(bid[0], bid[1], output_file, params)
-#             for bid in unique_bidders:
-#                 self.write_bid_to_file(bidding_profile[bid], [bid], output_file, params)
-#         return common_bids, unique_bidders
-#
-#     def adjust_output_format(self, common_and_unique_bids, params):
-#         first_step_allocation = np.zeros((params['total_reviewers'], params['total_papers']))
-#         for reviewer in range(0, params['total_reviewers']):
-#             for paper in range(0, params['total_papers']):
-#                 first_step_allocation[reviewer][paper] = -1
-#         second_step_allocation = first_step_allocation
-#         owa_algo_agents_to_reviewers_map = []
-#         for common_bid in common_and_unique_bids[0]:
-#             owa_algo_agents_to_reviewers_map = owa_algo_agents_to_reviewers_map + common_bid[1]
-#         owa_algo_agents_to_reviewers_map = owa_algo_agents_to_reviewers_map + common_and_unique_bids[1]
-#         with open('.\\output\\tmp_output_adjust999' + self.file_extension + '.pickle', "rb") as openfile:
-#             file_info = pickle.load(openfile)
-#         third_step_allocation = np.zeros((params['total_reviewers'], params['total_papers']))
-#         for agent, reviewer in enumerate(owa_algo_agents_to_reviewers_map):
-#             for paper in file_info['allocation']['a{0}'.format(agent)]:
-#                 third_step_allocation[reviewer][int(paper[-1:])] = 1
-#         unallocated_papers = np.zeros(params['total_papers'])
-#         for paper_index in range(0, params['total_papers']):
-#             unallocated_papers[paper_index] = (params['papers_requirements'][paper_index]
-#                                                - np.sum(third_step_allocation, axis=0)[paper_index])
-#         return {'first_step_allocation': first_step_allocation, 'second_step_allocation': second_step_allocation,
-#                 'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
-#
-#
-# possible_algorithms = {'FractionalAllocation': FractionalAllocation, 'SumOWA-u': SumOWA, 'SumOWA-e': SumOWA,
-#                        'SumOWA-r': SumOWA, 'SumOWA-l': SumOWA, 'SumOWA-n': SumOWA}
+    def match(self, bidding_profile, params):
+        common_and_unique_bids = self.adjust_input_format(bidding_profile, params)
+        k = sum(params['papers_requirements'])
+        k = k / params['total_reviewers']  # np.ceil(k / total_reviewers) ??????????
+        minimum_papers_per_reviewer = int(np.floor(k))
+        maximum_papers_per_reviewer = int(np.ceil(k))
+        minimum_reviewers_per_paper = int(np.floor(min(params['papers_requirements'])))
+        maximum_reviewers_per_paper = int(np.floor(max(params['papers_requirements'])))
+        os.system('python .\\allocation\\cap_discrete_alloc.py -d .\\output\\tmp_input_adjust999.toi -p '
+                  '.\\output\\tmp_output_adjust999 -a ' + str(minimum_papers_per_reviewer) + ' -A ' +
+                  str(maximum_papers_per_reviewer) + ' -o ' + str(minimum_reviewers_per_paper) + ' -O ' +
+                  str(maximum_reviewers_per_paper) + ' ' + self.type)
+        algorithm_output = self.adjust_output_format(common_and_unique_bids, params)
+        os.remove('.\\output\\tmp_input_adjust999.toi')
+        os.remove('.\\output\\tmp_output_adjust999' + self.file_extension + '.pickle')
+        #os.remove('gurobi.log')
+        return algorithm_output
+
+    # the bids1-2 are tuples of: (bid, bidder id)
+    def check_if_bids_equal(self, bid1, bid2, params):
+        equal = True
+        diff = [abs(bid1[0][paper] - bid2[0][paper]) for paper in range(0, params['total_papers'])]
+        if sum(diff) != 0:
+            equal = False
+        for paper in range(0, params['total_papers']):  # check that COI is the same as well
+            if params['quota_matrix'][bid1[1]][paper] != params['quota_matrix'][bid2[1]][paper]:
+                equal = False
+        return equal
+
+    def write_bid_to_file(self, bid, reviewers, file, params):
+        bidded_one = [paper for paper, amount in enumerate(bid) if amount == 1]
+        bidded_two = [paper for paper, amount in enumerate(bid) if amount == 2]
+        didnt_bid = [paper for paper, amount in enumerate(bid) if amount == 0]
+        for paper in didnt_bid:
+            if params['quota_matrix'][reviewers[0]][paper] == 0:
+                didnt_bid.remove(paper)
+        bidded_one = str(bidded_one)[1:-1]
+        bidded_two = str(bidded_two)[1:-1]
+        didnt_bid = str(didnt_bid)[1:-1]
+        file.write(str(len(reviewers)) + ',{' + bidded_two + '},{' + bidded_one + '},{' + didnt_bid + '}\n')
+
+    def adjust_input_format(self, bidding_profile, params):
+        try:
+            pathlib.Path('.\\output').mkdir()
+        except FileExistsError:
+            pass
+        path = '.\\output\\tmp_input_adjust999.toi'
+        with open(path, 'w') as output_file:
+            output_file.write('{0}\n'.format(params['total_papers']))
+            for paper in range(0, params['total_papers']):
+                output_file.write('{0},paper {1}\n'.format(paper, paper))
+            common_bids = []  # a list of tuples: (bid, list of reviewers)
+            unique_bidders = [reviewer for reviewer in range(0, params['total_reviewers'])]
+            for reviewer_bid in range(0, params['total_reviewers']):
+                for current_bid in range(0, params['total_reviewers']):
+                    bid1 = (bidding_profile[reviewer_bid], reviewer_bid)
+                    bid2 = (bidding_profile[current_bid], current_bid)
+                    if reviewer_bid != current_bid and self.check_if_bids_equal(bid1, bid2, params):
+                        in_common_bids = False
+                        unique_bidders.remove(reviewer_bid)
+                        for bid in common_bids:
+                            if self.check_if_bids_equal(bid1, (bid[0], bid[1][0]), params):
+                                bid[1].append(reviewer_bid)
+                                in_common_bids = True
+                                break
+                        if not in_common_bids:
+                            common_bids.append((bidding_profile[reviewer_bid], [reviewer_bid]))
+                        break
+            output_file.write('{0},{1},{2}\n'.format(params['total_reviewers'], params['total_reviewers'],
+                                                     len(unique_bidders) + len(common_bids)))
+            for bid in common_bids:
+                self.write_bid_to_file(bid[0], bid[1], output_file, params)
+            for bid in unique_bidders:
+                self.write_bid_to_file(bidding_profile[bid], [bid], output_file, params)
+        return common_bids, unique_bidders
+
+    def adjust_output_format(self, common_and_unique_bids, params):
+        first_step_allocation = np.zeros((params['total_reviewers'], params['total_papers']))
+        for reviewer in range(0, params['total_reviewers']):
+            for paper in range(0, params['total_papers']):
+                first_step_allocation[reviewer][paper] = -1
+        second_step_allocation = first_step_allocation
+        owa_algo_agents_to_reviewers_map = []
+        for common_bid in common_and_unique_bids[0]:
+            owa_algo_agents_to_reviewers_map = owa_algo_agents_to_reviewers_map + common_bid[1]
+        owa_algo_agents_to_reviewers_map = owa_algo_agents_to_reviewers_map + common_and_unique_bids[1]
+        with open('.\\output\\tmp_output_adjust999' + self.file_extension + '.pickle', "rb") as openfile:
+            file_info = pickle.load(openfile)
+        third_step_allocation = np.zeros((params['total_reviewers'], params['total_papers']))
+        for agent, reviewer in enumerate(owa_algo_agents_to_reviewers_map):
+            for paper in file_info['allocation']['a{0}'.format(agent)]:
+                paper_idx = int(paper.replace('paper', ''))
+                third_step_allocation[reviewer][paper_idx] = 1
+        unallocated_papers = np.zeros(params['total_papers'])
+        for paper_index in range(0, params['total_papers']):
+            unallocated_papers[paper_index] = (params['papers_requirements'][paper_index]
+                                               - np.sum(third_step_allocation, axis=0)[paper_index])
+        return {'first_step_allocation': first_step_allocation, 'second_step_allocation': second_step_allocation,
+                'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
+
+
+class Utilitarian(DiscreteSumOWA):
+    def __init__(self, params):
+        super().__init__(params)
+        self.type = '-u'
+        self.file_extension = '-utilitarian'
+
+
+class Egalitarian(DiscreteSumOWA):
+    def __init__(self, params):
+        super().__init__(params)
+        self.type = '-e'
+        self.file_extension = '-egalitarian'
+
+
+class RankMaximal(DiscreteSumOWA):
+    def __init__(self, params):
+        super().__init__(params)
+        self.type = '-r'
+        self.file_extension = '-rank_maximal'
+
+
+class LinearSumOWA(DiscreteSumOWA):
+    def __init__(self, params):
+        super().__init__(params)
+        self.type = '-l'
+        self.file_extension = '-linearsumowa'
+
+
+class Nash(DiscreteSumOWA):
+    def __init__(self, params):
+        super().__init__(params)
+        self.type = '-n'
+        self.file_extension = '-nash'
+
+
+possible_algorithms = {'FractionalAllocation': FractionalAllocation,
+                       'FractionalSumOWA': FractionalSumOWA,
+                       'Utilitarian': Utilitarian,
+                       'Egalitarian': Egalitarian,
+                       'RankMaximal': RankMaximal,
+                       'LinearSumOWA': LinearSumOWA,
+                       'Nash': Nash}
+
 
 
 
