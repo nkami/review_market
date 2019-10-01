@@ -2,9 +2,6 @@ import numpy as np
 import copy
 from matching_algorithms import *
 
-# TODO: there should be a class for "reviewer" rather than "behavior". This class also contains all relevant parameters...
-#  including thresholds and each reviewer may have a different type. the apply_reviwer_behavior() should be....
-#  in this class, and only get current profile and prices as parameters.
 # Transforms a vector (a reviewer) from the cost and quota matrices into a list of tuples:
 # (paper_id, paper_private_cost). A paper that has a COI with the reviewer wont appear in the returned list.
 def c_q_vec_to_pairs(params, reviewer_index):
@@ -16,7 +13,6 @@ def c_q_vec_to_pairs(params, reviewer_index):
 
 
 class Bidder:
-
     def __init__(self, params, reviewer_index, is_fallback=False):
 
         self.reviewer_index = reviewer_index
@@ -59,15 +55,15 @@ class Bidder:
 
 
 class IntegralSelectiveBidder(Bidder):
-    # on initialization randomizes a price threshold for each paper as follows: papers with high cost have high chance to have a low or 0 threshold.
-
+    # on initialization randomizes a price threshold for each paper as follows: papers with high cost have high chance
+    # to have a low or 0 threshold.
     def init(self, params):
         m = len(self.private_costs)
         correl = params['selective_correlation']
         fraction_sure = params['selective_fraction_sure']
         fraction_maybe = params['selective_fraction_maybe']
         fraction_price = params['selective_price_threshold']
-        perturbed_costs = correl * np.array(self.private_costs)  +  (1-correl) * np.random.rand(m)
+        perturbed_costs = correl * np.array(self.private_costs) + (1-correl) * np.random.rand(m)
         sorted_papers_id = np.argsort(perturbed_costs)
         for idx, paper_id in enumerate(sorted_papers_id):
             if idx <= fraction_sure * m:  # always check
@@ -77,8 +73,7 @@ class IntegralSelectiveBidder(Bidder):
             else:             # never check
                 self.paper_thresholds[paper_id] = 10
 
-
-    def apply_reviewer_behavior(self, params, current_bidding_profile,prices):
+    def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
         contribution = 0
         sorted_papers_id = np.argsort(self.private_costs)
         for paper_id in sorted_papers_id:
@@ -92,35 +87,37 @@ class IntegralSelectiveBidder(Bidder):
     def get_type(self):
         return "IntegralSelectiveBidder"
 
+
 class UniformSelectiveBidder(IntegralSelectiveBidder):
     def init(self, params):
         my_params = copy.deepcopy(params)
         my_params["selective_price_threshold"] = 0
-        my_params["selective_fraction_sure"] += params['selective_fraction_maybe']/2
+        my_params["selective_fraction_sure"] += params['selective_fraction_maybe'] / 2
         my_params['selective_fraction_maybe'] = 0
-        IntegralSelectiveBidder.init(self,my_params)
+        IntegralSelectiveBidder.init(self, my_params)
 
     def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
         my_prices = [1] * len(prices)
-        IntegralSelectiveBidder.apply_reviewer_behavior(self,params, current_bidding_profile, my_prices)
+        IntegralSelectiveBidder.apply_reviewer_behavior(self, params, current_bidding_profile, my_prices)
         return current_bidding_profile
 
     def get_type(self):
         return "UniformSelectiveBidder"
 
+
 class IntegralGreedyBidder(Bidder):
     # Orders papers according to (cost - price*weight) in increasing order.
     # Bids until contribution exceeds the threshold.
     # Only adds bids
-    def apply_reviewer_behavior(self, params, current_bidding_profile,prices):
+    def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
         contribution = 0
-        priority = np.subtract(self.private_costs , np.multiply(self.price_weight, prices))
+        priority = np.subtract(self.private_costs, np.multiply(self.price_weight, prices))
         sorted_papers_id = np.argsort(priority)
         if self.bid_rounds_so_far == 0:
             current_bidding_profile[self.reviewer_index] = [0]*len(self.private_costs)
         for paper_id in sorted_papers_id:
             if self.paper_COI[paper_id] == False:
-                self.bid(paper_id,current_bidding_profile)
+                self.bid(paper_id, current_bidding_profile)
                 contribution += prices[paper_id]
 
             if contribution >= self.bidding_requirement or np.sum(current_bidding_profile[self.reviewer_index] > 0) >= self.bidding_limit:
@@ -128,17 +125,17 @@ class IntegralGreedyBidder(Bidder):
         self.bid_rounds_so_far += 1
         return current_bidding_profile
 
-
     def get_type(self):
         return "IntegralGreedyBidder"
 
-class IntegralSincereBidder(IntegralGreedyBidder):
 
-    def init(self,params):
+class IntegralSincereBidder(IntegralGreedyBidder):
+    def init(self, params):
         self.price_weight = 0
 
     def get_type(self):
         return "IntegralSincereBidder"
+
 
 class UniformBidder(IntegralSincereBidder):
     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
@@ -147,67 +144,65 @@ class UniformBidder(IntegralSincereBidder):
         my_prices = [1]*len(prices)
         IntegralGreedyBidder.apply_reviewer_behavior(self,params, current_bidding_profile, my_prices)
         return current_bidding_profile
+
     def get_type(self):
         return "UniformBidder"
 
 
-
-class BestIntegralSincereUnderbidResponse(Bidder):
-    # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. The reviewer will submit a sincere
-    # underbid that will yield the minimal cost value according to the private prices of the reviewer after allocation.
-    def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
-        contribution = 0
-        best_response = (np.zeros(params['total_papers']), np.inf)
-        current_bid = np.zeros(params['total_papers'])
-        private_prices = c_q_vec_to_pairs(params, reviewer_index)
-        sorted_papers_by_private_price = sorted(private_prices, key=lambda tup: tup[1])
-        for paper in [pair[0] for pair in sorted_papers_by_private_price]:
-            if (contribution + prices[paper]) >= threshold:
-                break
-            current_bid[paper] = 1
-            current_bidding_profile[reviewer_index] = current_bid
-            algorithm = possible_algorithms[params['matching_algorithm']](params)
-            final_allocation = algorithm.match(current_bidding_profile, params)['third_step_allocation']
-            private_prices = c_q_vec_to_pairs(params, reviewer_index)
-            cost = [pair[1] * final_allocation[reviewer_index][pair[0]] for pair in private_prices]
-            cost = sum(cost)
-            if cost < best_response[1]:
-                best_response = (copy.deepcopy(current_bid), cost)
-            contribution += prices[paper]
-        current_bidding_profile[reviewer_index] = best_response[0]
-        return current_bidding_profile
-
-
-class BestIntegralSincereResponse(Bidder):
-    # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. The reviewer will submit a sincere bid
-    # that will yield the minimal cost value according to the private prices of the reviewer after allocation.
-    def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
-        best_response = (np.zeros(params['total_papers']), np.inf)
-        current_bid = np.zeros(params['total_papers'])
-        private_prices = c_q_vec_to_pairs(params, reviewer_index)
-        sorted_papers_by_private_price = sorted(private_prices, key=lambda tup: tup[1])
-        for paper in [pair[0] for pair in sorted_papers_by_private_price]:
-            current_bid[paper] = 1
-            current_bidding_profile[reviewer_index] = current_bid
-            algorithm = possible_algorithms[params['matching_algorithm']](params)
-            final_allocation = algorithm.match(current_bidding_profile, params)['third_step_allocation']
-            private_prices = c_q_vec_to_pairs(params, reviewer_index)
-            cost = [pair[1] * final_allocation[reviewer_index][pair[0]] for pair in private_prices]
-            cost = sum(cost)
-            if cost < best_response[1]:
-                best_response = (copy.deepcopy(current_bid), cost)
-        current_bidding_profile[reviewer_index] = best_response[0]
-        return current_bidding_profile
-
-
-class BestOfXIntegralResponse(Bidder):
-    # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. The reviewer will submit a bid on X of
-    # the cheapest papers (per market price) that will yield the minimal cost value according to the private prices of
-    # the reviewer after allocation.
-    def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
-        print('to do')
+# class BestIntegralSincereUnderbidResponse(Bidder):
+#     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. The reviewer will submit a sincere
+#     # underbid that will yield the minimal cost value according to the private prices of the reviewer after allocation.
+#     def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
+#         contribution = 0
+#         best_response = (np.zeros(params['total_papers']), np.inf)
+#         current_bid = np.zeros(params['total_papers'])
+#         private_prices = c_q_vec_to_pairs(params, reviewer_index)
+#         sorted_papers_by_private_price = sorted(private_prices, key=lambda tup: tup[1])
+#         for paper in [pair[0] for pair in sorted_papers_by_private_price]:
+#             if (contribution + prices[paper]) >= threshold:
+#                 break
+#             current_bid[paper] = 1
+#             current_bidding_profile[reviewer_index] = current_bid
+#             algorithm = possible_algorithms[params['matching_algorithm']](params)
+#             final_allocation = algorithm.match(current_bidding_profile, params)['third_step_allocation']
+#             private_prices = c_q_vec_to_pairs(params, reviewer_index)
+#             cost = [pair[1] * final_allocation[reviewer_index][pair[0]] for pair in private_prices]
+#             cost = sum(cost)
+#             if cost < best_response[1]:
+#                 best_response = (copy.deepcopy(current_bid), cost)
+#             contribution += prices[paper]
+#         current_bidding_profile[reviewer_index] = best_response[0]
+#         return current_bidding_profile
+#
+#
+# class BestIntegralSincereResponse(Bidder):
+#     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. The reviewer will submit a sincere bid
+#     # that will yield the minimal cost value according to the private prices of the reviewer after allocation.
+#     def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
+#         best_response = (np.zeros(params['total_papers']), np.inf)
+#         current_bid = np.zeros(params['total_papers'])
+#         private_prices = c_q_vec_to_pairs(params, reviewer_index)
+#         sorted_papers_by_private_price = sorted(private_prices, key=lambda tup: tup[1])
+#         for paper in [pair[0] for pair in sorted_papers_by_private_price]:
+#             current_bid[paper] = 1
+#             current_bidding_profile[reviewer_index] = current_bid
+#             algorithm = possible_algorithms[params['matching_algorithm']](params)
+#             final_allocation = algorithm.match(current_bidding_profile, params)['third_step_allocation']
+#             private_prices = c_q_vec_to_pairs(params, reviewer_index)
+#             cost = [pair[1] * final_allocation[reviewer_index][pair[0]] for pair in private_prices]
+#             cost = sum(cost)
+#             if cost < best_response[1]:
+#                 best_response = (copy.deepcopy(current_bid), cost)
+#         current_bidding_profile[reviewer_index] = best_response[0]
+#         return current_bidding_profile
 
 
-class BestOfXIntegralSincereResponse(Bidder):
-    def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
-        print('to do')
+possible_bidder_types = {
+                      'IntegralSelectiveBidder': IntegralSelectiveBidder,
+                      'UniformSelectiveBidder': UniformSelectiveBidder,
+                      # 'BestIntegralSincereUnderbidResponse': BestIntegralSincereUnderbidResponse,
+                      # 'BestIntegralSincereResponse': BestIntegralSincereResponse,
+                      'IntegralSincereBidder': IntegralSincereBidder,
+                      'IntegralGreedyBidder': IntegralGreedyBidder,
+                      'UniformBidder': UniformBidder
+                        }

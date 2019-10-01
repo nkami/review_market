@@ -19,7 +19,6 @@ class MatchingAlgorithm:
 
 
 class FractionalAllocation(MatchingAlgorithm):
-    # A detailed explanation of this algorithm is available in the review_market.new2 pdf, pages 5-7.
     def match(self, bidding_profile, params):
         total_reviewers = params['total_reviewers']
         total_papers = params['total_papers']
@@ -63,30 +62,16 @@ class FractionalAllocation(MatchingAlgorithm):
             paper_total_underbid = (params['papers_requirements'][paper_index]
                                     - np.sum(fractional_allocation_profile, axis=0)[paper_index])
             papers_total_underbids.append(paper_total_underbid)
-        U = sum(underbids)
-        if U > 0:
+        if sum(underbids) > 0:
             for reviewer_index in range(0, total_reviewers):
                 for paper_index in range(0, total_papers):
                     if quota_matrix[reviewer_index][paper_index] == 0:
                         continue
                     else:
-                        ## Reshef: I removed this part. All quota constraints are treated the same, whether the quota is 0 or 1 or something else
-                        ##         the quota is ignored when deciding how much to allocate in step III, but any amount over the quota remains unallocated.
-                        # underbids_with_coi = copy.deepcopy(underbids)
-                        # for reviewer in range(0, total_reviewers):
-                        #     if params['quota_matrix'][reviewer][paper_index] == 0:
-                        #         underbids_with_coi[reviewer] = 0
-                        # if sum(underbids_with_coi) == 0:
-                        #     underbids_with_coi[reviewer_index] = 1
-                        # fractional_allocation_profile[reviewer_index][paper_index] = \
-                        #     min(params['quota_matrix'][reviewer_index][paper_index],
-                        #         fractional_allocation_profile[reviewer_index][paper_index] +
-                        #         papers_total_underbids[paper_index] * (underbids[reviewer_index] / sum(underbids_with_coi)))
-
                         fractional_allocation_profile[reviewer_index][paper_index] = \
                             min(quota_matrix[reviewer_index][paper_index],
                                 fractional_allocation_profile[reviewer_index][paper_index] +
-                                papers_total_underbids[paper_index] * (underbids[reviewer_index] / U))
+                                papers_total_underbids[paper_index] * (underbids[reviewer_index] / sum(underbids)))
         third_step_allocation = copy.deepcopy(fractional_allocation_profile)
         unallocated_papers = np.zeros(total_papers)
         for paper_index in range(0, total_papers):
@@ -98,10 +83,13 @@ class FractionalAllocation(MatchingAlgorithm):
 
 class FractionalSumOWA(MatchingAlgorithm):
     def match(self, bidding_profile, params):
-        k = sum(params['papers_requirements'])
-        k = k / params['total_reviewers']
-        min_papers_per_reviewer = np.floor(k)
-        max_papers_per_reviewer = np.ceil(k)
+        # k = sum(params['papers_requirements'])
+        # k = k / params['total_reviewers']
+        # min_papers_per_reviewer = np.floor(k)
+        # max_papers_per_reviewer = np.ceil(k)
+
+        min_papers_per_reviewer = 3
+        max_papers_per_reviewer = 4
 
         # Generate a bid structure.
         agents = ["a" + str(i) for i in range(params['total_reviewers'])]
@@ -160,19 +148,18 @@ class DiscreteSumOWA(MatchingAlgorithm):
         self.file_extension = None
 
     def match(self, bidding_profile, params):
-        common_and_unique_bids = self.adjust_input_format(bidding_profile, params)
+        common_bids, unique_bidders = self.adjust_input_format(bidding_profile, params)
         k = sum(params['papers_requirements'])
-        k = k / params['total_reviewers']  # np.ceil(k / total_reviewers) ??????????
+        k = k / params['total_reviewers']
         minimum_papers_per_reviewer = int(np.floor(k))
         maximum_papers_per_reviewer = int(np.ceil(k))
         minimum_reviewers_per_paper = int(np.floor(min(params['papers_requirements'])))
         maximum_reviewers_per_paper = int(np.floor(max(params['papers_requirements'])))
-        #print(self.type)
         os.system('python .\\allocation\\cap_discrete_alloc.py -d .\\output\\tmp_input_adjust999.toi -p '
                   '.\\output\\tmp_output_adjust999 -a ' + str(minimum_papers_per_reviewer) + ' -A ' +
                   str(maximum_papers_per_reviewer) + ' -o ' + str(minimum_reviewers_per_paper) + ' -O ' +
                   str(maximum_reviewers_per_paper) + ' ' + self.type)
-        algorithm_output = self.adjust_output_format(common_and_unique_bids, params)
+        algorithm_output = self.adjust_output_format(common_bids, unique_bidders, params)
         os.remove('.\\output\\tmp_input_adjust999.toi')
         os.remove('.\\output\\tmp_output_adjust999' + self.file_extension + '.pickle')
         #os.remove('gurobi.log')
@@ -236,16 +223,16 @@ class DiscreteSumOWA(MatchingAlgorithm):
                 self.write_bid_to_file(bidding_profile[bid], [bid], output_file, params)
         return common_bids, unique_bidders
 
-    def adjust_output_format(self, common_and_unique_bids, params):
+    def adjust_output_format(self, common_bids, unique_bidders, params):
         first_step_allocation = np.zeros((params['total_reviewers'], params['total_papers']))
         for reviewer in range(0, params['total_reviewers']):
             for paper in range(0, params['total_papers']):
                 first_step_allocation[reviewer][paper] = -1
         second_step_allocation = first_step_allocation
         owa_algo_agents_to_reviewers_map = []
-        for common_bid in common_and_unique_bids[0]:
+        for common_bid in common_bids:
             owa_algo_agents_to_reviewers_map = owa_algo_agents_to_reviewers_map + common_bid[1]
-        owa_algo_agents_to_reviewers_map = owa_algo_agents_to_reviewers_map + common_and_unique_bids[1]
+        owa_algo_agents_to_reviewers_map = owa_algo_agents_to_reviewers_map + unique_bidders
         with open('.\\output\\tmp_output_adjust999' + self.file_extension + '.pickle', "rb") as openfile:
             file_info = pickle.load(openfile)
         third_step_allocation = np.zeros((params['total_reviewers'], params['total_papers']))
