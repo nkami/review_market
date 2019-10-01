@@ -1,44 +1,76 @@
 from instance_generator import *
+from matching_algorithms import *
 
 
-# Transforms a vector (a reviewer) from the cost and quota matrices into a list of tuples:
-# (paper_id, paper_private_cost). A paper that has a COI with the reviewer wont appear in the returned list.
-def c_q_vec_to_pairs(params, reviewer_index):
-    pairs = []
-    for paper in range(0, params['total_papers']):
-        if params['quota_matrix'][reviewer_index][paper] != 0:  # check that no COI with paper
-            pairs.append((paper, params['cost_matrix'][reviewer_index][paper]))
-    return pairs
+# Gini and Hoover formulas taken from http://www.nickmattei.net/docs/papers.pdf
+def gini_index(u):
+    um = np.matrix(u)
+    U = np.abs(np.transpose(um) - um)
+    return U.sum() / (2*len(u)*um.sum())
 
 
-def calculate_total_social_cost(params, algorithm_results):
-    social_cost = 0
-    for reviewer in range(0, params['total_reviewers']):
-        private_prices = c_q_vec_to_pairs(params, reviewer)
-        sorted_papers_by_index = sorted(private_prices, key=lambda tup: tup[0])
-        reviewer_private_prices = [pair[1] for pair in sorted_papers_by_index]
-        reviewer_social_cost = [reviewer_private_prices[i] * algorithm_results['third_step_allocation'][reviewer][i]
-                                for i in range(0, len(sorted_papers_by_index))]
-        social_cost += sum(reviewer_social_cost)
-    social_cost += sum([params['unallocated_papers_price'][paper] * algorithm_results['unallocated_papers'][paper] for
-                       paper in range(0, params['total_papers'])])
-    return social_cost
+def hoover_index(u):
+    us = np.sum(u)
+    return np.sum(np.abs(u - us/len(u))) / (2*us)
 
 
-def calculate_individual_contribution(params, algorithm_results):
-    individual_contribution = []
-    for reviewer in range(0, params['total_reviewers']):
-        individual_contribution.append(sum([params['cost_matrix'][reviewer][paper] *
-                                            algorithm_results['third_step_allocation'][reviewer][paper] for paper in
-                                            range(0, params['total_papers'])]))
-    return individual_contribution
+def plot_allocation_vs_bids():
+    # Note: take average over all samples!
+    # excess papers ratio(S) = total_excess_papers / total_papers
+    # successful bids ratio(S) = allocated_papers_per_bid
+    # bids per PCM(P) = total_bids / total_reviewers
+    print('to do')
 
 
-def calculate_total_paper_cost(params, algorithm_results):
-    total_paper_cost = []
-    for paper in range(0, params['total_papers']):
-        total_paper_cost.append(sum([params['cost_matrix'][reviewer][paper] *
-                                     algorithm_results['third_step_allocation'][reviewer][paper] for reviewer in
-                                     range(0, params['total_reviewers'])]))
-    return total_paper_cost
+def plot_allocation_quality():
+    # Note: take average over all samples!
+    # average cost per bidder(P) = average_bidder_cost
+    # average cost per uniform bidder(P) = average_fallback_bidder_cost
+    # average cost per price-sensitive bidder(P) = average_main_bidder_cost
+    # average cost per requested paper(S) = ?????
+    print('to do')
 
+
+def plot_allocation_fairness():
+    # Note: take average over all samples!
+    # paper bids = gini_paper_bids
+    # uniform bidders costs = gini_fallback_bidder_cost
+    # price-sensitive bidders costs = gini_main_bidder_cost
+    print('to do')
+
+
+def plot_cost_per_PCM_algorithm_dependant():
+    # Note: take average over all samples!
+    # average cost per bidder(P) = average_bidder_cost
+    # compliance = fallback probability related?
+    print('to do')
+
+
+def plot_cost_per_PCM_bidding_rounds_dependant():
+    # Note: take average over all samples!
+    # ???????????????????
+    print('to do')
+
+
+def plot_cost_per_PCM_alpha_dependant():
+    # Note: take average over all samples!
+    # ???????????????????
+    print('to do')
+
+
+
+
+
+# bidding_p = [[5, 5, 1.5, 5, 5, 5],
+#              [5, 1.2, 5, 0.6, 5, 5],
+#              [1, 1, 5, 5, 5, 5]]
+# params = {}
+# params['total_papers'] = 6
+# params['total_reviewers'] = 3
+# params['quota_matrix'] = [[1, 1, 1, 1, 1, 1],
+#                           [1, 1, 1, 1, 1, 1],
+#                           [1, 1, 1, 1, 1, 1]]
+# params['papers_requirements'] = [2.5 for i in range(0, params['total_papers'])]
+# algo = FractionalSumOWA(params)
+# res = algo.match(bidding_p, params)
+# print(res['third_step_allocation'])

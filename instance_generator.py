@@ -6,10 +6,11 @@ import pathlib
 import datetime
 import re
 
-rank_cost_lower_bounds = [0,1,2,8,15]
-rank_cost_upper_bounds = [1,2,8,15,20]
-
+rank_cost_lower_bounds = [0, 1, 2, 8, 15]
+rank_cost_upper_bounds = [1, 2, 8, 15, 20]
 matrices_local_dir = ".\\cost_matrices"
+
+
 class Instance:
     # A problem instance which consists of a preferences profile, total amount of papers, total amount of reviewers and
     # papers review requirements. Papers review requirements is a list that assigns each paper the amount of times it
@@ -104,12 +105,6 @@ class PreflibInstanceGenerator(InstanceGenerator):
             if line_number > starting_line:
                 reviewer_profile = []
                 reviewer_no_coi = []
-                #modified_line = ""
-                # if line[-1:] != ',':
-                #     line = line + ','
-                # for i in range(0, len(line)):
-                #     if i > 2 and i < (len(line) - 2):
-                #         modified_line += line[i]
                 for string_ranked_preference in line.split(';')[1:]:
                     if string_ranked_preference == '':  # in case a preference rank is empty assign dummy paper -1
                         string_ranked_preference = '-1'
@@ -148,25 +143,6 @@ if __name__ == '__main__':
         for paper in range(0, instance.total_papers):
             if str(paper) in instance.private_costs[reviewer].keys():  # a coi paper will not have a price
                 cost_matrix[reviewer][paper] = instance.private_costs[reviewer][str(paper)]
-    # output = {'reviewers_behavior': 'fill',
-    #           'forced_permutations': 'fill',
-    #           'number_of_bids_until_prices_update': 'fill',
-    #           'total_bids_until_closure': 'fill',
-    #           'matching_algorithm': 'fill',
-    #           'market_mechanism': 'fill',
-    #           'ignore_quota_constraints': params['ignore_quota_constraints'],
-    #           'additional_params': 'fill',
-    #           'total_reviewers': instance.total_reviewers,
-    #           'total_papers': instance.total_papers,
-    #           'min_price': 0,
-    #           'bidding_requirement': 'fill',            # the bidding requirement is used for the bidding mechanism, whereas the papers_requirement is used by the allocation algorithm.
-    #                                                     # they do NOT have to agree in the general case
-    #           'output_detail_level_permutations': 100,  # percent of permutation updates that will be printed
-    #           'output_detail_level_iterations': 20,  # percent of iteration updates that will be printed
-    #           'samples': 10,  # amount of runs per value of the selected parameter
-    #           'papers_requirements': instance.papers_review_requirement,
-    #           'cost_matrix': cost_matrix.tolist(),
-    #           'quota_matrix': quota_matrix.tolist()}
     cost_matrix_output = {'preflib_file': params['additional_params']['PreflibFile'],
                           'total_reviewers': instance.total_reviewers,
                           'total_papers': instance.total_papers,
@@ -180,8 +156,8 @@ if __name__ == '__main__':
     except FileExistsError:
         pass
     time_stamp = datetime.datetime.now().isoformat()[:-7].replace(':', '-')
-    cost_matrix_path = '{1}\\cost_matrix_{0}.json'.format(time_stamp,matrices_local_dir)
-    quota_matrix_path = '{1}\\quota_matrix_{0}.json'.format(time_stamp,matrices_local_dir)
+    cost_matrix_path = '{1}\\cost_matrix_{0}.json'.format(time_stamp, matrices_local_dir)
+    quota_matrix_path = '{1}\\quota_matrix_{0}.json'.format(time_stamp, matrices_local_dir)
     data_and_paths = [(cost_matrix_path, cost_matrix_output), (quota_matrix_path, quota_matrix_output)]
     for current_pair in data_and_paths:
         with open(current_pair[0], 'w') as output_file:
