@@ -186,14 +186,14 @@ def start_bidding_process(params, bidders, bidding_order, sample_path, sample_id
 
 def adjust_params(params):
     if params['random_matrices']:  # TODO: maybe merge cost matrices and quota matrices?
-        cost_matrices = [file for file in os.listdir('.\\cost_matrices') if 'cost_matrix' in file]
+        cost_matrices = [file for file in os.listdir('./cost_matrices') if 'cost_matrix' in file]
         chosen_matrix = np.random.randint(0, high=len(cost_matrices))
         chosen_matrix = cost_matrices[chosen_matrix]
-        matching_quota_matrix = [file for file in os.listdir('.\\cost_matrices') if
+        matching_quota_matrix = [file for file in os.listdir('./cost_matrices') if
                                  file.replace('quota_matrix', 'cost_matrix') == chosen_matrix][0]
         matching_quota_matrix = matching_quota_matrix.replace('cost_matrix', 'quota_matrix')
-        params['cost_matrix_path'] = '.\\cost_matrices\\' + chosen_matrix
-        params['quota_matrix_path'] = '.\\cost_matrices\\' + matching_quota_matrix
+        params['cost_matrix_path'] = './cost_matrices/' + chosen_matrix
+        params['quota_matrix_path'] = './cost_matrices/' + matching_quota_matrix
     with open(params['cost_matrix_path']) as file:
         cost_matrix_file = json.loads(file.read())
         params['cost_matrix'] = cost_matrix_file['cost_matrix']
@@ -260,7 +260,7 @@ def add_optimal_allocation_results(params, time_stamp):  # TODO: FractionalSumOW
     all_realized_costs = np.multiply(params['cost_matrix'], optimal_allocation)
     optimal_cost = np.sum(all_realized_costs)
     optimal_cost_column = [optimal_cost for i in range(0, params['total_reviewers'])]
-    optimal_path_csv = '.\\output\\simulation_{0}\\optimal_allocation.csv'.format(time_stamp)
+    optimal_path_csv = './output/simulation_{0}/optimal_allocation.csv'.format(time_stamp)
     optimal_data_frame = pd.DataFrame(optimal_allocation, columns=optimal_allocation_columns)
     optimal_data_frame['cost'] = optimal_cost_column
     optimal_data_frame.to_csv(optimal_path_csv, index=None, header=True)
@@ -268,10 +268,10 @@ def add_optimal_allocation_results(params, time_stamp):  # TODO: FractionalSumOW
 
 def run_simulation(input_json, time_stamp, simulation_idx, columns):
     pd.options.mode.chained_assignment = None
-    input_json_path = '.\\output\\simulation_batch_{0}\\used_input_files\\'.format(time_stamp) + input_json
+    input_json_path = './output/simulation_batch_{0}/used_input_files/'.format(time_stamp) + input_json
     with open(input_json_path) as file:
         params = json.loads(file.read())
-    pathlib.Path('.\\output\\simulation_batch_{0}\\simulation_{1}'.format(time_stamp, simulation_idx)).mkdir()
+    pathlib.Path('./output/simulation_batch_{0}/simulation_{1}'.format(time_stamp, simulation_idx)).mkdir()
     results_of_all_parameters_values = []
     all_parameters = list(it.product(params['bidding_requirements'],
                                      params['forced_permutations'],
@@ -283,7 +283,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
     progress_bar = tqdm(total=total_samples)
     for combination_idx, current_combination in enumerate(all_parameters):
         value_folder_name = 'combination_{0}'.format(combination_idx)
-        combination_path = '.\\output\\simulation_batch_{0}\\simulation_{1}\\{2}'.format(time_stamp, simulation_idx, value_folder_name)
+        combination_path = './output/simulation_batch_{0}/simulation_{1}/{2}'.format(time_stamp, simulation_idx, value_folder_name)
         pathlib.Path(combination_path).mkdir()
         for sample_idx in range(0, params['samples']):
             params = update_current_params(params, current_combination)
@@ -291,7 +291,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
             progress_bar.update(1)
             bidders = create_bidders(params)
             bidding_order = create_bidding_order(params)
-            samples_path = combination_path + '\\sample_{0}.csv'.format(sample_idx)
+            samples_path = combination_path + '/sample_{0}.csv'.format(sample_idx)
             final_state = start_bidding_process(params, bidders, bidding_order, samples_path, sample_idx)
             for algorithm_name in params['matching_algorithm']:
                 current_final_state = final_state.loc[final_state['matching algorithm'] == algorithm_name]
@@ -319,6 +319,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                 total_excess_papers = excess_papers.sum()
                 all_bids = np.sum(total_bids)
 
+                metric = Metric()
                 results_of_all_parameters_values.append([params['total_reviewers'],
                                                          params['total_papers'],
                                                          params['current_bidding_requirements'],
@@ -332,18 +333,18 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                                                          all_bids,
                                                          total_excess_papers,
                                                          allocated_step2_papers / all_bids,
-                                                         gini_index(total_bids),
-                                                         hoover_index(total_bids),
+                                                         metric.gini_index(total_bids),
+                                                         metric.hoover_index(total_bids),
                                                          average_cost_per_step_2_paper,
                                                          np.mean(realized_costs),
-                                                         gini_index(realized_costs),
-                                                         hoover_index(realized_costs),
+                                                         metric.gini_index(realized_costs),
+                                                         metric.hoover_index(realized_costs),
                                                          np.mean(fallback_realized_costs),
-                                                         gini_index(fallback_realized_costs),
-                                                         hoover_index(fallback_realized_costs),
+                                                         metric.gini_index(fallback_realized_costs),
+                                                         metric.hoover_index(fallback_realized_costs),
                                                          np.mean(main_realized_costs),
-                                                         gini_index(main_realized_costs),
-                                                         hoover_index(main_realized_costs),
+                                                         metric.gini_index(main_realized_costs),
+                                                         metric.hoover_index(main_realized_costs),
                                                          params['cost_matrix_path'],
                                                          params['quota_matrix_path'],
                                                          input_json])
@@ -351,22 +352,22 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
     results_of_all_parameters_values = np.array(results_of_all_parameters_values)
     data_frame = pd.DataFrame(results_of_all_parameters_values, columns=columns)
     # '.\\output\\simulation_batch_{0}\\simulation_{1}\\{2}'
-    path_csv = '.\\output\\simulation_batch_{0}\\simulation_{1}\\all_samples.csv'.format(time_stamp, simulation_idx)
+    path_csv = './output/simulation_batch_{0}/simulation_{1}/all_samples.csv'.format(time_stamp, simulation_idx)
     data_frame.to_csv(path_csv, index=None, header=True)
     return results_of_all_parameters_values # maybe return a data frame instead?
 
 
 if __name__ == '__main__':
     try:
-        pathlib.Path('.\\output').mkdir()
+        pathlib.Path('./output').mkdir()
     except FileExistsError:
         pass
     time_stamp = datetime.datetime.now().isoformat()[:-7].replace(':', '-')
-    pathlib.Path('.\\output\\simulation_batch_{0}'.format(time_stamp)).mkdir()
+    pathlib.Path('./output/simulation_batch_{0}'.format(time_stamp)).mkdir()
     parser = argparse.ArgumentParser()
     parser.add_argument("InputPath", help="a path to the input file or directory")
     args = parser.parse_args()
-    copied_input_files_path = '.\\output\\simulation_batch_{0}\\used_input_files'.format(time_stamp)
+    copied_input_files_path = './output/simulation_batch_{0}/used_input_files'.format(time_stamp)
     pathlib.Path(copied_input_files_path).mkdir()
     if os.path.isdir(args.InputPath):
         copy_tree(args.InputPath, copied_input_files_path)
