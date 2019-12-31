@@ -5,6 +5,7 @@ import pathlib
 import pickle
 import sys
 import gurobipy as gpy
+
 sys.path.append('.\\allocation')
 import build_models as sum_owa
 
@@ -23,28 +24,29 @@ class FractionalAllocation(MatchingAlgorithm):
         total_reviewers = params['total_reviewers']
         total_papers = params['total_papers']
         quota_matrix = params['quota_matrix']
+        paper_req = params['papers_requirements']
         # step I
         prices = []
         for paper_index in range(0, total_papers):
             paper_demand = np.sum(bidding_profile, axis=0)[paper_index]
             paper_demand_count = np.sum(bidding_profile > 0, axis=0)[paper_index]
             # note change: if there are few bidders, even if they have high demand then the price is 1 since they should all get 1 unit of the paper
-            if paper_demand_count <= params['papers_requirements'][paper_index]:
+            if paper_demand_count <= paper_req[paper_index]:
                 paper_price = 1
             else:
-                paper_price = min(1, ( params['papers_requirements'][paper_index] / paper_demand))
+                paper_price = min(1, (paper_req[paper_index] / paper_demand))
             prices.append(paper_price)
         fractional_allocation_profile = np.zeros((total_reviewers, total_papers))
         for reviewer_index in range(0, total_reviewers):
             for paper_index in range(0, total_papers):
-                fractional_allocation_profile[reviewer_index][paper_index] = min(quota_matrix[reviewer_index][paper_index],
-                                                (bidding_profile[reviewer_index][paper_index] * prices[paper_index]))
+                fractional_allocation_profile[reviewer_index][paper_index] = min(
+                    quota_matrix[reviewer_index][paper_index],
+                    (bidding_profile[reviewer_index][paper_index] * prices[paper_index]))
         first_step_allocation = copy.deepcopy(fractional_allocation_profile)
         # step II
         overbidders = []
         underbids = []
-        k = sum(params['papers_requirements'])
-        k = k / total_reviewers  # np.ceil(k / total_reviewers)
+        k = sum(paper_req) / total_reviewers  # np.ceil(k / total_reviewers)
         for reviewer_index in range(0, total_reviewers):
             overbid_of_reviewer = np.sum(fractional_allocation_profile, axis=1)[reviewer_index] - k
             if overbid_of_reviewer > 0:
@@ -57,25 +59,37 @@ class FractionalAllocation(MatchingAlgorithm):
                 fractional_allocation_profile[overbidder[0]][paper_index] *= (k / (k + overbidder[1]))
         second_step_allocation = copy.deepcopy(fractional_allocation_profile)
         # step III
-        papers_total_underbids = []
+        paper_total_underbids = []
+        free_space_matrix = np.zeros(total_reviewers, total_papers)
         for paper_index in range(0, total_papers):
-            paper_total_underbid = (params['papers_requirements'][paper_index]
+            paper_total_underbid = (paper_req[paper_index]
                                     - np.sum(fractional_allocation_profile, axis=0)[paper_index])
-            papers_total_underbids.append(paper_total_underbid)
-        if sum(underbids) > 0:
+            paper_total_underbids.append(paper_total_underbid)
             for reviewer_index in range(0, total_reviewers):
-                for paper_index in range(0, total_papers):
+                free_space_matrix[reviewer_index][paper_index] = \
+                    np.min(paper_total_underbid,
+                           quota_matrix[reviewer_index][paper_index]-fractional_allocation_profile[reviewer_index][paper_index])
+            if np.sum(free_space_matrix,axis=1) < paper_total_underbid:
+                print(np.sum(free_space_matrix,axis=1))
+                print(paper_total_underbid)
+        if sum(underbids) > 0:
+            for paper_index in range(0, total_papers):
+                free_space_for_paper = np.sum(free_space_matrix,axis=1)
+                for reviewer_index in range(0, total_reviewers):
                     if quota_matrix[reviewer_index][paper_index] == 0:
                         continue
                     else:
                         fractional_allocation_profile[reviewer_index][paper_index] = \
                             min(quota_matrix[reviewer_index][paper_index],
-                                fractional_allocation_profile[reviewer_index][paper_index] +
-                                papers_total_underbids[paper_index] * (underbids[reviewer_index] / sum(underbids)))
+                            fractional_allocation_profile[reviewer_index][paper_index] +
+                            papers_total_underbids[paper_index] * (free_space_matrix[reviewer_index][paper_index] / free_space_for_paper))
+                        # min(quota_matrix[reviewer_index][paper_index],
+                        #    fractional_allocation_profile[reviewer_index][paper_index] +
+                        #    papers_total_underbids[paper_index] * (underbids[reviewer_index] / sum(underbids)))
         third_step_allocation = copy.deepcopy(fractional_allocation_profile)
         unallocated_papers = np.zeros(total_papers)
         for paper_index in range(0, total_papers):
-            unallocated_papers[paper_index] = (params['papers_requirements'][paper_index]
+            unallocated_papers[paper_index] = (paper_req[paper_index]
                                                - np.sum(fractional_allocation_profile, axis=0)[paper_index])
         return {'first_step_allocation': first_step_allocation, 'second_step_allocation': second_step_allocation,
                 'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
@@ -136,7 +150,7 @@ class FractionalSumOWA(MatchingAlgorithm):
         for paper in range(0, params['total_papers']):
             unallocated_papers[paper] = (params['papers_requirements'][paper]
                                          - np.sum(third_step_allocation, axis=0)[paper])
-        #os.remove('gurobi.log')
+        # os.remove('gurobi.log')
         return {'first_step_allocation': first_step_allocation, 'second_step_allocation': second_step_allocation,
                 'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
 
@@ -162,7 +176,7 @@ class DiscreteSumOWA(MatchingAlgorithm):
         algorithm_output = self.adjust_output_format(common_bids, unique_bidders, params)
         os.remove('.\\output\\tmp_input_adjust999.toi')
         os.remove('.\\output\\tmp_output_adjust999' + self.file_extension + '.pickle')
-        #os.remove('gurobi.log')
+        # os.remove('gurobi.log')
         return algorithm_output
 
     # the bids1-2 are tuples of: (bid, bidder id)
@@ -290,8 +304,3 @@ possible_algorithms = {'FractionalAllocation': FractionalAllocation,
                        'RankMaximal': RankMaximal,
                        'LinearSumOWA': LinearSumOWA,
                        'Nash': Nash}
-
-
-
-
-
