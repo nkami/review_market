@@ -23,7 +23,7 @@ def current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, 
     for algorithm_name in params['matching_algorithm']:
         algorithm = possible_algorithms[algorithm_name](params)
         algorithm_result = algorithm.match(mec.current_bidding_profile, params)
-        if algorithm_name == 'FractionalAllocation':
+        if algorithm_name in ['FractionalAllocation', 'MockAllocation']:
             step_1_unallocated_papers = np.subtract(mec.papers_review_requirements,
                                              algorithm_result['first_step_allocation'].sum(axis=0))
             step_2_unallocated_papers = np.subtract(mec.papers_review_requirements,
@@ -185,7 +185,7 @@ def start_bidding_process(params, bidders, bidding_order, sample_path, sample_id
 
 
 def adjust_params(params):
-    if params['random_matrices']:  # TODO: maybe merge cost matrices and quota matrices?
+    if 'random_matrices' in params:  # TODO: maybe merge cost matrices and quota matrices?
         cost_matrices = [file for file in os.listdir('./cost_matrices') if 'cost_matrix' in file]
         chosen_matrix = np.random.randint(0, high=len(cost_matrices))
         chosen_matrix = cost_matrices[chosen_matrix]
@@ -358,6 +358,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
 
 
 if __name__ == '__main__':
+    print("hello")
     try:
         pathlib.Path('./output').mkdir()
     except FileExistsError:

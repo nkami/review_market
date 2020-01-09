@@ -60,30 +60,43 @@ class FractionalAllocation(MatchingAlgorithm):
         second_step_allocation = copy.deepcopy(fractional_allocation_profile)
         # step III
         paper_total_underbids = []
-        free_space_matrix = np.zeros(total_reviewers, total_papers)
+        free_space_matrix = np.zeros((total_reviewers, total_papers))
         for paper_index in range(0, total_papers):
             paper_total_underbid = (paper_req[paper_index]
                                     - np.sum(fractional_allocation_profile, axis=0)[paper_index])
             paper_total_underbids.append(paper_total_underbid)
             for reviewer_index in range(0, total_reviewers):
                 free_space_matrix[reviewer_index][paper_index] = \
-                    np.min(paper_total_underbid,
-                           quota_matrix[reviewer_index][paper_index]-fractional_allocation_profile[reviewer_index][paper_index])
-            if np.sum(free_space_matrix,axis=1) < paper_total_underbid:
-                print(np.sum(free_space_matrix,axis=1))
-                print(paper_total_underbid)
+                    np.min([underbids[reviewer_index],
+                           quota_matrix[reviewer_index][paper_index]-fractional_allocation_profile[reviewer_index][paper_index]])
+            # if free_space_matrix[:,paper_index].sum() < paper_total_underbid:
+            #     print(paper_index)
+            #     print(free_space_matrix[:,paper_index].sum() )
+            #     print(paper_total_underbid)
         if sum(underbids) > 0:
+            free_space_for_paper = np.sum(free_space_matrix, axis=0)
             for paper_index in range(0, total_papers):
-                free_space_for_paper = np.sum(free_space_matrix,axis=1)
+                current_bids = np.sum(fractional_allocation_profile, axis=1)
+                free_space_for_this_paper = free_space_for_paper[paper_index]
+                current_free_space_for_paper = []
+                for reviewer_index in range(0, total_reviewers):
+                    current_free_space_for_paper.append(np.min([k-current_bids[reviewer_index],
+                                                                quota_matrix[reviewer_index][paper_index]-fractional_allocation_profile[reviewer_index][paper_index]]))
+                sum_free_space_for_paper = np.sum(current_free_space_for_paper)
+                if sum_free_space_for_paper < paper_total_underbid-0.0001:
+                    print(sum_free_space_for_paper)
+                    print(paper_total_underbid)
+                    print(paper_index)
+
                 for reviewer_index in range(0, total_reviewers):
                     if quota_matrix[reviewer_index][paper_index] == 0:
                         continue
                     else:
-                        fractional_allocation_profile[reviewer_index][paper_index] = \
-                            min(quota_matrix[reviewer_index][paper_index],
-                            fractional_allocation_profile[reviewer_index][paper_index] +
-                            papers_total_underbids[paper_index] * (free_space_matrix[reviewer_index][paper_index] / free_space_for_paper))
-                        # min(quota_matrix[reviewer_index][paper_index],
+                        fractional_allocation_profile[reviewer_index][paper_index] = fractional_allocation_profile[reviewer_index][paper_index] + paper_total_underbids[paper_index] * current_free_space_for_paper[reviewer_index]/sum_free_space_for_paper
+             #      TRY2:         fractional_allocation_profile[reviewer_index][paper_index] +   paper_total_underbids[paper_index] * (free_space_matrix[reviewer_index][paper_index] / free_space_for_this_paper)
+
+
+                        # TRY1: min(quota_matrix[reviewer_index][paper_index],
                         #    fractional_allocation_profile[reviewer_index][paper_index] +
                         #    papers_total_underbids[paper_index] * (underbids[reviewer_index] / sum(underbids)))
         third_step_allocation = copy.deepcopy(fractional_allocation_profile)
@@ -154,6 +167,178 @@ class FractionalSumOWA(MatchingAlgorithm):
         return {'first_step_allocation': first_step_allocation, 'second_step_allocation': second_step_allocation,
                 'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
 
+
+## The mock algorithm does not return a valid assignment, since each agent is allocated independently and thus more than r copies of a paper may be allocated.
+class MockAllocation(MatchingAlgorithm):
+    def match(self, bidding_profile, params):
+        total_reviewers = params['total_reviewers']
+        total_papers = params['total_papers']
+        quota_matrix = params['quota_matrix']
+        paper_req = params['papers_requirements']
+        # step I: same as in fractional algorithm
+        prices = []
+        for paper_index in range(0, total_papers):
+            paper_demand = np.sum(bidding_profile, axis=0)[paper_index]
+            paper_demand_count = np.sum(bidding_profile > 0, axis=0)[paper_index]
+            if paper_demand_count <= paper_req[paper_index]:
+                paper_price = 1
+            else:
+                paper_price = min(1, (paper_req[paper_index] / paper_demand))
+            prices.append(paper_price)
+        fractional_allocation_profile = np.zeros((total_reviewers, total_papers))
+        for reviewer_index in range(0, total_reviewers):
+            for paper_index in range(0, total_papers):
+                fractional_allocation_profile[reviewer_index][paper_index] = min(
+                    quota_matrix[reviewer_index][paper_index],
+                    (bidding_profile[reviewer_index][paper_index] * prices[paper_index]))
+        first_step_allocation = copy.deepcopy(fractional_allocation_profile)
+        # step II O: same as in fractional algorithm
+        overbidders = []
+        overbids = []   #  of all n bidders
+        underbids = []  # of all n bidders
+        k = sum(paper_req) / total_reviewers
+        for reviewer_index in range(0, total_reviewers):
+            overbid_of_reviewer = np.sum(fractional_allocation_profile, axis=1)[reviewer_index] - k
+            if overbid_of_reviewer > 0:
+                overbidders.append(reviewer_index)
+                overbids.append(overbid_of_reviewer)
+                underbids.append(0)
+            else:
+                overbids.append(0)
+                underbids.append(abs(overbid_of_reviewer))
+        for reviewer_index in range(0,total_reviewers ):
+            if reviewer_index in overbidders:
+                for paper_index in range(0, total_papers):
+                    fractional_allocation_profile[reviewer_index][paper_index] *= (k / (k + overbids[reviewer_index]))
+        second_step_allocation = copy.deepcopy(fractional_allocation_profile)
+        # step II U
+        # compute allocation for each bidder independently:
+        for reviewer_index in range(0, total_reviewers):
+            if reviewer_index in overbidders:
+                continue
+            paper_excess = np.zeros(total_papers)  # u_j
+            constrained_papers = []    # Q
+            for paper_index in range(0, total_papers):
+                paper_excess[paper_index] = paper_req[paper_index] - np.sum(first_step_allocation, axis=0)[paper_index]
+                if first_step_allocation[reviewer_index][paper_index] >= quota_matrix[reviewer_index][paper_index]:
+                    constrained_papers.append(paper_index)
+            while 1:
+                new_constrained_papers = []   # Q+
+                current_allocated = np.zeros(total_papers)  #  y_j
+                current_excess_papers = 0
+                for paper_index in range(0, total_papers):
+                    if paper_index in constrained_papers:
+                        current_allocated[paper_index] = quota_matrix[reviewer_index][paper_index]
+                    else:
+                        current_allocated[paper_index] = first_step_allocation[reviewer_index][paper_index]
+                        current_excess_papers += paper_excess[paper_index]
+                current_free_space = k-np.sum(current_allocated)
+                total_to_allocate = np.max([current_excess_papers,current_free_space])  #  su
+                for paper_index in range(0, total_papers):
+                    if paper_index in constrained_papers:
+                        fractional_allocation_profile[reviewer_index][paper_index] = quota_matrix[reviewer_index][paper_index]
+                    else:
+                        fractional_allocation_profile[reviewer_index][paper_index] = current_allocated[paper_index] + paper_excess[paper_index] * current_free_space / total_to_allocate
+                        if fractional_allocation_profile[reviewer_index][paper_index] > quota_matrix[reviewer_index][paper_index]:
+                            new_constrained_papers.append(paper_index)
+                if not new_constrained_papers:
+                    break
+                constrained_papers.extend(new_constrained_papers)
+        third_step_allocation = copy.deepcopy(fractional_allocation_profile)
+        unallocated_papers = np.zeros(total_papers)
+        for paper_index in range(0, total_papers):
+            unallocated_papers[paper_index] = (paper_req[paper_index]
+                                               - np.sum(fractional_allocation_profile, axis=0)[paper_index])
+        return {'first_step_allocation': first_step_allocation, 'second_step_allocation': second_step_allocation,
+                'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
+
+
+## The mock algorithm does not return a valid assignment, since each agent is allocated independently and thus more than r copies of a paper may be allocated.
+class MockAllocationAll(MatchingAlgorithm):
+    def match(self, bidding_profile, params):
+        total_reviewers = params['total_reviewers']
+        total_papers = params['total_papers']
+        quota_matrix = params['quota_matrix']
+        paper_req = params['papers_requirements']
+        # step I: same as in fractional algorithm
+        prices = []
+        for paper_index in range(0, total_papers):
+            paper_demand = np.sum(bidding_profile, axis=0)[paper_index]
+            paper_demand_count = np.sum(bidding_profile > 0, axis=0)[paper_index]
+            if paper_demand_count <= paper_req[paper_index]:
+                paper_price = 1
+            else:
+                paper_price = min(1, (paper_req[paper_index] / paper_demand))
+            prices.append(paper_price)
+        fractional_allocation_profile = np.zeros((total_reviewers, total_papers))
+        for reviewer_index in range(0, total_reviewers):
+            for paper_index in range(0, total_papers):
+                fractional_allocation_profile[reviewer_index][paper_index] = min(
+                    quota_matrix[reviewer_index][paper_index],
+                    (bidding_profile[reviewer_index][paper_index] * prices[paper_index]))
+        first_step_allocation = copy.deepcopy(fractional_allocation_profile)
+        # step II O: same as in fractional algorithm
+        overbidders = []
+        overbids = []   #  of all n bidders
+        underbids = []  # of all n bidders
+        k = sum(paper_req) / total_reviewers
+        for reviewer_index in range(0, total_reviewers):
+            overbid_of_reviewer = np.sum(fractional_allocation_profile, axis=1)[reviewer_index] - k
+            if overbid_of_reviewer > 0:
+                overbidders.append(reviewer_index)
+                overbids.append(overbid_of_reviewer)
+                underbids.append(0)
+            else:
+                overbids.append(0)
+                underbids.append(abs(overbid_of_reviewer))
+        for reviewer_index in range(0,total_reviewers ):
+            if reviewer_index in overbidders:
+                for paper_index in range(0, total_papers):
+                    fractional_allocation_profile[reviewer_index][paper_index] *= (k / (k + overbids[reviewer_index]))
+        second_step_allocation = copy.deepcopy(fractional_allocation_profile)
+        # step III
+        # compute allocation for each bidder independently:
+        constrained_papers = []  # tuples of (i,j)
+        for reviewer_index in range(0, total_reviewers):
+            for paper_index in range(0, total_papers):
+                if first_step_allocation[reviewer_index][paper_index] >= quota_matrix[reviewer_index][paper_index]:
+                    constrained_papers.append((reviewer_index, paper_index))
+        while 1:
+            fractional_allocation_profile = copy.deepcopy(second_step_allocation) # revert allocation
+            # assign all constrained papers:
+            for (reviewer_index,paper_index) in constrained_papers:
+                if reviewer_index not in overbidders:
+                   fractional_allocation_profile[reviewer_index][paper_index] = quota_matrix[reviewer_index][paper_index]
+            paper_allocated = np.sum(fractional_allocation_profile,axis=0)
+            reviewer_allocated = np.sum(fractional_allocation_profile,axis=1)
+            paper_excess = np.subtract(paper_req,paper_allocated)   # u_j after step II and constrained papers
+
+            new_constrained_papers = []  # Q+
+            for reviewer_index in range(0, total_reviewers):
+                if reviewer_index in overbidders:
+                    continue
+                current_free_space = k-reviewer_allocated[reviewer_index]
+                unconstrained_excess_papers = 0
+                for paper_index in range(0,total_papers):
+                    if (reviewer_index,paper_index) not in constrained_papers:
+                        unconstrained_excess_papers += paper_excess[paper_index]
+                total_to_allocate = np.max([unconstrained_excess_papers,current_free_space])  #  su
+                for paper_index in range(0, total_papers):
+                    if (reviewer_index,paper_index) not in constrained_papers:
+                        fractional_allocation_profile[reviewer_index][paper_index] = first_step_allocation[reviewer_index][paper_index] \
+                                                                                     + paper_excess[paper_index] * current_free_space / total_to_allocate
+                        if fractional_allocation_profile[reviewer_index][paper_index] >= quota_matrix[reviewer_index][paper_index]:
+                            new_constrained_papers.append((reviewer_index,paper_index))
+            if not new_constrained_papers:
+                break
+            constrained_papers.extend(new_constrained_papers)
+        third_step_allocation = copy.deepcopy(fractional_allocation_profile)
+        unallocated_papers = np.zeros(total_papers)
+        for paper_index in range(0, total_papers):
+            unallocated_papers[paper_index] = (paper_req[paper_index]
+                                               - np.sum(fractional_allocation_profile, axis=0)[paper_index])
+        return {'first_step_allocation': first_step_allocation, 'second_step_allocation': second_step_allocation,
+                'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
 
 class DiscreteSumOWA(MatchingAlgorithm):
     def __init__(self, params):
@@ -298,6 +483,8 @@ class Nash(DiscreteSumOWA):
 
 
 possible_algorithms = {'FractionalAllocation': FractionalAllocation,
+                        'MockAllocation': MockAllocation,
+                       'MockAllocationAll': MockAllocationAll,
                        'FractionalSumOWA': FractionalSumOWA,
                        'Utilitarian': Utilitarian,
                        'Egalitarian': Egalitarian,
