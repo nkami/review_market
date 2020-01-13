@@ -18,7 +18,7 @@ class MatchingAlgorithm:
     def match(self, bidding_profile, params):
         print('Method not implemented')
 
-
+## A fractional algorithm that returns a valid and complete assignment. Does not coincide with the one in the paper.
 class FractionalAllocation(MatchingAlgorithm):
     def match(self, bidding_profile, params):
         total_reviewers = params['total_reviewers']
@@ -168,6 +168,7 @@ class FractionalSumOWA(MatchingAlgorithm):
                 'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
 
 
+## An implementation of the algorithm in the paper.
 ## The mock algorithm does not return a valid assignment, since each agent is allocated independently and thus more than r copies of a paper may be allocated.
 class MockAllocation(MatchingAlgorithm):
     def match(self, bidding_profile, params):
@@ -253,7 +254,7 @@ class MockAllocation(MatchingAlgorithm):
                 'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
 
 
-## The mock algorithm does not return a valid assignment, since each agent is allocated independently and thus more than r copies of a paper may be allocated.
+## A valid versin of the Mock Algorithm, that does not allocate all papers.
 class MockAllocationAll(MatchingAlgorithm):
     def match(self, bidding_profile, params):
         total_reviewers = params['total_reviewers']
@@ -298,7 +299,8 @@ class MockAllocationAll(MatchingAlgorithm):
         second_step_allocation = copy.deepcopy(fractional_allocation_profile)
         # step III
         # compute allocation for each bidder independently:
-        constrained_papers = []  # tuples of (i,j)
+        constrained_papers = [] # tuples of (i,j)
+        
         for reviewer_index in range(0, total_reviewers):
             for paper_index in range(0, total_papers):
                 if first_step_allocation[reviewer_index][paper_index] >= quota_matrix[reviewer_index][paper_index]:
@@ -320,8 +322,8 @@ class MockAllocationAll(MatchingAlgorithm):
                 current_free_space = k-reviewer_allocated[reviewer_index]
                 unconstrained_excess_papers = 0
                 for paper_index in range(0,total_papers):
-                    if (reviewer_index,paper_index) not in constrained_papers:
-                        unconstrained_excess_papers += paper_excess[paper_index]
+               #     if (reviewer_index,paper_index) not in constrained_papers:
+                     unconstrained_excess_papers += paper_excess[paper_index]
                 total_to_allocate = np.max([unconstrained_excess_papers,current_free_space])  #  su
                 for paper_index in range(0, total_papers):
                     if (reviewer_index,paper_index) not in constrained_papers:
