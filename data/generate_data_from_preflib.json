@@ -1,0 +1,9 @@
+{
+    "papers_requirements": "3",
+	"private_prices_generator": "SimplePrivatePricesGenerator",
+	"unallocated_papers_price": "0",
+	"instance_generator": "PreflibSampleInstanceGenerator",
+	"ignore_quota_constraints": "false",
+	"additional_params": {"PreflibFile": "data\\PrefLib\\bids_m2414_n1321_nobid.txt", "sample_size_n": 100, "sample_size_m": 1000},
+	"file_suffix": "AAAI17"
+}

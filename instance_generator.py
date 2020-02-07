@@ -16,7 +16,7 @@ class Instance:
     # papers review requirements. Papers review requirements is a list that assigns each paper the amount of times it
     # should be reviewed. (the default is to set all the papers requirement to the same constant: r)
     def __init__(self, instance_coi, instance_private_costs, number_of_papers, number_of_reviewers,
-                 papers_requirements, unallocated_papers_cost, instance_preferences):
+                 papers_requirements,  instance_preferences):
         self.private_costs = instance_private_costs
         self.total_papers = number_of_papers
         self.total_reviewers = number_of_reviewers
@@ -26,10 +26,10 @@ class Instance:
             self.papers_review_requirement = [papers_requirements for x in range(0, number_of_papers)]
         else:
             self.papers_review_requirement = papers_requirements
-        if isinstance(unallocated_papers_cost, int):
-            self.unallocated_papers_cost = [unallocated_papers_cost for x in range(0, number_of_papers)]
-        else:
-            self.unallocated_papers_cost = unallocated_papers_cost
+        # if isinstance(unallocated_papers_cost, int):
+        #     self.unallocated_papers_cost = [unallocated_papers_cost for x in range(0, number_of_papers)]
+        # else:
+        #     self.unallocated_papers_cost = unallocated_papers_cost
 
 
 class PrivatePricesGenerator:
@@ -62,10 +62,10 @@ class SimplePrivatePricesGenerator(PrivatePricesGenerator):
 class InstanceGenerator:
     def __init__(self, params):
         self.number_of_papers = None
+        self.number_of_reviewers = None
         self.private_prices_generator = possible_private_price_generators[params['private_prices_generator']](params)
         self.papers_review_requirement = params['papers_requirements']
-        # TODO: remove
-        self.unallocated_papers_price = params['unallocated_papers_price']
+
 
     # Returns a preferences profile and a COI list, a preferences profile is a list of lists of tuples. each list is a
     # reviewer profile, that contains tuples of papers indices. The tuples in each profile are sorted in a descending
@@ -74,16 +74,22 @@ class InstanceGenerator:
     def create_pref_and_coi(self):
         print('Method not implemented')
 
+    # process the bid list. Should be overwritten in children classes
+    def process(self,bid_list):
+        return bid_list
+
     # Returns a problem instance.
     def generate_instance(self):
         instance_pref_and_coi = self.create_pref_and_coi()
+        self.number_of_reviewers = len(instance_pref_and_coi)
+        instance_pref_and_coi = self.process(instance_pref_and_coi)
         instance_preferences = [pair[0] for pair in instance_pref_and_coi]
         instance_coi = [pair[1] for pair in instance_pref_and_coi]
         private_prices = self.private_prices_generator.generate_private_costs(instance_preferences)
-        number_of_reviewers = len(instance_preferences)
+        number_of_reviewers = self.number_of_reviewers
         number_of_papers = self.number_of_papers
         return Instance(instance_coi, private_prices, number_of_papers, number_of_reviewers,
-                        self.papers_review_requirement, self.unallocated_papers_price, instance_preferences)
+                        self.papers_review_requirement,  instance_preferences)
 
 
 class PreflibInstanceGenerator(InstanceGenerator):
@@ -118,8 +124,38 @@ class PreflibInstanceGenerator(InstanceGenerator):
                     instance_pref_and_coi.append((reviewer_profile, reviewer_coi))
         return instance_pref_and_coi
 
+class PreflibSampleInstanceGenerator(PreflibInstanceGenerator):
+    def __init__(self, params):
+        super().__init__(params)
+        self.file = open(params['additional_params']['PreflibFile'])
+        self.sample_size_n = params['additional_params']['sample_size_n']
+        self.sample_size_m = params['additional_params']['sample_size_m']
 
-possible_instance_generators = {'PreflibInstanceGenerator': PreflibInstanceGenerator}
+    # sample n bidders and m papers, renames papers as 0..m-1, and removes all other papers and bidders
+    def process(self,bid_list):
+        sample_n = random.sample(range(self.number_of_reviewers),self.sample_size_n)
+        sample_m = random.sample(range(self.number_of_papers),self.sample_size_m)
+        bid_list = list(bid_list[x] for x in sample_n)
+        new_paper_indices = [np.nan]*(self.number_of_papers+1)
+        for ind,old_ind in enumerate(sample_m):
+            new_paper_indices[old_ind+1] = ind
+        new_paper_indices[0] = -1   #  reserved for the "-1" values in the lists
+        for i in range(self.sample_size_n):
+            ranks = len(bid_list[i][0])
+            for rank in range(ranks):
+                bid_list[i][0][rank] = tuple(new_paper_indices[x+1] for x in bid_list[i][0][rank] if x in sample_m or x == -1)
+            if len(bid_list[i][1])>0:
+                for ind,x in enumerate(bid_list[i][1]):
+                    if x in sample_m:
+                        bid_list[i][1][ind] = new_paper_indices[x+1]
+                    else:
+                        bid_list[i][1].remove(x)
+            self.number_of_reviewers = self.sample_size_n
+            self.number_of_papers = self.sample_size_m
+        return bid_list
+
+possible_instance_generators = {'PreflibInstanceGenerator': PreflibInstanceGenerator,
+                                'PreflibSampleInstanceGenerator': PreflibSampleInstanceGenerator}
 possible_private_price_generators = {'SimplePrivatePricesGenerator': SimplePrivatePricesGenerator}
 
 
@@ -156,8 +192,12 @@ if __name__ == '__main__':
     except FileExistsError:
         pass
     time_stamp = datetime.datetime.now().isoformat()[:-7].replace(':', '-')
-    cost_matrix_path = '{1}\\cost_matrix_{0}.json'.format(time_stamp, matrices_local_dir)
-    quota_matrix_path = '{1}\\quota_matrix_{0}.json'.format(time_stamp, matrices_local_dir)
+    if "file_suffix" in params:
+        file_suffix = params["file_suffix"]
+    else:
+        file_suffix = time_stamp
+    cost_matrix_path = '{1}\\cost_matrix_m{2}_n{3}_{0}.json'.format(file_suffix, matrices_local_dir,instance.total_papers,instance.total_reviewers)
+    quota_matrix_path = '{1}\\quota_matrix_m{2}_n{3}_{0}.json'.format(file_suffix, matrices_local_dir,instance.total_papers,instance.total_reviewers)
     data_and_paths = [(cost_matrix_path, cost_matrix_output), (quota_matrix_path, quota_matrix_output)]
     for current_pair in data_and_paths:
         with open(current_pair[0], 'w') as output_file:
