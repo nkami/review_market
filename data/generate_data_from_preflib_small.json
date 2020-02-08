@@ -1,0 +1,8 @@
+{
+    "papers_requirements": "3",
+	"private_prices_generator": "SimplePrivatePricesGenerator",
+	"instance_generator": "PreflibInstanceGenerator",
+	"ignore_quota_constraints": "false",
+	"additional_params": {"PreflibFile": "data\\PrefLib\\bids_m176_n146.txt"},
+	"file_suffix": ""
+}

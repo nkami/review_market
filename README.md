@@ -25,9 +25,9 @@ In this part a json file with the following format is given as input:
 {
     	"papers_requirements": "fill",
 	"private_prices_generator": "fill",
-	"unallocated_papers_price": "fill",
 	"instance_generator": "fill",
 	"ignore_quota_constraints": "fill",
+        "file_suffix" : "fill",
 	"additional_params": "fill"
 }
 ```
@@ -36,12 +36,14 @@ In this part a json file with the following format is given as input:
 **private prices generator:** Specifies the method of generating the private prices (utilities) of each paper for every reviewer. Currently the possible private prices generators are:
 - SimplePrivatePricesGenerator - Assign a random private cost to each paper, while satisfying the condition that every paper with preference rank i > j will have lower cost than every paper with preference rank j (i.e. papers that are more desirable according to preference will have a lower cost).
 
-**unallocated papers price:** A float that specifies the cost of an unallocated paper.
-
 **instance generator:** Specifies the method of obtaining a preference profile of the reviewers. Currently the possible instance generators are:
-- PreflibInstanceGenerator - the preference profile is obtained from a PrefLib file. (additional params: "PreflibFile": file path)
+- PreflibInstanceGenerator - the preference profile is obtained from a PrefLib file. (additional params: {"PreflibFile": file path})
+
+- PreflibSampleInstanceGenerator - the preference profile is sampled from a PrefLib file. (additional params: {"PreflibFile": file path, "sample_size_m": int,"sample_size_n": int} )
 
 **ignore quota constraints:** A 'true' or 'false' boolean that indicates if the quota matrix will be used. If it's 'false' all of the elements of the matrix will be set to infinty, otherwise all elements will be set to 1 or 0 (depends if there is COI).
+
+**file_suffix:** A string that is appended to the end of the file name. If none is provided then a timestamp is added.
 
 **additional params:** A dictionary that consists all of the additional parameters required for the previous chosen arguments. For example, for an instance generator of type 'PreflibInstanceGenerator', the key "PreflibFile" should be added with a value which is a file path.
 
@@ -74,7 +76,6 @@ For a valid input json file:
 {
 	"papers_requirements": 3,
 	"private_prices_generator": "SimplePrivatePricesGenerator",
-	"unallocated_papers_price": 1,
 	"instance_generator": "PreflibInstanceGenerator",
 	"ignore_quota_constraints": false,
 	"additional_params": {"PreflibFile": ".//data//Preflib//bids_m3_n3.txt"}
@@ -207,6 +208,8 @@ More information about the algorithms can be found [here](https://arxiv.org/abs/
 **cost_threshold:** Threshold for first level bid.
 
 **cost_threshold2:** Threshold for second level bid.
+
+**init_balanced_bids: (bool)** evey PCM that did not bid yet, starts with an initial fractional bid that of (r/n) on each paper  
 
 **amount_of_csv_sample_outputs_per_100_samples:** The number of sample csv files created (0 for none, 100 for all).
 

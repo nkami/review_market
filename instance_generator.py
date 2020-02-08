@@ -65,6 +65,9 @@ class InstanceGenerator:
         self.number_of_reviewers = None
         self.private_prices_generator = possible_private_price_generators[params['private_prices_generator']](params)
         self.papers_review_requirement = params['papers_requirements']
+        self.ignore_COI = False
+        if "ignore_COI" in params:
+            self.ignore_COI = params['ignore_COI']
 
 
     # Returns a preferences profile and a COI list, a preferences profile is a list of lists of tuples. each list is a
@@ -84,6 +87,21 @@ class InstanceGenerator:
         self.number_of_reviewers = len(instance_pref_and_coi)
         instance_pref_and_coi = self.process(instance_pref_and_coi)
         instance_preferences = [pair[0] for pair in instance_pref_and_coi]
+        strong_bids = 0
+        weak_bids = 0
+        paper_bids = [0] * self.number_of_papers
+        for pref in instance_preferences:
+            strong_bids = strong_bids + len(pref[0])
+            weak_bids = weak_bids + len(pref[1])
+            for paper in pref[0]:
+                paper_bids[paper] += 1
+            for paper in pref[1]:
+                paper_bids[paper] += 1
+        paper_counts = np.zeros(self.number_of_reviewers)
+        for paper in range(self.number_of_papers):
+            paper_counts[paper_bids[paper]] += 1
+        print("there are {0} strong bids per PCM, {1} weak bids per PCM\n".format(strong_bids/self.number_of_reviewers, weak_bids/self.number_of_reviewers))
+        print("papers with no bids: {0}; at most 1 bid: {1}, 2 bids: {2}, 3 bids: {3}; at least 10 bids: {4}\n".format(paper_counts[0],paper_counts[1]+paper_counts[0],paper_counts[2]+paper_counts[1]+paper_counts[0],paper_counts[3]+paper_counts[2]+paper_counts[1]+paper_counts[0],np.sum(paper_counts[10:])))
         instance_coi = [pair[1] for pair in instance_pref_and_coi]
         private_prices = self.private_prices_generator.generate_private_costs(instance_preferences)
         number_of_reviewers = self.number_of_reviewers
@@ -97,28 +115,34 @@ class PreflibInstanceGenerator(InstanceGenerator):
         super().__init__(params)
         self.file = open(params['additional_params']['PreflibFile'])
 
+
     # Returns a preferences profile and a COI list from a Preflib file.
     def create_pref_and_coi(self):
         instance_pref_and_coi = []
         starting_line = int(self.file.readline())
         self.number_of_papers = starting_line
         for line_number, line in enumerate(self.file.readlines()):
-            line = re.sub('[\n]', '', line)
-            line = re.sub('},{', ';', line)
-            line = re.sub(',{', ';', line)
-            line = re.sub('},', '', line)
-            line = re.sub('}', '', line)
             if line_number > starting_line:
+                line = re.sub('[\n]', '', line)
+                line = re.sub('},{', ';', line)
+                line = re.sub(',{', ';', line)
+                line = re.sub('},', '', line)
+                line = re.sub('}', '', line)
                 reviewer_profile = []
-                reviewer_no_coi = []
+                reviewer_papers_so_far = []
                 for string_ranked_preference in line.split(';')[1:]:
                     if string_ranked_preference == '':  # in case a preference rank is empty assign dummy paper -1
                         string_ranked_preference = '-1'
                     ranked_preference = tuple(map(int, string_ranked_preference.split(',')))
                     rank_papers = list(ranked_preference)
-                    reviewer_no_coi = reviewer_no_coi + rank_papers
+                    reviewer_papers_so_far = reviewer_papers_so_far + rank_papers
                     reviewer_profile.append(ranked_preference)
-                reviewer_coi = [paper for paper in range(0, self.number_of_papers) if paper not in reviewer_no_coi]
+                last_level = [paper for paper in range(self.number_of_papers) if paper not in reviewer_papers_so_far]
+                if self.ignore_COI:
+                    reviewer_coi = []
+                    reviewer_profile.append(last_level)
+                else:
+                    reviewer_coi = last_level
                 number_of_identical_preferences = int(line[0])
                 for _ in range(0, number_of_identical_preferences):
                     instance_pref_and_coi.append((reviewer_profile, reviewer_coi))
@@ -168,16 +192,16 @@ if __name__ == '__main__':
     instance_generator = possible_instance_generators[params['instance_generator']](params)
     instance = instance_generator.generate_instance()
     quota_matrix = np.ones((instance.total_reviewers, instance.total_papers))
+    if params['ignore_quota_constraints'] == True:
+        quota_matrix = quota_matrix * np.inf
     for reviewer in range(0, instance.total_reviewers):
         for paper in range(0, instance.total_papers):
-            if params['ignore_quota_constraints'] == True:
-                quota_matrix[reviewer][paper] = np.inf
-            elif paper in instance.coi[reviewer]:
+            if paper in instance.coi[reviewer]:
                 quota_matrix[reviewer][paper] = 0
     cost_matrix = np.zeros((instance.total_reviewers, instance.total_papers))
     for reviewer in range(0, instance.total_reviewers):
         for paper in range(0, instance.total_papers):
-            if str(paper) in instance.private_costs[reviewer].keys():  # a coi paper will not have a price
+            if str(paper) in instance.private_costs[reviewer].keys():  # a coi paper will not have a cost
                 cost_matrix[reviewer][paper] = instance.private_costs[reviewer][str(paper)]
     cost_matrix_output = {'preflib_file': params['additional_params']['PreflibFile'],
                           'total_reviewers': instance.total_reviewers,
@@ -202,3 +226,4 @@ if __name__ == '__main__':
     for current_pair in data_and_paths:
         with open(current_pair[0], 'w') as output_file:
             json.dump(current_pair[1], output_file, indent=4)
+

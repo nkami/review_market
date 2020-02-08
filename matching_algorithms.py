@@ -5,9 +5,10 @@ import pathlib
 import pickle
 import sys
 import gurobipy as gpy
+import warnings
 
 sys.path.append('.\\allocation')
-import build_models as sum_owa
+#import build_models as sum_owa
 
 
 class MatchingAlgorithm:
@@ -254,14 +255,14 @@ class MockAllocation(MatchingAlgorithm):
                 'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
 
 
-## A valid versin of the Mock Algorithm, that does not allocate all papers.
+## A valid version of the Mock Algorithm, that does not allocate all papers.
 class MockAllocationAll(MatchingAlgorithm):
     def match(self, bidding_profile, params):
         total_reviewers = params['total_reviewers']
         total_papers = params['total_papers']
         quota_matrix = params['quota_matrix']
         paper_req = params['papers_requirements']
-        # step I: same as in fractional algorithm
+        # step IA: compute an Initial Assignment
         prices = []
         for paper_index in range(0, total_papers):
             paper_demand = np.sum(bidding_profile, axis=0)[paper_index]
@@ -278,7 +279,7 @@ class MockAllocationAll(MatchingAlgorithm):
                     quota_matrix[reviewer_index][paper_index],
                     (bidding_profile[reviewer_index][paper_index] * prices[paper_index]))
         first_step_allocation = copy.deepcopy(fractional_allocation_profile)
-        # step II O: same as in fractional algorithm
+        # step OB: same as in fractional algorithm
         overbidders = []
         overbids = []   #  of all n bidders
         underbids = []  # of all n bidders
@@ -297,7 +298,7 @@ class MockAllocationAll(MatchingAlgorithm):
                 for paper_index in range(0, total_papers):
                     fractional_allocation_profile[reviewer_index][paper_index] *= (k / (k + overbids[reviewer_index]))
         second_step_allocation = copy.deepcopy(fractional_allocation_profile)
-        # step III
+        # step UB
         # compute allocation for each bidder independently:
         constrained_papers = [] # tuples of (i,j)
         
@@ -322,15 +323,21 @@ class MockAllocationAll(MatchingAlgorithm):
                 current_free_space = k-reviewer_allocated[reviewer_index]
                 unconstrained_excess_papers = 0
                 for paper_index in range(0,total_papers):
-               #     if (reviewer_index,paper_index) not in constrained_papers:
-                     unconstrained_excess_papers += paper_excess[paper_index]
+                    if (reviewer_index,paper_index) not in constrained_papers:
+                        unconstrained_excess_papers += paper_excess[paper_index]
                 total_to_allocate = np.max([unconstrained_excess_papers,current_free_space])  #  su
+                # if unconstrained_excess_papers < current_free_space-0.00001:
+                #     print(current_free_space-unconstrained_excess_papers)
+                added = np.zeros(total_papers)
                 for paper_index in range(0, total_papers):
                     if (reviewer_index,paper_index) not in constrained_papers:
+                        added[paper_index] = paper_excess[paper_index] * current_free_space / total_to_allocate
                         fractional_allocation_profile[reviewer_index][paper_index] = first_step_allocation[reviewer_index][paper_index] \
-                                                                                     + paper_excess[paper_index] * current_free_space / total_to_allocate
+                                                                                     + added[paper_index]
                         if fractional_allocation_profile[reviewer_index][paper_index] >= quota_matrix[reviewer_index][paper_index]:
                             new_constrained_papers.append((reviewer_index,paper_index))
+                # if np.sum(fractional_allocation_profile[reviewer_index]) < k-0.00001:
+                #     print(k-np.sum(fractional_allocation_profile[reviewer_index]))
             if not new_constrained_papers:
                 break
             constrained_papers.extend(new_constrained_papers)
@@ -339,6 +346,9 @@ class MockAllocationAll(MatchingAlgorithm):
         for paper_index in range(0, total_papers):
             unallocated_papers[paper_index] = (paper_req[paper_index]
                                                - np.sum(fractional_allocation_profile, axis=0)[paper_index])
+        percent_unallocated = 100*np.sum(unallocated_papers)/np.sum(paper_req)
+        if percent_unallocated > 0.001:
+            warnings.warn("{0}% of papers unallocated\n".format(percent_unallocated))
         return {'first_step_allocation': first_step_allocation, 'second_step_allocation': second_step_allocation,
                 'third_step_allocation': third_step_allocation, 'unallocated_papers': unallocated_papers}
 

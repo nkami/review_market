@@ -22,19 +22,19 @@ class Bidder:
         self.paper_thresholds = [0] * len(self.private_costs)
         self.bid_rounds_so_far = 0
 
-        if params['current_bidding_requirements'] == -1:
+        if params['current_bidding_requirement'] == -1:
             k = sum(params['papers_requirements'])
             k = k / params['total_reviewers']
             self.bidding_requirement = k
         else:
-            self.bidding_requirement = params['current_bidding_requirements']
+            self.bidding_requirement = params['current_bidding_requirement']
         if "cost_threshold" in params:
             self.cost_threshold = params["cost_threshold"]
         if "cost_threshold2" in params:
             self.cost_threshold_strong_bid = params["cost_threshold2"]
         self.is_fallback = is_fallback
         if self.is_fallback:
-            self.bidding_requirement = params["fallback_bidding_requirement"]
+            self.bidding_requirement = params["current_fallback_bidding_requirement"]
         self.bidding_limit = params['bidding_limit']
         self.init(params)
 
