@@ -117,7 +117,7 @@ def determine_required_actions(step, num_of_steps_until_update, iterations_outpu
             permutations_output += 1
     return update_prices, output_bids, num_of_steps_until_update, iterations_output, permutations_output
 
-
+### TODO: fix bug - initial virtual bid counts as a real bid. For now must let everyone bid at least once.
 def start_bidding_process(params, bidders, bidding_order, sample_path, sample_idx):
     market_bids_data = []
     mec = possible_mechanisms[params['market_mechanism']](params)
@@ -314,18 +314,21 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                 fallback_mask = [bidder.is_fallback for bidder in bidders]
                 fallback_realized_costs = realized_costs[fallback_mask]
                 main_realized_costs = realized_costs[np.invert(fallback_mask)]
+                if algorithm_name in ["MockAllocation","MockAllocationAll"]:
 
-                # only relevant for mock algorithm (otherwise should return NaN or 0)
-                step_2_allocation = np.reshape(np.array(current_final_state['step 2 allocation']).astype(np.float),
-                                               [n + 1, m])
+                    # only relevant for mock algorithm (otherwise should return NaN or 0)
+                    step_2_allocation = np.reshape(np.array(current_final_state['step 2 allocation']).astype(np.float),
+                                                   [n + 1, m])
 
 
-                excess_papers = step_2_allocation[n, :]
-                allocated_step2_papers = np.sum(step_2_allocation[0:n, :])
-                step_2_realized_costs = np.multiply(step_2_allocation[0:n, :], cost_matrix)
-                average_cost_per_step_2_paper = np.sum(step_2_realized_costs) / allocated_step2_papers
+                    excess_papers = step_2_allocation[n, :]
+                    allocated_step2_papers = np.sum(step_2_allocation[0:n, :])
+                    step_2_realized_costs = np.multiply(step_2_allocation[0:n, :], cost_matrix)
+                    average_cost_per_step_2_paper = np.sum(step_2_realized_costs) / allocated_step2_papers
 
-                total_excess_papers = excess_papers.sum()
+                    total_excess_papers = excess_papers.sum()
+                else:
+                    total_excess_papers = np.nan
                 all_bids = np.sum(total_bids)
 
                 step_3_array = np.array(current_final_state['step 3 allocation']).astype(np.float)

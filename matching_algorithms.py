@@ -6,7 +6,7 @@ import pickle
 import sys
 import gurobipy as gpy
 import warnings
-
+import time
 sys.path.append('.\\allocation')
 #import build_models as sum_owa
 
@@ -366,10 +366,9 @@ class DiscreteSumOWA(MatchingAlgorithm):
         maximum_papers_per_reviewer = int(np.ceil(k))
         minimum_reviewers_per_paper = int(np.floor(min(params['papers_requirements'])))
         maximum_reviewers_per_paper = int(np.floor(max(params['papers_requirements'])))
-        os.system('python .\\allocation\\cap_discrete_alloc.py -d .\\output\\tmp_input_adjust999.toi -p '
-                  '.\\output\\tmp_output_adjust999 -a ' + str(minimum_papers_per_reviewer) + ' -A ' +
-                  str(maximum_papers_per_reviewer) + ' -o ' + str(minimum_reviewers_per_paper) + ' -O ' +
-                  str(maximum_reviewers_per_paper) + ' ' + self.type)
+        os.system('echo %GRB_LICENSE_FILE%')
+        os.system('python .\\allocation\\cap_discrete_alloc.py -d .\\output\\tmp_input_adjust999.toi -p .\\output\\tmp_output_adjust999 -a ' + str(minimum_papers_per_reviewer) + ' -A ' +   str(maximum_papers_per_reviewer) + ' -o ' + str(minimum_reviewers_per_paper) + ' -O ' + str(maximum_reviewers_per_paper) + ' ' + self.type)
+
         algorithm_output = self.adjust_output_format(common_bids, unique_bidders, params)
         os.remove('.\\output\\tmp_input_adjust999.toi')
         os.remove('.\\output\\tmp_output_adjust999' + self.file_extension + '.pickle')
@@ -438,13 +437,13 @@ class DiscreteSumOWA(MatchingAlgorithm):
         first_step_allocation = np.zeros((params['total_reviewers'], params['total_papers']))
         for reviewer in range(0, params['total_reviewers']):
             for paper in range(0, params['total_papers']):
-                first_step_allocation[reviewer][paper] = -1
+                first_step_allocation[reviewer][paper] = np.nan
         second_step_allocation = first_step_allocation
         owa_algo_agents_to_reviewers_map = []
         for common_bid in common_bids:
             owa_algo_agents_to_reviewers_map = owa_algo_agents_to_reviewers_map + common_bid[1]
         owa_algo_agents_to_reviewers_map = owa_algo_agents_to_reviewers_map + unique_bidders
-        with open('.\\output\\tmp_output_adjust999' + self.file_extension + '.pickle', "rb") as openfile:
+        with open('.\\Output\\tmp_output_adjust999' + self.file_extension + '.pickle', "rb") as openfile:
             file_info = pickle.load(openfile)
         third_step_allocation = np.zeros((params['total_reviewers'], params['total_papers']))
         for agent, reviewer in enumerate(owa_algo_agents_to_reviewers_map):

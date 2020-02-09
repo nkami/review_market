@@ -1,3 +1,6 @@
 .idea/
 gurobi.log
 __pycache__/
+Output/sim*
+Output/sim*/*
+Output/tmp*
