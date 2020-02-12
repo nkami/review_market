@@ -1,0 +1,3 @@
+{
+    "matching_algorithm": ["MockAllocationAll","Utilitarian","Egalitarian","RankMaximal"],
+}

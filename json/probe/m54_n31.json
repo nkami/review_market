@@ -1,0 +1,8 @@
+{
+     "bidding_requirements": [5.2],
+    "total_papers": 54,
+    "total_reviewers": 31,
+    "total_bids_until_closure": [31],
+	"cost_matrix_path": ".//cost_matrices//cost_matrix_m54_n31.json",
+	"quota_matrix_path": ".//cost_matrices//quota_matrix_m54_n31.json"
+}

@@ -380,8 +380,12 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
     results_of_all_parameters_values = np.array(results_of_all_parameters_values)
     data_frame = pd.DataFrame(results_of_all_parameters_values, columns=columns)
     # '.\\output\\simulation_batch_{0}\\simulation_{1}\\{2}'
-    path_csv = './output/simulation_batch_{0}/simulation_{1}/all_samples.csv'.format(time_stamp, simulation_idx)
-    data_frame.to_csv(path_csv, index=None, header=True)
+    if "append_to_file" not in params:
+        path_csv = './output/simulation_batch_{0}/simulation_{1}/all_samples.csv'.format(time_stamp, simulation_idx)
+        data_frame.to_csv(path_csv, index=None, header=True)
+    else:
+        path_csv = './output/{0}.csv'.format(params["append_to_file"])
+        data_frame.to_csv(path_csv, index=None,mode='a', header=False)
     return results_of_all_parameters_values # maybe return a data frame instead?
 
 

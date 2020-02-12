@@ -1,0 +1,8 @@
+{
+    "reviewers_behavior": "IntegralGreedyBidder",
+    "fallback_behavior": "UniformBidder",
+    "fallback_probability": [0],
+    "fallback_bidding_requirements" : [20],
+    "cost_threshold": 8,
+    "cost_threshold2": 1,
+}

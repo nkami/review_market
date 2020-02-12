@@ -1,0 +1,8 @@
+{
+     "bidding_requirements": [30],
+    "total_papers": 2000,
+    "total_reviewers": 200,
+    "total_bids_until_closure": [200],
+	"cost_matrix_path": ".//cost_matrices//cost_matrix_m2000_n200_AAAI17.json",
+	"quota_matrix_path": ".//cost_matrices//quota_matrix_m2000_n200_AAAI17.json"
+}

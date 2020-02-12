@@ -113,6 +113,7 @@ class IntegralGreedyBidder(Bidder):
         contribution = 0
         priority = np.subtract(self.private_costs, np.multiply(self.price_weight, prices))
         sorted_papers_id = np.argsort(priority)
+        # Overwrite the virtual initial bid if needed:
         if self.bid_rounds_so_far == 0:
             current_bidding_profile[self.reviewer_index] = [0]*len(self.private_costs)
         for paper_id in sorted_papers_id:
@@ -140,6 +141,7 @@ class IntegralSincereBidder(IntegralGreedyBidder):
 class UniformBidder(IntegralSincereBidder):
     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. Reviewers will submit a sincere
     # integral bid until reaching the threshold
+
     def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
         my_prices = [1]*len(prices)
         IntegralGreedyBidder.apply_reviewer_behavior(self,params, current_bidding_profile, my_prices)
@@ -148,6 +150,21 @@ class UniformBidder(IntegralSincereBidder):
     def get_type(self):
         return "UniformBidder"
 
+class OriginalBidder(IntegralSincereBidder):
+    # Bids exactly as in the original matrix
+    def init(self, params):
+        self.price_weight = 0
+        self.cost_threshold = 2
+        self.cost_threshold_strong_bid = 1
+        self.bidding_requirement = 10000
+
+    def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
+        my_prices = [1]*len(prices)
+        IntegralGreedyBidder.apply_reviewer_behavior(self,params, current_bidding_profile, my_prices)
+        return current_bidding_profile
+
+    def get_type(self):
+        return "OriginalBidder"
 
 # class BestIntegralSincereUnderbidResponse(Bidder):
 #     # In an integral behavior each reviewer has 2 choices for bidding: {0, 1}. The reviewer will submit a sincere
@@ -204,5 +221,6 @@ possible_bidder_types = {
                       # 'BestIntegralSincereResponse': BestIntegralSincereResponse,
                       'IntegralSincereBidder': IntegralSincereBidder,
                       'IntegralGreedyBidder': IntegralGreedyBidder,
-                      'UniformBidder': UniformBidder
+                      'UniformBidder': UniformBidder,
+                       'OriginalBidder' : OriginalBidder
                         }
