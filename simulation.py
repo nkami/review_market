@@ -344,6 +344,9 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
 
                 correl = np.min(np.corrcoef(bids_array, step_3_array))
                 metric = Metric()
+
+                ### NSM: TODO -- ADD SOMETHING HERE!!
+
                 results_of_all_parameters_values.append([params['total_reviewers'],
                                                          params['total_papers'],
                                                          params['current_bidding_requirement'],
@@ -406,6 +409,8 @@ if __name__ == '__main__':
         copy_tree(args.InputPath, copied_input_files_path)
     else:
         shutil.copy2(args.InputPath, copied_input_files_path)
+    
+    ### NSM: ADD COLUMN HERE FOR DATA.
     columns = [ ## input:
                'n',
                'm',
