@@ -6,6 +6,7 @@ import itertools as it
 import pathlib
 import datetime
 import time
+import math
 import os
 from tqdm import tqdm
 from distutils.dir_util import copy_tree
@@ -345,7 +346,20 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                 correl = np.min(np.corrcoef(bids_array, step_3_array))
                 metric = Metric()
 
-                ### NSM: TODO -- ADD SOMETHING HERE!!
+                ### NSM: 8/29/20 -- want to have a scale invariant measure of reviewer happiness,
+                ### So going to take Cost of top n papers / sum of bids given
+                ### For a selfish reviewer we have paper_requirements * m / n -- selfish bid.
+                ### So need cost of the top set / current bid.
+                # Total number of bids needed:
+                totally_selfish_num_bids = math.ceil(sum(params['papers_requirements']) / n)
+                happiness_ratio = []
+                for i in range(len(cost_matrix)):
+                  h = sum(sorted(cost_matrix[i])[0:totally_selfish_num_bids])
+                  happiness_ratio.append(h / realized_costs[i])
+                # print(happiness_ratio)
+
+
+
 
                 results_of_all_parameters_values.append([params['total_reviewers'],
                                                          params['total_papers'],
@@ -374,6 +388,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                                                          #metric.gini_index(fallback_realized_costs),
                                                          #metric.hoover_index(fallback_realized_costs),
                                                          np.mean(main_realized_costs),
+                                                         np.mean(happiness_ratio),
                                                          #metric.gini_index(main_realized_costs),
                                                          #metric.hoover_index(main_realized_costs),
                                                          params['cost_matrix_path'],
@@ -442,6 +457,7 @@ if __name__ == '__main__':
                'average_main_bidder_cost',
 #               'gini_main_bidder_cost',
  #              'hoover_main_bidder_cost',
+                'happiness_ratio',
                'cost matrix used',
                'quota matrix used',
                'input json file used']
