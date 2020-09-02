@@ -360,7 +360,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                 bidder_private_costs["bid"] = pd.to_numeric(bidder_private_costs["bid"])
                 bidder_private_costs["private_cost"] = pd.to_numeric(bidder_private_costs["private_cost"])
                 
-                total_private_bid_cost = bidder_private_costs[(bidder_private_costs['bid'] == 1.0)].groupby("reviewer id").sum()
+                total_private_bid_cost = bidder_private_costs[(bidder_private_costs['bid'] > 0.0)].groupby("reviewer id").sum()
                 #print(" ****** TOTOAL BIDDER COST ******")
                 #print(total_private_bid_cost)
 
