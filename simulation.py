@@ -6,6 +6,7 @@ import itertools as it
 import pathlib
 import datetime
 import time
+import math
 import os
 from tqdm import tqdm
 from distutils.dir_util import copy_tree
@@ -344,6 +345,40 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
 
                 correl = np.min(np.corrcoef(bids_array, step_3_array))
                 metric = Metric()
+
+                ### NSM: 8/29/20 -- want to have a scale invariant measure of reviewer happiness,
+                ### So going to take Cost of top n papers / sum of bids given
+                ### For a selfish reviewer we have paper_requirements * m / n -- selfish bid.
+                ### So need cost of the top set / current bid.
+                # Total number of bids needed:
+                totally_selfish_num_bids = math.ceil(sum(params['papers_requirements']) / n)
+                allocation_happiness_ratio = []
+                bid_happiness_ratio = []
+                # Get a view of just the positive bids and private costs..
+                bidder_private_costs = current_final_state[["reviewer id", "bid", "private_cost"]]
+                # NSM: because it's a FUCKING STRING FOR SOME REASON!
+                bidder_private_costs["bid"] = pd.to_numeric(bidder_private_costs["bid"])
+                bidder_private_costs["private_cost"] = pd.to_numeric(bidder_private_costs["private_cost"])
+                
+                total_private_bid_cost = bidder_private_costs[(bidder_private_costs['bid'] > 0.0)].groupby("reviewer id").sum()
+                #print(" ****** TOTOAL BIDDER COST ******")
+                #print(total_private_bid_cost)
+
+                for i in range(len(cost_matrix)):
+                  h = sum(sorted(cost_matrix[i])[0:totally_selfish_num_bids])
+                  allocation_happiness_ratio.append(h / realized_costs[i])
+                  bid_happiness_ratio.append(h / total_private_bid_cost.iloc[i]["private_cost"])
+                # print(happiness_ratio)
+                #with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+                #  print(current_final_state)
+                #current_final_state.to_csv("./tmp.csv")
+                # Computer Total cost of BID w.r.t. PRIVATE COST!
+                #bidder_private_costs = current_final_state[["reviewer id", "bid", "private_cost"]]
+                #bidder_private_costs = current_final_state[(current_final_state["bid"] == 1)]
+                #print(bidder_private_costs.groupby("reviewer id").sum())
+
+
+
                 results_of_all_parameters_values.append([params['total_reviewers'],
                                                          params['total_papers'],
                                                          params['current_bidding_requirement'],
@@ -371,6 +406,10 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                                                          #metric.gini_index(fallback_realized_costs),
                                                          #metric.hoover_index(fallback_realized_costs),
                                                          np.mean(main_realized_costs),
+                                                         np.mean(allocation_happiness_ratio),
+                                                         np.std(allocation_happiness_ratio),
+                                                         np.mean(bid_happiness_ratio),
+                                                         np.std(bid_happiness_ratio),
                                                          #metric.gini_index(main_realized_costs),
                                                          #metric.hoover_index(main_realized_costs),
                                                          params['cost_matrix_path'],
@@ -406,6 +445,8 @@ if __name__ == '__main__':
         copy_tree(args.InputPath, copied_input_files_path)
     else:
         shutil.copy2(args.InputPath, copied_input_files_path)
+    
+    ### NSM: ADD COLUMN HERE FOR DATA.
     columns = [ ## input:
                'n',
                'm',
@@ -437,6 +478,10 @@ if __name__ == '__main__':
                'average_main_bidder_cost',
 #               'gini_main_bidder_cost',
  #              'hoover_main_bidder_cost',
+                'mean_allocation_happiness_ratio',
+                'mean_allocation_happiness_ratio_stdev',
+                'mean_bid_happiness_ratio',
+                'mean_bid_happiness_ratio_stdev',
                'cost matrix used',
                'quota matrix used',
                'input json file used']
