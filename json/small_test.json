@@ -13,7 +13,7 @@
     "total_reviewers": 8,
     "price_weight" : [2],
     "bidding_requirements": [8],
-    "fallback_bidding_requirement" : 11,
+    "fallback_bidding_requirements" : [11],
     "bidding_limit": 1000,
     "samples": 2,
     "cost_threshold": 8,
