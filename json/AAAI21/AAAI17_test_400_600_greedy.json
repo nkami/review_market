@@ -25,6 +25,6 @@
     "total_papers": 400,
     "total_reviewers": 600,
     "total_bids_until_closure": [600],
-	"cost_matrix_path": ".//cost_matrices/cost_matrix_ICLR_m400_n600.json",
-	"quota_matrix_path": ".//cost_matrices/quota_matrix_m400_n600_ICLR.json"
+	"cost_matrix_path": ".//cost_matrices/cost_matrix_m600_n400_AAAI17.json",
+	"quota_matrix_path": ".//cost_matrices/quota_matrix_m600_n400_AAAI17.json"
 }

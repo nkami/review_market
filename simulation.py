@@ -478,7 +478,7 @@ if __name__ == '__main__':
                 'fraction of unfulfilled bids',  #  "false positives"
                 'fraction of allocation without bid',  # "false negatives"
                 #'CORREL(bid,assignment)',
-                'total missing bids',  
+                'total missing bids',
 #               'allocated_papers_per_bid',
 #               'gini_paper_bids',
 #               'hoover_paper_bids',

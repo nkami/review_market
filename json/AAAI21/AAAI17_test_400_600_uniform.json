@@ -2,7 +2,7 @@
     "append_to_file" : "add_to_paper",
     "reviewers_behavior": "IntegralGreedyBidder",
     "fallback_behavior": "UniformBidder",
-    "fallback_probability": [0],
+    "fallback_probability": [100],
     "forced_permutations": [0],
     "number_of_bids_until_prices_update": [5],
     "matching_algorithm": ["MockAllocationAll"],
@@ -11,8 +11,8 @@
     "init_balanced_bids": true,
     "additional_params": "fill",
     "price_weight" : [2],
-    "bidding_requirements": [1,1.5,1.75,2,2.5,3,4],
-    "fallback_bidding_requirements" : [4],
+    "bidding_requirements": [2],
+    "fallback_bidding_requirements" : [2,3,4,5,6,7,8,10],
     "bidding_limit": 1000,
     "cost_threshold": 8,
     "cost_threshold2": 0,
@@ -21,10 +21,10 @@
     "output_detail_level_iterations" : 0,
 	"papers_requirements": 3,
 	"unallocated_papers_price": 1,
-    "samples": 5,
+    "samples": 1,
     "total_papers": 400,
     "total_reviewers": 600,
     "total_bids_until_closure": [600],
-	"cost_matrix_path": ".//cost_matrices/cost_matrix_ICLR_m400_n600.json",
-	"quota_matrix_path": ".//cost_matrices/quota_matrix_m400_n600_ICLR.json"
+	"cost_matrix_path": ".//cost_matrices/cost_matrix_m600_n400_AAAI17.json",
+	"quota_matrix_path": ".//cost_matrices/quota_matrix_m600_n400_AAAI17.json"
 }
