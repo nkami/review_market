@@ -168,6 +168,8 @@ def start_bidding_process(params, bidders, bidding_order, sample_path, sample_id
         if step == len(bidding_order) - 1:
             output_bids = True
             final_state = current_state_output(step, mec, bidders, bidders_who_bid_since_last_update, params)
+        if output_bids:
+            update_prices = True
         if update_prices:
             mec.update_demand()
             if output_bids:
@@ -181,7 +183,7 @@ def start_bidding_process(params, bidders, bidding_order, sample_path, sample_id
             data_frame = pd.DataFrame(market_bids_data, columns=columns)
             data_frame.to_csv(sample_path, index=None, header=True)
         else:
-            print("An only use detailed CSV output for a single algorithm")
+            print("only use detailed CSV output for a single algorithm")
     final_state = np.array(final_state)
     final_state = pd.DataFrame(final_state, columns=columns)
     return final_state
@@ -309,7 +311,10 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                 bids_array = np.array(current_final_state['positive bid']).astype(np.float)
                 bids = np.reshape(bids_array,
                                   [n + 1, m])[0:n,:]
-                total_bids = np.sum(bids, 0)
+                total_bids_per_bidder = np.sum(bids, 1)
+                total_bids_per_paper = np.sum(bids, 0)
+                papers_req = params['papers_requirements']
+                missing_bids_per_paper = papers_req-np.minimum(total_bids_per_paper,papers_req)
                 realized_costs = np.array([current_final_state.loc[bidder_index * m, 'total realized cost'] for
                                            bidder_index in range(0,n)]).astype(np.float)
                 fallback_mask = [bidder.is_fallback for bidder in bidders]
@@ -330,7 +335,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                     total_excess_papers = excess_papers.sum()
                 else:
                     total_excess_papers = np.nan
-                all_bids = np.sum(total_bids)
+                all_bids = np.sum(total_bids_per_bidder)
 
                 step_3_array = np.array(current_final_state['step 3 allocation']).astype(np.float)
                 step_3_allocation = np.reshape(step_3_array,
@@ -352,22 +357,29 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                 ### So need cost of the top set / current bid.
                 # Total number of bids needed:
                 totally_selfish_num_bids = math.ceil(sum(params['papers_requirements']) / n)
-                allocation_happiness_ratio = []
-                bid_happiness_ratio = []
+                bid_cost_ratio = []
+                bid_utility_ratio = []
                 # Get a view of just the positive bids and private costs..
                 bidder_private_costs = current_final_state[["reviewer id", "bid", "private_cost"]]
                 # NSM: because it's a FUCKING STRING FOR SOME REASON!
                 bidder_private_costs["bid"] = pd.to_numeric(bidder_private_costs["bid"])
                 bidder_private_costs["private_cost"] = pd.to_numeric(bidder_private_costs["private_cost"])
-                
+                maximal_cost = np.ceil(max(bidder_private_costs["private_cost"]))
                 total_private_bid_cost = bidder_private_costs[(bidder_private_costs['bid'] > 0.0)].groupby("reviewer id").sum()
-                #print(" ****** TOTOAL BIDDER COST ******")
+                #print(" ****** TOTAL BIDDER COST ******")
                 #print(total_private_bid_cost)
 
                 for i in range(len(cost_matrix)):
-                  h = sum(sorted(cost_matrix[i])[0:totally_selfish_num_bids])
-                  allocation_happiness_ratio.append(h / realized_costs[i])
-                  bid_happiness_ratio.append(h / total_private_bid_cost.iloc[i]["private_cost"])
+                  total_bids_per_bidder[i]
+                  opt_cost_per_bid = sum(sorted(cost_matrix[i])[0:totally_selfish_num_bids])/ totally_selfish_num_bids
+                  if total_bids_per_bidder[i]==0:
+                      bid_cost_ratio.append(0)
+                      bid_utility_ratio.append(0)
+                  else:
+                    actual_cost_per_bid =  sum(bidder_private_costs["private_cost"][((bidder_private_costs['bid'] > 0.0) & (bidder_private_costs['reviewer id'] == str(i)))]) / total_bids_per_bidder[i]
+                    # in any case higher is better and 1 is best
+                    bid_cost_ratio.append(opt_cost_per_bid/actual_cost_per_bid)
+                    bid_utility_ratio.append((maximal_cost-actual_cost_per_bid)/(maximal_cost-opt_cost_per_bid))
                 # print(happiness_ratio)
                 #with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
                 #  print(current_final_state)
@@ -394,7 +406,8 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                                                          total_excess_papers,
                                                          false_positive,
                                                          false_negative,
-                                                         correl,
+                                                         #correl,
+                                                         np.sum(missing_bids_per_paper),
                                                          #allocated_step2_papers / all_bids,
                                                          #metric.gini_index(total_bids),
                                                          #metric.hoover_index(total_bids),
@@ -406,10 +419,10 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                                                          #metric.gini_index(fallback_realized_costs),
                                                          #metric.hoover_index(fallback_realized_costs),
                                                          np.mean(main_realized_costs),
-                                                         np.mean(allocation_happiness_ratio),
-                                                         np.std(allocation_happiness_ratio),
-                                                         np.mean(bid_happiness_ratio),
-                                                         np.std(bid_happiness_ratio),
+                                                         np.mean(bid_utility_ratio),
+                                                         np.std(bid_utility_ratio),
+                                                         np.mean(bid_cost_ratio),
+                                                         np.std(bid_cost_ratio),
                                                          #metric.gini_index(main_realized_costs),
                                                          #metric.hoover_index(main_realized_costs),
                                                          params['cost_matrix_path'],
@@ -464,7 +477,8 @@ if __name__ == '__main__':
                'total_excess_papers',
                 'fraction of unfulfilled bids',  #  "false positives"
                 'fraction of allocation without bid',  # "false negatives"
-                'CORREL(bid,assignment)',
+                #'CORREL(bid,assignment)',
+                'total missing bids',  
 #               'allocated_papers_per_bid',
 #               'gini_paper_bids',
 #               'hoover_paper_bids',
@@ -478,10 +492,10 @@ if __name__ == '__main__':
                'average_main_bidder_cost',
 #               'gini_main_bidder_cost',
  #              'hoover_main_bidder_cost',
-                'mean_allocation_happiness_ratio',
-                'mean_allocation_happiness_ratio_stdev',
-                'mean_bid_happiness_ratio',
-                'mean_bid_happiness_ratio_stdev',
+                'mean_bid_utility_ratio',
+                'mean_bid_utility_ratio_stdev',
+                'mean_bid_cost_ratio',
+                'mean_bid_cost_ratio_stdev',
                'cost matrix used',
                'quota matrix used',
                'input json file used']

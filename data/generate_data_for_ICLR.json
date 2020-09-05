@@ -1,0 +1,10 @@
+{
+    "papers_requirements": 3,
+	"private_prices_generator": "SimplePrivatePricesGenerator",
+	"unallocated_papers_price": 0,
+	"instance_generator": "PreflibSampleInstanceGenerator",
+	"ignore_quota_constraints": false,
+	"ignore_COI": true,
+	"additional_params": {"PreflibFile": "data\\PrefLib\\bids_m2414_n1321.txt", "sample_size_m": 911,"sample_size_n": 1300 },
+	"file_suffix": "ICLR"
+}
