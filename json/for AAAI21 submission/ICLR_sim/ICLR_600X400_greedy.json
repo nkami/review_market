@@ -21,7 +21,7 @@
 	"unallocated_papers_price": 1,
      "bidding_requirements": [2,4,4.5,5,6,8,10],
     "fallback_bidding_requirements" : [4],
-    "samples": 10,
+    "samples": 5,
     "total_papers": 600,
     "total_reviewers": 400,
     "total_bids_until_closure": [400],
