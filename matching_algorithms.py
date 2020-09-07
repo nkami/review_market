@@ -8,7 +8,7 @@ import gurobipy as gpy
 import warnings
 import datetime
 import time
-sys.path.append('.\\allocation')
+sys.path.append(os.path.join(".", "allocation"))
 #import build_models as sum_owa
 
 
@@ -410,7 +410,7 @@ class DiscreteSumOWA(MatchingAlgorithm):
 
     def adjust_input_format(self, bidding_profile, params,input_filename):
         try:
-            pathlib.Path('.\\output').mkdir()
+            pathlib.Path(os.path.join(".", "output")).mkdir()
         except FileExistsError:
             pass
         path = input_filename
