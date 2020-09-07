@@ -361,8 +361,12 @@ class DiscreteSumOWA(MatchingAlgorithm):
 
     def match(self, bidding_profile, params):
         time_stamp = datetime.datetime.now().isoformat()[:-3].replace(':', '-')
-        input_tmp_filename = ".\\output\\tmp_input_adjust{0}.toi".format(time_stamp)
-        output_tmp_filename = ".\\output\\tmp_output_adjust{0}".format(time_stamp)
+        # NSM: MAKE THIS PLATFORM INDEPENDENT!
+        # input_tmp_filename = ".\\output\\tmp_input_adjust{0}.toi".format(time_stamp)
+        input_tmp_filename = os.path.join(".", "output", "tmp_input_adjust{0}.toi".format(time_stamp))
+        # output_tmp_filename = ".\\output\\tmp_output_adjust{0}".format(time_stamp)
+        output_tmp_filename = os.path.join(".", "output", "tmp_output_adjust{0}".format(time_stamp))
+        
         common_bids, unique_bidders = self.adjust_input_format(bidding_profile, params,input_tmp_filename)
         k = sum(params['papers_requirements'])
         k = k / params['total_reviewers']
@@ -372,8 +376,8 @@ class DiscreteSumOWA(MatchingAlgorithm):
         maximum_reviewers_per_paper = int(np.floor(max(params['papers_requirements'])))
         os.system('echo %GRB_LICENSE_FILE%')
 
-
-        os.system('python .\\allocation\\cap_discrete_alloc.py -d {0} -p {1} -a '.format(input_tmp_filename,output_tmp_filename) + str(minimum_papers_per_reviewer) + ' -A ' +   str(maximum_papers_per_reviewer) + ' -o ' + str(minimum_reviewers_per_paper) + ' -O ' + str(maximum_reviewers_per_paper) + ' ' + self.type)
+        pythonpath = os.path.join(".", "allocation", "cap_discrete_alloc.py")
+        os.system("python " + pythonpath + " -d {0} -p {1} -a ".format(input_tmp_filename,output_tmp_filename) + str(minimum_papers_per_reviewer) + ' -A ' +   str(maximum_papers_per_reviewer) + ' -o ' + str(minimum_reviewers_per_paper) + ' -O ' + str(maximum_reviewers_per_paper) + ' ' + self.type)
 
         algorithm_output = self.adjust_output_format(common_bids, unique_bidders, params, output_tmp_filename)
         os.remove(input_tmp_filename)
