@@ -21,7 +21,7 @@
     "output_detail_level_iterations" : 0,
 	"papers_requirements": 3,
 	"unallocated_papers_price": 1,
-    "samples": 10,
+    "samples": 3,
     "total_papers": 1200,
     "total_reviewers": 300,
     "total_bids_until_closure": [300],
