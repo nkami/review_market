@@ -377,7 +377,7 @@ class DiscreteSumOWA(MatchingAlgorithm):
         os.system('echo %GRB_LICENSE_FILE%')
 
         pythonpath = os.path.join(".", "allocation", "cap_discrete_alloc.py")
-        os.system("python " + pythonpath + " -d {0} -p {1} -a ".format(input_tmp_filename,output_tmp_filename) + str(minimum_papers_per_reviewer) + ' -A ' +   str(maximum_papers_per_reviewer) + ' -o ' + str(minimum_reviewers_per_paper) + ' -O ' + str(maximum_reviewers_per_paper) + ' ' + self.type)
+        os.system("python3 " + pythonpath + " -d {0} -p {1} -a ".format(input_tmp_filename,output_tmp_filename) + str(minimum_papers_per_reviewer) + ' -A ' +   str(maximum_papers_per_reviewer) + ' -o ' + str(minimum_reviewers_per_paper) + ' -O ' + str(maximum_reviewers_per_paper) + ' ' + self.type)
 
         algorithm_output = self.adjust_output_format(common_bids, unique_bidders, params, output_tmp_filename)
         os.remove(input_tmp_filename)
