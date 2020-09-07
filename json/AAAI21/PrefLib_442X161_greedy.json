@@ -21,11 +21,11 @@
     "output_detail_level_iterations" : 0,
 	"papers_requirements": 3,
 	"unallocated_papers_price": 1,
-     "bidding_requirements": [2,3,3.6,4,5,6],
+     "bidding_requirements": [5,7,8,9,10,11,12,14],
      "fallback_bidding_requirements" : [ 12],
-    "total_papers": 176,
-    "total_reviewers": 146,
-    "total_bids_until_closure": [146],
-	"cost_matrix_path": ".//cost_matrices//cost_matrix_m176_n146.json",
-	"quota_matrix_path": ".//cost_matrices//quota_matrix_m176_n146.json"
+    "total_papers": 442,
+    "total_reviewers": 161,
+    "total_bids_until_closure": [161],
+	"cost_matrix_path": ".//cost_matrices//cost_matrix_m442_n161.json",
+	"quota_matrix_path": ".//cost_matrices//quota_matrix_m442_n161.json"
 }
