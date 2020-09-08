@@ -362,9 +362,9 @@ class DiscreteSumOWA(MatchingAlgorithm):
     def match(self, bidding_profile, params):
         time_stamp = datetime.datetime.now().isoformat()[:-3].replace(':', '-')
         # NSM: MAKE THIS PLATFORM INDEPENDENT!
-        # input_tmp_filename = ".\\output\\tmp_input_adjust{0}.toi".format(time_stamp)
+        #input_tmp_filename = ".\\output\\tmp_input_adjust{0}.toi".format(time_stamp)
         input_tmp_filename = os.path.join(".", "Output", "tmp_input_adjust{0}.toi".format(time_stamp))
-        # output_tmp_filename = ".\\output\\tmp_output_adjust{0}".format(time_stamp)
+        #output_tmp_filename = ".\\output\\tmp_output_adjust{0}".format(time_stamp)
         output_tmp_filename = os.path.join(".", "Output", "tmp_output_adjust{0}".format(time_stamp))
         
         common_bids, unique_bidders = self.adjust_input_format(bidding_profile, params,input_tmp_filename)
