@@ -345,7 +345,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                 false_negative = np.average(false_negative_per_PCM)
 
                 bid_wo_assign = np.maximum(0,bids-step_3_allocation)
-                bids_with_lower_bound = np.maximum(bids,1)  # to avoid division by 0
+                bids_with_lower_bound = np.maximum(bids,0.0001)  # to avoid division by 0
                 false_positive_per_PCM = np.divide(np.sum(bid_wo_assign,axis=1),np.sum(bids_with_lower_bound,axis=1))
                 false_positive = np.average(false_positive_per_PCM)
 
