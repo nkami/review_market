@@ -1,5 +1,5 @@
 {
-    "append_to_file" : "add_to_paper",
+    "append_to_file" : "last_one",
     "reviewers_behavior": "IntegralGreedyBidder",
     "fallback_behavior": "UniformBidder",
     "fallback_probability": [100],
