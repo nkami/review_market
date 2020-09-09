@@ -1,7 +1,8 @@
 
 {
-        "append_to_file" : "add_to_paper",
-     "reviewers_behavior": "IntegralGreedyBidder",
+
+    "append_to_file" : "list_for_99",
+    "reviewers_behavior": "IntegralGreedyBidder",
     "fallback_behavior": "UniformBidder",
     "fallback_probability": [0],
     "cost_threshold": 8,
