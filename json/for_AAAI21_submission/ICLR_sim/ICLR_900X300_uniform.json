@@ -5,7 +5,7 @@
     "fallback_probability": [100],
     "forced_permutations": [0],
     "number_of_bids_until_prices_update": [5],
-    "matching_algorithm": ["MockAllocationAll","Egalitarian","RankMaximal","Utilitarian"],
+    "matching_algorithm": ["MockAllocationAll"],
     "market_mechanism": "PriceMechanism",
     "ignore_quota_constraints": false,
     "init_balanced_bids": true,

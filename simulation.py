@@ -349,7 +349,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                 false_positive_per_PCM = np.divide(np.sum(bid_wo_assign,axis=1),bids_per_PCM)
                 false_positive_per_PCM[bids_per_PCM==0]=0
                 false_positive = np.average(false_positive_per_PCM)
-
+                total_load_per_PCM = np.sum(step_3_allocation,axis=1)
                 correl = np.min(np.corrcoef(bids_array, step_3_array))
                 metric = Metric()
 
@@ -420,7 +420,7 @@ def run_simulation(input_json, time_stamp, simulation_idx, columns):
                                                          np.mean(fallback_realized_costs),
                                                          #metric.gini_index(fallback_realized_costs),
                                                          #metric.hoover_index(fallback_realized_costs),
-                                                         np.sum(realized_costs) / bidder_private_costs["private_cost"].sum(),
+                                                         np.sum(np.subtract(total_load_per_PCM,realized_costs)),
                                                          np.max(realized_costs) / bidder_private_costs["private_cost"].sum(),
                                                          np.mean(main_realized_costs),
                                                          np.mean(bid_utility_ratio),
@@ -496,7 +496,7 @@ if __name__ == '__main__':
                'average_main_bidder_cost',
 #               'gini_main_bidder_cost',
  #              'hoover_main_bidder_cost',
-                'norm_social_cost',
+                'social_utility',
                 'norm_egal_cost',
                 'mean_bid_utility_ratio',
                 'mean_bid_utility_ratio_stdev',

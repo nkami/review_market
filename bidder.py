@@ -111,7 +111,14 @@ class IntegralGreedyBidder(Bidder):
     # Only adds bids
     def apply_reviewer_behavior(self, params, current_bidding_profile, prices):
         contribution = 0
-        priority = np.subtract(self.private_costs, np.multiply(self.price_weight, prices))
+        ## Ugly correction for ICLR costs
+        if np.max(self.private_costs) <= 1:
+            min_cost = np.min(self.private_costs)
+            ## this brings costs from the range [min_cost,1] to [0,4]
+            mod_costs = 6*np.square(1-np.subtract(1,self.private_costs)/(1-min_cost))
+            priority = np.subtract(mod_costs, np.multiply(self.price_weight, prices))
+        else:
+            priority = np.subtract(self.private_costs, np.multiply(self.price_weight, prices))
         sorted_papers_id = np.argsort(priority)
         # Overwrite the virtual initial bid if needed:
         if self.bid_rounds_so_far == 0:
