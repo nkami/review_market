@@ -19,12 +19,12 @@
     "output_detail_level_iterations" : 0,
 	"papers_requirements": 3,
 	"unallocated_papers_price": 1,
-     "bidding_requirements": [3,4,4.5,5,6,8,10],
+     "bidding_requirements": [3],
     "fallback_bidding_requirements" : [4],
-    "samples": 5,
-    "total_papers": 150,
-    "total_reviewers": 100,
-    "total_bids_until_closure": [100],
-	"cost_matrix_path": ".//cost_matrices/cost_matrix_m150_n100_ICLR.json",
-	"quota_matrix_path": ".//cost_matrices/quota_matrix_m150_n100_ICLR.json"
+    "samples": 3,
+    "total_papers": 600,
+    "total_reviewers": 400,
+    "total_bids_until_closure": [400],
+	"cost_matrix_path": ".//cost_matrices/cost_matrix_m600_n400_ICLR.json",
+	"quota_matrix_path": ".//cost_matrices/quota_matrix_m600_n400_ICLR.json"
 }
